@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Users, Calendar } from "lucide-react";
+import { Users, Calendar, MapPin } from "lucide-react";
+import { useState } from "react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Button } from "@/components/ui/button";
 import { RequestRentalModal } from "@/components/RequestRentalModal";
@@ -33,24 +34,27 @@ import gx3 from "@/assets/lexus-gx470-3.jpg.asset.json";
 import gx4 from "@/assets/lexus-gx470-4.jpg.asset.json";
 import gx5 from "@/assets/lexus-gx470-5.jpg.asset.json";
 
+type City = "batumi" | "tbilisi";
+
 type Car = {
   name: string;
   year: number;
   seats?: number;
   price: number;
+  city: City;
   images?: { url: string }[];
 };
 
 const CARS: Car[] = [
-  { name: "Range Rover Sport", year: 2016, price: 150, images: [rrw1, rrw2, rrw3] },
-  { name: "Range Rover Sport Red", year: 2016, price: 140, images: [rrred1, rrred2, rrred3] },
-  { name: "Range Rover 7 Seats", year: 2018, seats: 7, price: 160, images: [rr7a, rr7b, rr7c] },
-  { name: "Chrysler Pacifica", year: 2015, seats: 8, price: 90, images: [pac1, pac2, pac3, pac4] },
-  { name: "Discovery Land Rover", year: 2023, price: 200, images: [disc3, disc1, disc2] },
-  { name: "Ford Mustang Cabrio", year: 2020, price: 130, images: [mustang2, mustang1, mustang3, mustang4] },
-  { name: "BMW X4 3.0L", year: 2019, price: 120, images: [bmwx4a, bmwx4b, bmwx4c] },
-  { name: "Lexus GX 470", year: 2008, price: 60, images: [gx1, gx2, gx3, gx4, gx5] },
-  { name: "KIA Sedona", year: 2016, seats: 8, price: 90 },
+  { name: "Range Rover Sport", year: 2016, price: 150, city: "batumi", images: [rrw1, rrw2, rrw3] },
+  { name: "Range Rover Sport Red", year: 2016, price: 140, city: "batumi", images: [rrred1, rrred2, rrred3] },
+  { name: "Range Rover 7 Seats", year: 2018, seats: 7, price: 160, city: "batumi", images: [rr7a, rr7b, rr7c] },
+  { name: "Chrysler Pacifica", year: 2015, seats: 8, price: 90, city: "tbilisi", images: [pac1, pac2, pac3, pac4] },
+  { name: "Discovery Land Rover", year: 2023, price: 200, city: "tbilisi", images: [disc3, disc1, disc2] },
+  { name: "Ford Mustang Cabrio", year: 2020, price: 130, city: "batumi", images: [mustang2, mustang1, mustang3, mustang4] },
+  { name: "BMW X4 3.0L", year: 2019, price: 120, city: "batumi", images: [bmwx4a, bmwx4b, bmwx4c] },
+  { name: "Lexus GX 470", year: 2008, price: 60, city: "tbilisi", images: [gx1, gx2, gx3, gx4, gx5] },
+  { name: "KIA Sedona", year: 2016, seats: 8, price: 90, city: "batumi" },
 ];
 
 export const Route = createFileRoute("/cars")({
@@ -80,7 +84,13 @@ function CarCard({ car }: { car: Car }) {
         )}
       </div>
       <div className="p-6">
-        <h3 className="text-xl font-bold text-[var(--brand-blue)]">{car.name}</h3>
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="text-xl font-bold text-[var(--brand-blue)]">{car.name}</h3>
+          <span className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full bg-[var(--brand-blue)]/10 text-[var(--brand-blue)] whitespace-nowrap">
+            <MapPin className="h-3 w-3" />
+            {car.city === "batumi" ? "Batumi" : "Tbilisi"}
+          </span>
+        </div>
         <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
           <span className="inline-flex items-center gap-1.5"><Calendar className="h-4 w-4" />{car.year}</span>
           {car.seats && <span className="inline-flex items-center gap-1.5"><Users className="h-4 w-4" />{car.seats} seats</span>}
@@ -104,6 +114,9 @@ function CarCard({ car }: { car: Car }) {
 }
 
 function CarsPage() {
+  const [city, setCity] = useState<City>("batumi");
+  const filtered = CARS.filter((c) => c.city === city);
+
   return (
     <SiteLayout>
       <section className="bg-[var(--brand-blue)] text-white py-16 sm:py-20">
@@ -113,9 +126,33 @@ function CarsPage() {
           <p className="mt-4 text-white/80 max-w-xl">Premium, reliable vehicles ready for the roads of Georgia.</p>
         </div>
       </section>
+
+      {/* City filter */}
+      <div className="sticky top-16 z-30 bg-background border-b shadow-sm">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-4 flex items-center gap-3">
+          <MapPin className="h-4 w-4 text-muted-foreground shrink-0" />
+          <span className="text-sm font-medium text-muted-foreground mr-2">City:</span>
+          {(["batumi", "tbilisi"] as City[]).map((c) => (
+            <button
+              key={c}
+              onClick={() => setCity(c)}
+              className={
+                "px-6 py-2 rounded-full text-sm font-semibold transition-all border-2 " +
+                (city === c
+                  ? "bg-[var(--brand-blue)] text-white border-[var(--brand-blue)] shadow-md"
+                  : "bg-white text-[var(--brand-blue)] border-[var(--brand-blue)]/30 hover:border-[var(--brand-blue)]")
+              }
+            >
+              {c === "batumi" ? "🌊 Batumi" : "🏙️ Tbilisi"}
+            </button>
+          ))}
+          <span className="ml-auto text-xs text-muted-foreground">{filtered.length} cars</span>
+        </div>
+      </div>
+
       <section className="py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {CARS.map((c) => <CarCard key={c.name} car={c} />)}
+          {filtered.map((c) => <CarCard key={c.name} car={c} />)}
         </div>
       </section>
     </SiteLayout>
