@@ -5,27 +5,40 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 type Method = "WhatsApp" | "Telegram" | "Phone call";
-const METHODS: { value: Method; icon: React.ReactNode }[] = [
-  { value: "WhatsApp", icon: <MessageCircle className="h-4 w-4" /> },
-  { value: "Telegram", icon: <Send className="h-4 w-4" /> },
-  { value: "Phone call", icon: <Phone className="h-4 w-4" /> },
-];
 
-export function RequestRentalModal({ trigger }: { trigger: React.ReactNode }) {
+type Props = {
+  trigger: React.ReactNode;
+  car?: { name: string; year: number };
+};
+
+export function RequestRentalModal({ trigger, car }: Props) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [pickup, setPickup] = useState<Date>();
   const [ret, setRet] = useState<Date>();
+  const [city, setCity] = useState("");
+  const [destination, setDestination] = useState("");
+  const [carType, setCarType] = useState("");
+  const [comments, setComments] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [methods, setMethods] = useState<Method[]>(["WhatsApp"]);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const METHODS: { value: Method; icon: React.ReactNode; labelKey: "whatsapp" | "telegram" | "phone_call" }[] = [
+    { value: "WhatsApp", icon: <MessageCircle className="h-4 w-4" />, labelKey: "whatsapp" },
+    { value: "Telegram", icon: <Send className="h-4 w-4" />, labelKey: "telegram" },
+    { value: "Phone call", icon: <Phone className="h-4 w-4" />, labelKey: "phone_call" },
+  ];
 
   const toggle = (m: Method) =>
     setMethods((arr) => (arr.includes(m) ? arr.filter((x) => x !== m) : [...arr, m]));
@@ -34,27 +47,39 @@ export function RequestRentalModal({ trigger }: { trigger: React.ReactNode }) {
     e.preventDefault();
     setError(null);
     if (!name || !phone || !pickup || !ret) {
-      setError("Please fill in all fields.");
+      setError(t("fill_all"));
       return;
     }
     setLoading(true);
     try {
+      const subject = car
+        ? `Booking request: ${car.name} ${car.year}`
+        : "New GEOrent Rental Request (Check Availability)";
+      const payload: Record<string, string> = {
+        _subject: subject,
+        name,
+        phone,
+        pickup_date: format(pickup, "yyyy-MM-dd"),
+        return_date: format(ret, "yyyy-MM-dd"),
+        preferred_contact: methods.join(", "),
+      };
+      if (car) {
+        payload.car = `${car.name} ${car.year}`;
+      } else {
+        payload.city = city;
+        payload.destination = destination;
+        payload.car_type = carType;
+        payload.comments = comments;
+      }
       const res = await fetch("https://formsubmit.co/ajax/ROLLING_SAQARTVELO@OUTLOOK.COM", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          _subject: "New GEOrent Rental Request",
-          name,
-          phone,
-          pickup_date: format(pickup, "yyyy-MM-dd"),
-          return_date: format(ret, "yyyy-MM-dd"),
-          preferred_contact: methods.join(", "),
-        }),
+        body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error("Failed to send");
       setDone(true);
     } catch {
-      setError("Could not send. Please try WhatsApp instead.");
+      setError(t("send_error"));
     } finally {
       setLoading(false);
     }
@@ -64,19 +89,25 @@ export function RequestRentalModal({ trigger }: { trigger: React.ReactNode }) {
     setDone(false);
     setName("");
     setPhone("");
+    setCity("");
+    setDestination("");
+    setCarType("");
+    setComments("");
     setPickup(undefined);
     setRet(undefined);
     setMethods(["WhatsApp"]);
     setError(null);
   };
 
+  const title = car ? `${t("book_title")} ${car.name} ${car.year}` : t("check_availability");
+
   return (
     <Dialog open={open} onOpenChange={(o) => { setOpen(o); if (!o) setTimeout(reset, 200); }}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-2xl text-[var(--brand-blue)]">Request a Rental</DialogTitle>
-          <DialogDescription>We'll get back to you within minutes.</DialogDescription>
+          <DialogTitle className="text-2xl text-[var(--brand-blue)]">{title}</DialogTitle>
+          {!car && <DialogDescription>{t("check_availability_sub")}</DialogDescription>}
         </DialogHeader>
 
         {done ? (
@@ -84,19 +115,20 @@ export function RequestRentalModal({ trigger }: { trigger: React.ReactNode }) {
             <div className="mx-auto h-12 w-12 rounded-full bg-[var(--brand-olive)]/15 text-[var(--brand-olive)] flex items-center justify-center mb-3">
               ✓
             </div>
-            <p className="font-medium">Thank you! We'll contact you shortly.</p>
-            <Button className="mt-6" onClick={() => setOpen(false)}>Close</Button>
+            <p className="font-medium">{t("thanks")}</p>
+            <Button className="mt-6" onClick={() => setOpen(false)}>{t("close")}</Button>
           </div>
         ) : (
           <form onSubmit={submit} className="space-y-4">
+            {!car && <Label>{t("q_dates")}</Label>}
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <Label>Pick-up date</Label>
+                <Label className="text-xs text-muted-foreground">{t("pickup_date")}</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button type="button" variant="outline" className={cn("w-full justify-start font-normal", !pickup && "text-muted-foreground")}>
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {pickup ? format(pickup, "MMM d") : "Select"}
+                      {pickup ? format(pickup, "MMM d") : t("pick_date")}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -105,12 +137,12 @@ export function RequestRentalModal({ trigger }: { trigger: React.ReactNode }) {
                 </Popover>
               </div>
               <div className="space-y-1.5">
-                <Label>Return date</Label>
+                <Label className="text-xs text-muted-foreground">{t("return_date")}</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button type="button" variant="outline" className={cn("w-full justify-start font-normal", !ret && "text-muted-foreground")}>
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {ret ? format(ret, "MMM d") : "Select"}
+                      {ret ? format(ret, "MMM d") : t("pick_date")}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -120,17 +152,41 @@ export function RequestRentalModal({ trigger }: { trigger: React.ReactNode }) {
               </div>
             </div>
 
+            {!car && (
+              <>
+                <div className="space-y-1.5">
+                  <Label htmlFor="city">{t("q_city")}</Label>
+                  <Input id="city" value={city} onChange={(e) => setCity(e.target.value)} maxLength={100} />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="destination">{t("q_destination")}</Label>
+                  <Input id="destination" value={destination} onChange={(e) => setDestination(e.target.value)} maxLength={200} />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="cartype">{t("q_car_type")}</Label>
+                  <Input id="cartype" value={carType} onChange={(e) => setCarType(e.target.value)} placeholder={t("q_car_type_ph")} maxLength={100} />
+                </div>
+              </>
+            )}
+
             <div className="space-y-1.5">
-              <Label htmlFor="name">Your name</Label>
+              <Label htmlFor="name">{t("q_name")}</Label>
               <Input id="name" value={name} onChange={(e) => setName(e.target.value)} maxLength={100} required />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="phone">Your phone number</Label>
+              <Label htmlFor="phone">{t("q_phone")}</Label>
               <Input id="phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} maxLength={30} required />
             </div>
 
+            {!car && (
+              <div className="space-y-1.5">
+                <Label htmlFor="comments">{t("q_comments")}</Label>
+                <Textarea id="comments" value={comments} onChange={(e) => setComments(e.target.value)} maxLength={1000} rows={3} />
+              </div>
+            )}
+
             <div className="space-y-2">
-              <Label>Preferred contact method</Label>
+              <Label>{t("q_contact")}</Label>
               <div className="flex flex-wrap gap-2">
                 {METHODS.map((m) => {
                   const active = methods.includes(m.value);
@@ -147,7 +203,7 @@ export function RequestRentalModal({ trigger }: { trigger: React.ReactNode }) {
                       )}
                     >
                       {m.icon}
-                      {m.value}
+                      {t(m.labelKey)}
                     </button>
                   );
                 })}
@@ -161,7 +217,7 @@ export function RequestRentalModal({ trigger }: { trigger: React.ReactNode }) {
               disabled={loading}
               className="w-full h-12 bg-[var(--brand-tomato)] hover:bg-[var(--brand-tomato)]/90 text-white text-base font-semibold"
             >
-              {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Send Request"}
+              {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : t("send_request")}
             </Button>
           </form>
         )}
