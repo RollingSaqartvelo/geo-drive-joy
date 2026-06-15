@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 
 export type Lang = "en" | "ka" | "ru" | "he";
 
@@ -146,21 +146,43 @@ export function useI18n() {
 
 export function LanguageSwitcher() {
   const { lang, setLang } = useI18n();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const current = LANGS.find((l) => l.code === lang)!;
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
   return (
-    <div className="inline-flex items-center gap-0.5 rounded-full bg-white/10 p-0.5 text-xs font-semibold">
-      {LANGS.map((l) => (
-        <button
-          key={l.code}
-          onClick={() => setLang(l.code)}
-          className={
-            "px-2.5 py-1 rounded-full transition-colors " +
-            (lang === l.code ? "bg-white text-[var(--brand-blue)]" : "text-white/80 hover:text-white")
-          }
-          aria-pressed={lang === l.code}
-        >
-          {l.label}
-        </button>
-      ))}
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition-colors"
+      >
+        <span>{current.flag}</span>
+        <span>{current.label}</span>
+        <span className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`}>▾</span>
+      </button>
+
+      {open && (
+        <div className="absolute right-0 mt-2 w-36 rounded-xl bg-white shadow-lg overflow-hidden z-50 border border-gray-100">
+          {LANGS.filter((l) => l.code !== lang).map((l) => (
+            <button
+              key={l.code}
+              onClick={() => { setLang(l.code); setOpen(false); }}
+              className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              <span className="text-base">{l.flag}</span>
+              <span className="font-medium">{l.label}</span>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
