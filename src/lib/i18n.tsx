@@ -3,10 +3,10 @@ import { createContext, useContext, useEffect, useRef, useState, type ReactNode 
 export type Lang = "en" | "ka" | "ru" | "he";
 
 export const LANGS: { code: Lang; label: string; flag: string }[] = [
-  { code: "en", label: "EN", flag: "🇬🇧" },
-  { code: "ka", label: "KA", flag: "🇬🇪" },
-  { code: "ru", label: "RU", flag: "🇷🇺" },
-  { code: "he", label: "HE", flag: "🇮🇱" },
+  { code: "en", label: "EN", flag: "https://flagcdn.com/20x15/gb.png" },
+  { code: "ka", label: "KA", flag: "https://flagcdn.com/20x15/ge.png" },
+  { code: "ru", label: "RU", flag: "https://flagcdn.com/20x15/ru.png" },
+  { code: "he", label: "HE", flag: "https://flagcdn.com/20x15/il.png" },
 ];
 
 type Dict = Record<string, string>;
@@ -164,20 +164,20 @@ export function LanguageSwitcher() {
         onClick={() => setOpen((o) => !o)}
         className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition-colors"
       >
-        <span>{current.flag}</span>
+        <img src={current.flag} alt={current.label} className="w-5 h-auto rounded-sm shadow-sm" />
         <span>{current.label}</span>
-        <span className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`}>▾</span>
+        <span className={`transition-transform duration-200 inline-block ${open ? "rotate-180" : ""}`}>▾</span>
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-36 rounded-xl bg-white shadow-lg overflow-hidden z-50 border border-gray-100">
+        <div className="absolute right-0 mt-2 w-32 rounded-xl bg-white shadow-lg overflow-hidden z-50 border border-gray-100">
           {LANGS.filter((l) => l.code !== lang).map((l) => (
             <button
               key={l.code}
               onClick={() => { setLang(l.code); setOpen(false); }}
               className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
             >
-              <span className="text-base">{l.flag}</span>
+              <img src={l.flag} alt={l.label} className="w-5 h-auto rounded-sm shadow-sm" />
               <span className="font-medium">{l.label}</span>
             </button>
           ))}
