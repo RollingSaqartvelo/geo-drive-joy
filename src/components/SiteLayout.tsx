@@ -1,10 +1,10 @@
-import { Link, Outlet } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { MessageCircle } from "lucide-react";
 import logo from "@/assets/logo.png.asset.json";
 
 const WA = "https://wa.me/995500194533";
 
-export function SiteLayout() {
+export function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <header className="sticky top-0 z-40 bg-[var(--brand-blue)] text-white">
@@ -22,7 +22,7 @@ export function SiteLayout() {
       </header>
 
       <main className="flex-1">
-        <Outlet />
+        {children}
       </main>
 
       <footer className="bg-[var(--brand-blue-dark)] text-white/90">
