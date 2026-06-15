@@ -85,14 +85,14 @@ export function RequestRentalModal({ trigger, car }: Props) {
           body: JSON.stringify({
             chat_id: 8430276417,
             text,
-            parse_mode: "Markdown",
           }),
         }
       );
-      if (!res.ok) throw new Error("Failed to send");
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.description || "Telegram error");
       setDone(true);
-    } catch {
-      setError(t("send_error"));
+    } catch (err) {
+      setError((err as Error).message || t("send_error"));
     } finally {
       setLoading(false);
     }
