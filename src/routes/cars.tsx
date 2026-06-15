@@ -19,6 +19,9 @@ import bmwx4c from "@/assets/bmwx4-3.jpg.asset.json";
 import rrred1 from "@/assets/rrsport-red-1.jpg.asset.json";
 import rrred2 from "@/assets/rrsport-red-2.jpg.asset.json";
 import rrred3 from "@/assets/rrsport-red-3.jpg.asset.json";
+import rrw1 from "@/assets/rrsport-white-1.jpg.asset.json";
+import rrw2 from "@/assets/rrsport-white-2.jpg.asset.json";
+import rrw3 from "@/assets/rrsport-white-3.jpg.asset.json";
 import rr7a from "@/assets/rr7-1.jpg.asset.json";
 import rr7b from "@/assets/rr7-2.jpg.asset.json";
 import rr7c from "@/assets/rr7-3.jpg.asset.json";
@@ -34,7 +37,7 @@ type Car = {
 };
 
 const CARS: Car[] = [
-  { name: "Range Rover Sport", year: 2016, price: 150 },
+  { name: "Range Rover Sport", year: 2016, price: 150, images: [rrw1, rrw2, rrw3] },
   { name: "Range Rover Sport Red", year: 2016, price: 140, images: [rrred1, rrred2, rrred3] },
   { name: "Range Rover 7 Seats", year: 2018, seats: 7, price: 160, images: [rr7a, rr7b, rr7c] },
   { name: "Chrysler Pacifica", year: 2015, seats: 8, price: 90, images: [pac1, pac2, pac3, pac4] },
