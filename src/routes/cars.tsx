@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Users, Calendar, MessageCircle } from "lucide-react";
+import { Users, Calendar } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Button } from "@/components/ui/button";
+import { RequestRentalModal } from "@/components/RequestRentalModal";
+import { useI18n } from "@/lib/i18n";
 import mustang1 from "@/assets/mustang-1.jpg.asset.json";
 import mustang2 from "@/assets/mustang-2.jpg.asset.json";
 import mustang3 from "@/assets/mustang-3.jpg.asset.json";
@@ -30,8 +32,6 @@ import gx2 from "@/assets/lexus-gx470-2.jpg.asset.json";
 import gx3 from "@/assets/lexus-gx470-3.jpg.asset.json";
 import gx4 from "@/assets/lexus-gx470-4.jpg.asset.json";
 import gx5 from "@/assets/lexus-gx470-5.jpg.asset.json";
-
-const WA = "https://wa.me/995500194533";
 
 type Car = {
   name: string;
@@ -65,6 +65,7 @@ export const Route = createFileRoute("/cars")({
 });
 
 function CarCard({ car }: { car: Car }) {
+  const { t } = useI18n();
   const hero = car.images?.[0];
   return (
     <article className="group rounded-2xl overflow-hidden bg-card border shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
@@ -88,12 +89,14 @@ function CarCard({ car }: { car: Car }) {
             ${car.price}<span className="text-xs font-medium opacity-80">/day</span>
           </span>
         </div>
-        <Button asChild className="mt-5 w-full h-11 bg-[var(--brand-tomato)] hover:bg-[var(--brand-tomato)]/90 text-white font-semibold">
-          <a href={WA} target="_blank" rel="noopener noreferrer">
-            <MessageCircle className="h-4 w-4 mr-2" />
-            Book on WhatsApp
-          </a>
-        </Button>
+        <RequestRentalModal
+          car={{ name: car.name, year: car.year }}
+          trigger={
+            <Button className="mt-5 w-full h-11 bg-[var(--brand-tomato)] hover:bg-[var(--brand-tomato)]/90 text-white font-semibold">
+              {t("book")}
+            </Button>
+          }
+        />
       </div>
     </article>
   );

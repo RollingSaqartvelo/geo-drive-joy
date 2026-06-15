@@ -1,23 +1,28 @@
 import { Link } from "@tanstack/react-router";
 import { MessageCircle } from "lucide-react";
 import logo from "@/assets/logo.png.asset.json";
+import { LanguageSwitcher, useI18n } from "@/lib/i18n";
 
 const WA = "https://wa.me/995500194533";
 
 export function SiteLayout({ children }: { children: React.ReactNode }) {
+  const { t } = useI18n();
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <header className="sticky top-0 z-40 bg-[var(--brand-blue)] text-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 h-16 flex items-center justify-between">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
           <Link to="/" className="flex items-center gap-2">
             <img src={logo.url} alt="GEOrent" className="h-10 w-auto bg-white rounded-md p-1" />
             <span className="sr-only">GEOrent</span>
           </Link>
-          <nav className="flex items-center gap-1 sm:gap-2 text-sm font-medium">
-            <Link to="/" activeOptions={{ exact: true }} className="px-3 py-2 rounded-md hover:bg-white/10 [&.active]:bg-white/15">Home</Link>
-            <Link to="/cars" className="px-3 py-2 rounded-md hover:bg-white/10 [&.active]:bg-white/15">Cars</Link>
-            <Link to="/tours" className="px-3 py-2 rounded-md hover:bg-white/10 [&.active]:bg-white/15">Tours</Link>
-          </nav>
+          <div className="flex items-center gap-2 sm:gap-4">
+            <nav className="flex items-center gap-1 sm:gap-2 text-sm font-medium">
+              <Link to="/" activeOptions={{ exact: true }} className="px-3 py-2 rounded-md hover:bg-white/10 [&.active]:bg-white/15">{t("nav_home")}</Link>
+              <Link to="/cars" className="px-3 py-2 rounded-md hover:bg-white/10 [&.active]:bg-white/15">{t("nav_cars")}</Link>
+              <Link to="/tours" className="px-3 py-2 rounded-md hover:bg-white/10 [&.active]:bg-white/15">{t("nav_tours")}</Link>
+            </nav>
+            <LanguageSwitcher />
+          </div>
         </div>
       </header>
 
