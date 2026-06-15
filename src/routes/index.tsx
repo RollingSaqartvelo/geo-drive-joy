@@ -3,6 +3,7 @@ import { Car, Map, MapPin } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { RequestRentalModal } from "@/components/RequestRentalModal";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import hero from "@/assets/hero.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const { t } = useI18n();
   return (
     <SiteLayout>
       {/* Hero */}
@@ -37,7 +39,7 @@ function Index() {
             <RequestRentalModal
               trigger={
                 <Button className="h-14 px-10 text-base font-bold tracking-wide bg-[var(--brand-tomato)] hover:bg-[var(--brand-tomato)]/90 text-white rounded-full shadow-2xl shadow-black/30">
-                  REQUEST RENTAL
+                  {t("request_rental").toUpperCase()}
                 </Button>
               }
             />
@@ -76,7 +78,7 @@ function Index() {
           <RequestRentalModal
             trigger={
               <Button className="h-12 px-8 bg-[var(--brand-tomato)] hover:bg-[var(--brand-tomato)]/90 text-white font-semibold rounded-full">
-                Request Rental
+                {t("request_rental")}
               </Button>
             }
           />
