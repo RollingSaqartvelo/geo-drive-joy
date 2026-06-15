@@ -13,6 +13,9 @@ import pac1 from "@/assets/pacifica-1.webp.asset.json";
 import pac2 from "@/assets/pacifica-2.webp.asset.json";
 import pac3 from "@/assets/pacifica-3.webp.asset.json";
 import pac4 from "@/assets/pacifica-4.webp.asset.json";
+import bmwx4a from "@/assets/bmwx4-1.jpg.asset.json";
+import bmwx4b from "@/assets/bmwx4-2.jpg.asset.json";
+import bmwx4c from "@/assets/bmwx4-3.jpg.asset.json";
 
 const WA = "https://wa.me/995500194533";
 
@@ -31,6 +34,7 @@ const CARS: Car[] = [
   { name: "Chrysler Pacifica", year: 2015, seats: 8, price: 90, images: [pac1, pac2, pac3, pac4] },
   { name: "Discovery Land Rover", year: 2023, price: 200, images: [disc3, disc1, disc2] },
   { name: "Ford Mustang Cabrio", year: 2020, price: 130, images: [mustang2, mustang1, mustang3, mustang4] },
+  { name: "BMW X4 3.0L", year: 2019, price: 120, images: [bmwx4a, bmwx4b, bmwx4c] },
 ];
 
 export const Route = createFileRoute("/cars")({
