@@ -9,6 +9,10 @@ import mustang4 from "@/assets/mustang-4.jpg.asset.json";
 import disc1 from "@/assets/discovery-1.webp.asset.json";
 import disc2 from "@/assets/discovery-2.webp.asset.json";
 import disc3 from "@/assets/discovery-3.webp.asset.json";
+import pac1 from "@/assets/pacifica-1.webp.asset.json";
+import pac2 from "@/assets/pacifica-2.webp.asset.json";
+import pac3 from "@/assets/pacifica-3.webp.asset.json";
+import pac4 from "@/assets/pacifica-4.webp.asset.json";
 
 const WA = "https://wa.me/995500194533";
 
@@ -24,7 +28,7 @@ const CARS: Car[] = [
   { name: "Range Rover Sport", year: 2016, price: 150 },
   { name: "Range Rover Sport Red", year: 2016, price: 140 },
   { name: "Range Rover 7 Seats", year: 2018, seats: 7, price: 160 },
-  { name: "Chrysler Pacifica", year: 2015, seats: 8, price: 90 },
+  { name: "Chrysler Pacifica", year: 2015, seats: 8, price: 90, images: [pac1, pac2, pac3, pac4] },
   { name: "Discovery Land Rover", year: 2023, price: 200, images: [disc3, disc1, disc2] },
   { name: "Ford Mustang Cabrio", year: 2020, price: 130, images: [mustang2, mustang1, mustang3, mustang4] },
 ];
