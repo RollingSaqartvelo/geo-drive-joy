@@ -52,30 +52,43 @@ export function RequestRentalModal({ trigger, car }: Props) {
     }
     setLoading(true);
     try {
-      const subject = car
-        ? `Booking request: ${car.name} ${car.year}`
-        : "New GEOrent Rental Request (Check Availability)";
-      const payload: Record<string, string> = {
-        _subject: subject,
-        name,
-        phone,
-        pickup_date: format(pickup, "yyyy-MM-dd"),
-        return_date: format(ret, "yyyy-MM-dd"),
-        preferred_contact: methods.join(", "),
-      };
-      if (car) {
-        payload.car = `${car.name} ${car.year}`;
-      } else {
-        payload.city = city;
-        payload.destination = destination;
-        payload.car_type = carType;
-        payload.comments = comments;
-      }
-      const res = await fetch("https://formsubmit.co/ajax/ROLLING_SAQARTVELO@OUTLOOK.COM", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const lines = car
+        ? [
+            `🚗 *Бронирование: ${car.name} ${car.year}*`,
+            ``,
+            `👤 Имя: ${name}`,
+            `📞 Телефон: ${phone}`,
+            `📅 Дата получения: ${format(pickup, "dd.MM.yyyy")}`,
+            `📅 Дата возврата: ${format(ret, "dd.MM.yyyy")}`,
+            `💬 Связь: ${methods.join(", ")}`,
+          ]
+        : [
+            `📋 *Новая заявка на аренду*`,
+            ``,
+            `👤 Имя: ${name}`,
+            `📞 Телефон: ${phone}`,
+            `📅 Дата получения: ${format(pickup, "dd.MM.yyyy")}`,
+            `📅 Дата возврата: ${format(ret, "dd.MM.yyyy")}`,
+            `🏙️ Город: ${city}`,
+            `🗺️ Куда едет: ${destination}`,
+            `🚙 Тип авто: ${carType}`,
+            `💬 Связь: ${methods.join(", ")}`,
+            comments ? `📝 Комментарий: ${comments}` : "",
+          ].filter(Boolean);
+
+      const text = lines.join("\n");
+      const res = await fetch(
+        `https://api.telegram.org/bot8916742967:AAEN0QNTVWHjRIbKcdLf4ShH8aOaxhsJDQQ/sendMessage`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: 8430276417,
+            text,
+            parse_mode: "Markdown",
+          }),
+        }
+      );
       if (!res.ok) throw new Error("Failed to send");
       setDone(true);
     } catch {
