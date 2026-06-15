@@ -11,7 +11,6 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { LanguageProvider } from "@/lib/i18n";
 
 function NotFoundComponent() {
   return (
@@ -81,11 +80,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "GEOrent — Premium Car Rental in Batumi, Georgia" },
       { name: "description", content: "Premium car rental in Batumi & across Georgia. Mustang, Range Rover, Discovery and more. Tours & transfers available." },
       { name: "author", content: "GEOrent" },
-      { property: "og:title", content: "GEOrent — Premium Car Rental in Georgia" },
-      { property: "og:description", content: "Rent premium cars in Batumi & Tbilisi. Tours across Georgia." },
+      { property: "og:title", content: "GEOrent — Premium Car Rental in Batumi, Georgia" },
+      { property: "og:description", content: "Premium car rental in Batumi & across Georgia. Mustang, Range Rover, Discovery and more. Tours & transfers available." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "GEOrent — Premium Car Rental in Batumi, Georgia" },
+      { name: "twitter:description", content: "Premium car rental in Batumi & across Georgia. Mustang, Range Rover, Discovery and more. Tours & transfers available." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ad3b35f7-16de-4bb4-ae9c-ba7ad229ee9b/id-preview-359efd2e--710c0646-12de-41dc-88fc-1b90567e4682.lovable.app-1781533457011.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ad3b35f7-16de-4bb4-ae9c-ba7ad229ee9b/id-preview-359efd2e--710c0646-12de-41dc-88fc-1b90567e4682.lovable.app-1781533457011.png" },
     ],
     links: [
       {
@@ -119,10 +122,8 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <LanguageProvider>
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
-      </LanguageProvider>
+      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+      <Outlet />
     </QueryClientProvider>
   );
 }
