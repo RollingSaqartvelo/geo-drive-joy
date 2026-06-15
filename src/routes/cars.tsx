@@ -50,6 +50,7 @@ const CARS: Car[] = [
   { name: "Ford Mustang Cabrio", year: 2020, price: 130, images: [mustang2, mustang1, mustang3, mustang4] },
   { name: "BMW X4 3.0L", year: 2019, price: 120, images: [bmwx4a, bmwx4b, bmwx4c] },
   { name: "Lexus GX 470", year: 2008, price: 60, images: [gx1, gx2, gx3, gx4, gx5] },
+  { name: "KIA Sedona", year: 2016, seats: 8, price: 90 },
 ];
 
 export const Route = createFileRoute("/cars")({
