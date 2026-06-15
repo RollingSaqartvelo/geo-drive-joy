@@ -25,6 +25,11 @@ import rrw3 from "@/assets/rrsport-white-3.jpg.asset.json";
 import rr7a from "@/assets/rr7-1.jpg.asset.json";
 import rr7b from "@/assets/rr7-2.jpg.asset.json";
 import rr7c from "@/assets/rr7-3.jpg.asset.json";
+import gx1 from "@/assets/lexus-gx470-1.jpg.asset.json";
+import gx2 from "@/assets/lexus-gx470-2.jpg.asset.json";
+import gx3 from "@/assets/lexus-gx470-3.jpg.asset.json";
+import gx4 from "@/assets/lexus-gx470-4.jpg.asset.json";
+import gx5 from "@/assets/lexus-gx470-5.jpg.asset.json";
 
 const WA = "https://wa.me/995500194533";
 
@@ -44,6 +49,7 @@ const CARS: Car[] = [
   { name: "Discovery Land Rover", year: 2023, price: 200, images: [disc3, disc1, disc2] },
   { name: "Ford Mustang Cabrio", year: 2020, price: 130, images: [mustang2, mustang1, mustang3, mustang4] },
   { name: "BMW X4 3.0L", year: 2019, price: 120, images: [bmwx4a, bmwx4b, bmwx4c] },
+  { name: "Lexus GX 470", year: 2008, price: 100, images: [gx1, gx2, gx3, gx4, gx5] },
 ];
 
 export const Route = createFileRoute("/cars")({
