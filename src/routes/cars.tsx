@@ -47,6 +47,12 @@ import bmw740f from "@/assets/bmw740-6.jpg.asset.json";
 import bmw740g from "@/assets/bmw740-7.jpg.asset.json";
 import prius1 from "@/assets/prius-1.jpg.asset.json";
 import prius2 from "@/assets/prius-2.jpg.asset.json";
+import wr19a from "@/assets/wrangler2019-1.jpg.asset.json";
+import wr19b from "@/assets/wrangler2019-2.jpg.asset.json";
+import wr19c from "@/assets/wrangler2019-3.jpg.asset.json";
+import wr19d from "@/assets/wrangler2019-4.jpg.asset.json";
+import wr19e from "@/assets/wrangler2019-5.jpg.asset.json";
+import wr19f from "@/assets/wrangler2019-6.jpg.asset.json";
 
 type City = "batumi" | "tbilisi";
 
@@ -55,6 +61,7 @@ type Car = {
   year: number;
   seats?: number;
   price: number;
+  priceMax?: number;
   city: City;
   images?: { url: string }[];
 };
@@ -72,6 +79,7 @@ const CARS: Car[] = [
   { name: "Jeep Wrangler", year: 2016, price: 160, city: "batumi", images: [wrangler1, wrangler2] },
   { name: "BMW 740i", year: 2014, price: 150, city: "batumi", images: [bmw740a, bmw740b, bmw740c, bmw740d, bmw740e, bmw740f, bmw740g] },
   { name: "Toyota Prius", year: 2017, price: 45, city: "batumi", images: [prius1, prius2] },
+  { name: "Jeep Wrangler Sahara", year: 2019, price: 120, priceMax: 170, city: "tbilisi", images: [wr19a, wr19b, wr19c, wr19d, wr19e, wr19f] },
 ];
 
 export const Route = createFileRoute("/cars")({
@@ -114,7 +122,7 @@ function CarCard({ car }: { car: Car }) {
         </div>
         <div className="mt-4 flex items-center justify-between">
           <span className="inline-flex items-baseline gap-1 rounded-full bg-[var(--brand-olive)]/15 text-[var(--brand-olive)] px-3 py-1.5 font-bold">
-            ${car.price}<span className="text-xs font-medium opacity-80">/day</span>
+            ${car.price}{car.priceMax ? `–$${car.priceMax}` : ""}<span className="text-xs font-medium opacity-80">/day</span>
           </span>
         </div>
         <RequestRentalModal
