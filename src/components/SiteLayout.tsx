@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Send } from "lucide-react";
 import logo from "@/assets/logo.png.asset.json";
 import { LanguageSwitcher, useI18n } from "@/lib/i18n";
 
 const WA = "https://wa.me/995500194533";
+const TG = "https://t.me/+995500194533";
 
 export function SiteLayout({ children }: { children: React.ReactNode }) {
   const { t } = useI18n();
@@ -20,6 +21,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
               <Link to="/" activeOptions={{ exact: true }} className="px-3 py-2 rounded-md hover:bg-white/10 [&.active]:bg-white/15">{t("nav_home")}</Link>
               <Link to="/cars" className="px-3 py-2 rounded-md hover:bg-white/10 [&.active]:bg-white/15">{t("nav_cars")}</Link>
               <Link to="/tours" className="px-3 py-2 rounded-md hover:bg-white/10 [&.active]:bg-white/15">{t("nav_tours")}</Link>
+              <Link to="/contact" className="px-3 py-2 rounded-md hover:bg-white/10 [&.active]:bg-white/15">{t("nav_contact")}</Link>
             </nav>
             <LanguageSwitcher />
           </div>
@@ -47,6 +49,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
             <Link to="/" className="block hover:text-white">Home</Link>
             <Link to="/cars" className="block hover:text-white">Cars</Link>
             <Link to="/tours" className="block hover:text-white">Tours & Excursions</Link>
+            <Link to="/contact" className="block hover:text-white">Contact & Book</Link>
           </div>
         </div>
         <div className="border-t border-white/10 py-4 text-center text-xs text-white/50">
@@ -54,15 +57,17 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
         </div>
       </footer>
 
-      <a
-        href={WA}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Contact us on WhatsApp"
-        className="fixed bottom-6 right-6 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[var(--brand-tomato)] text-white shadow-lg shadow-black/20 hover:scale-110 transition-transform"
-      >
-        <MessageCircle className="h-7 w-7" />
-      </a>
+      {/* Floating buttons: Telegram + WhatsApp */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+        <a href={TG} target="_blank" rel="noopener noreferrer" aria-label="Contact us on Telegram"
+          className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#2AABEE] text-white shadow-lg shadow-black/20 hover:scale-110 transition-transform">
+          <Send className="h-6 w-6" />
+        </a>
+        <a href={WA} target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp"
+          className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/20 hover:scale-110 transition-transform">
+          <MessageCircle className="h-7 w-7" />
+        </a>
+      </div>
     </div>
   );
 }

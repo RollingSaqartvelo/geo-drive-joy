@@ -14,7 +14,7 @@ type Dict = Record<string, string>;
 
 const T: Record<Lang, Dict> = {
   en: {
-    nav_home: "Home", nav_cars: "Cars", nav_tours: "Tours",
+    nav_home: "Home", nav_cars: "Cars", nav_tours: "Tours", nav_contact: "Contact",
     book: "Book", request_rental: "Request Rental",
     // General form
     check_availability: "Check Availability",
@@ -40,7 +40,7 @@ const T: Record<Lang, Dict> = {
     book_title: "Book",
   },
   ka: {
-    nav_home: "მთავარი", nav_cars: "ავტომობილები", nav_tours: "ტურები",
+    nav_home: "მთავარი", nav_cars: "ავტომობილები", nav_tours: "ტურები", nav_contact: "კონტაქტი",
     book: "ჯავშანი", request_rental: "მოითხოვე ქირაობა",
     check_availability: "ხელმისაწვდომობის შემოწმება",
     check_availability_sub: "ხელმისაწვდომობის შესამოწმებლად გთხოვთ უპასუხოთ შემდეგ კითხვებს:",
@@ -65,7 +65,7 @@ const T: Record<Lang, Dict> = {
     book_title: "დაჯავშნე",
   },
   ru: {
-    nav_home: "Главная", nav_cars: "Автомобили", nav_tours: "Туры",
+    nav_home: "Главная", nav_cars: "Автомобили", nav_tours: "Туры", nav_contact: "Контакты",
     book: "Забронировать", request_rental: "Запросить аренду",
     check_availability: "Проверить наличие",
     check_availability_sub: "Чтобы проверить наличие, пожалуйста, ответьте на следующие вопросы:",
@@ -90,7 +90,7 @@ const T: Record<Lang, Dict> = {
     book_title: "Забронировать",
   },
   he: {
-    nav_home: "בית", nav_cars: "רכבים", nav_tours: "טיולים",
+    nav_home: "בית", nav_cars: "רכבים", nav_tours: "טיולים", nav_contact: "צור קשר",
     book: "להזמין", request_rental: "בקשת השכרה",
     check_availability: "בדיקת זמינות",
     check_availability_sub: "לבדיקת זמינות, אנא ענה על השאלות הבאות:",
@@ -115,7 +115,7 @@ const T: Record<Lang, Dict> = {
     book_title: "להזמין",
   },
   tr: {
-    nav_home: "Ana Sayfa", nav_cars: "Araçlar", nav_tours: "Turlar",
+    nav_home: "Ana Sayfa", nav_cars: "Araçlar", nav_tours: "Turlar", nav_contact: "İletişim",
     book: "Rezervasyon", request_rental: "Kiralama Talebi",
     check_availability: "Müsaitlik Kontrolü",
     check_availability_sub: "Müsaitliği kontrol etmek için lütfen aşağıdaki soruları yanıtlayın:",
