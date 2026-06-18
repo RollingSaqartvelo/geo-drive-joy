@@ -92,9 +92,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ad3b35f7-16de-4bb4-ae9c-ba7ad229ee9b/id-preview-359efd2e--710c0646-12de-41dc-88fc-1b90567e4682.lovable.app-1781533457011.png" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://www.googletagmanager.com" },
+    ],
+    scripts: [
       {
-        rel: "stylesheet",
-        href: appCss,
+        src: "https://www.googletagmanager.com/gtag/js?id=G-FDQ4E2400V",
+        async: true,
+      },
+      {
+        children: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-FDQ4E2400V');`,
       },
     ],
   }),
