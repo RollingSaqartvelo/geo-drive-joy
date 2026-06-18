@@ -33,6 +33,9 @@ import gx2 from "@/assets/lexus-gx470-2.jpg.asset.json";
 import gx3 from "@/assets/lexus-gx470-3.jpg.asset.json";
 import gx4 from "@/assets/lexus-gx470-4.jpg.asset.json";
 import gx5 from "@/assets/lexus-gx470-5.jpg.asset.json";
+import sedona1 from "@/assets/sedona-1.jpg.asset.json";
+import sedona2 from "@/assets/sedona-2.jpg.asset.json";
+import sedona3 from "@/assets/sedona-3.jpg.asset.json";
 
 type City = "batumi" | "tbilisi";
 
@@ -54,7 +57,7 @@ const CARS: Car[] = [
   { name: "Ford Mustang Cabrio", year: 2020, price: 130, city: "batumi", images: [mustang2, mustang1, mustang3, mustang4] },
   { name: "BMW X4 3.0L", year: 2019, price: 120, city: "batumi", images: [bmwx4a, bmwx4b, bmwx4c] },
   { name: "Lexus GX 470", year: 2008, price: 60, city: "tbilisi", images: [gx1, gx2, gx3, gx4, gx5] },
-  { name: "KIA Sedona", year: 2016, seats: 8, price: 90, city: "batumi" },
+  { name: "KIA Sedona", year: 2016, seats: 8, price: 90, city: "batumi", images: [sedona1, sedona2, sedona3] },
 ];
 
 export const Route = createFileRoute("/cars")({
