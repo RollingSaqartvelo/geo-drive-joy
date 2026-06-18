@@ -62,31 +62,37 @@
 }
 
 :root {
-  --radius: 1rem;
-  /* Brand: Future Dusk Blue #2D3A8C, Young Olive #7A8C4E, Tomato Red #D94F3D */
-  --brand-blue: oklch(0.35 0.16 274);
-  --brand-blue-dark: oklch(0.28 0.14 274);
-  --brand-olive: oklch(0.58 0.09 117);
-  --brand-tomato: oklch(0.63 0.19 32);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.18 0.05 274);
+  --radius: 0.125rem;
+  /* Kamchatka-inspired palette: Navy + Gold + Cream */
+  --brand-navy:   oklch(0.205 0.025 270);   /* #1C1C2E deep navy */
+  --brand-gold:   oklch(0.685 0.085 70);    /* #B8976A warm gold */
+  --brand-gold-dark: oklch(0.560 0.075 65); /* darker gold */
+  --brand-cream:  oklch(0.962 0.012 80);    /* #F5F1EC cream */
+  --brand-beige:  oklch(0.910 0.022 70);    /* #E8DDD0 beige */
+  /* Keep old names as aliases so existing code still works */
+  --brand-blue:      var(--brand-navy);
+  --brand-blue-dark: var(--brand-navy);
+  --brand-olive:     var(--brand-gold-dark);
+  --brand-tomato:    var(--brand-gold);
+  --background: var(--brand-cream);
+  --foreground: var(--brand-navy);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.05 274);
+  --card-foreground: var(--brand-navy);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.05 274);
-  --primary: var(--brand-blue);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: var(--brand-olive);
-  --secondary-foreground: oklch(0.99 0 0);
-  --muted: oklch(0.96 0.01 274);
-  --muted-foreground: oklch(0.45 0.05 274);
-  --accent: var(--brand-tomato);
-  --accent-foreground: oklch(0.99 0 0);
-  --destructive: var(--brand-tomato);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.9 0.02 274);
-  --input: oklch(0.9 0.02 274);
-  --ring: var(--brand-blue);
+  --popover-foreground: var(--brand-navy);
+  --primary: var(--brand-navy);
+  --primary-foreground: var(--brand-cream);
+  --secondary: var(--brand-beige);
+  --secondary-foreground: var(--brand-navy);
+  --muted: var(--brand-beige);
+  --muted-foreground: oklch(0.45 0.015 270);
+  --accent: var(--brand-gold);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.577 0.245 27);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.90 0.012 80);
+  --input: oklch(0.90 0.012 80);
+  --ring: var(--brand-gold);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -137,6 +143,8 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @layer base {
   * {
     border-color: var(--color-border);
@@ -145,5 +153,13 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    letter-spacing: -0.01em;
+    font-weight: 600;
   }
 }
