@@ -38,6 +38,13 @@ import sedona2 from "@/assets/sedona-2.jpg.asset.json";
 import sedona3 from "@/assets/sedona-3.jpg.asset.json";
 import wrangler1 from "@/assets/wrangler-1.jpg.asset.json";
 import wrangler2 from "@/assets/wrangler-2.jpg.asset.json";
+import bmw740a from "@/assets/bmw740-1.jpg.asset.json";
+import bmw740b from "@/assets/bmw740-2.jpg.asset.json";
+import bmw740c from "@/assets/bmw740-3.jpg.asset.json";
+import bmw740d from "@/assets/bmw740-4.jpg.asset.json";
+import bmw740e from "@/assets/bmw740-5.jpg.asset.json";
+import bmw740f from "@/assets/bmw740-6.jpg.asset.json";
+import bmw740g from "@/assets/bmw740-7.jpg.asset.json";
 
 type City = "batumi" | "tbilisi";
 
@@ -61,6 +68,7 @@ const CARS: Car[] = [
   { name: "Lexus GX 470", year: 2008, price: 60, city: "tbilisi", images: [gx1, gx2, gx3, gx4, gx5] },
   { name: "KIA Sedona", year: 2016, seats: 8, price: 90, city: "batumi", images: [sedona1, sedona2, sedona3] },
   { name: "Jeep Wrangler", year: 2016, price: 160, city: "batumi", images: [wrangler1, wrangler2] },
+  { name: "BMW 740i", year: 2014, price: 150, city: "batumi", images: [bmw740a, bmw740b, bmw740c, bmw740d, bmw740e, bmw740f, bmw740g] },
 ];
 
 export const Route = createFileRoute("/cars")({
