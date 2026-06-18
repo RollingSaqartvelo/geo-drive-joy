@@ -1,12 +1,13 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 
-export type Lang = "en" | "ka" | "ru" | "he";
+export type Lang = "en" | "ka" | "ru" | "he" | "tr";
 
 export const LANGS: { code: Lang; label: string; flag: string }[] = [
   { code: "en", label: "EN", flag: "https://flagcdn.com/20x15/gb.png" },
   { code: "ka", label: "KA", flag: "https://flagcdn.com/20x15/ge.png" },
   { code: "ru", label: "RU", flag: "https://flagcdn.com/20x15/ru.png" },
   { code: "he", label: "HE", flag: "https://flagcdn.com/20x15/il.png" },
+  { code: "tr", label: "TR", flag: "https://flagcdn.com/20x15/tr.png" },
 ];
 
 type Dict = Record<string, string>;
@@ -112,6 +113,31 @@ const T: Record<Lang, Dict> = {
     thanks: "תודה! ניצור איתך קשר בקרוב.",
     close: "סגור",
     book_title: "להזמין",
+  },
+  tr: {
+    nav_home: "Ana Sayfa", nav_cars: "Araçlar", nav_tours: "Turlar",
+    book: "Rezervasyon", request_rental: "Kiralama Talebi",
+    check_availability: "Müsaitlik Kontrolü",
+    check_availability_sub: "Müsaitliği kontrol etmek için lütfen aşağıdaki soruları yanıtlayın:",
+    q_dates: "Arabaya hangi tarihlerde ihtiyacınız var?",
+    q_city: "Arabaya hangi şehirde ihtiyacınız var?",
+    q_destination: "Nereye gitmeyi planlıyorsunuz?",
+    q_car_type: "Hangi tür aracı tercih edersiniz?",
+    q_car_type_ph: "örn. SUV, cabrio, minivan…",
+    q_name: "Adınız",
+    q_phone: "Telefon numaranız",
+    q_comments: "Ek yorumlar?",
+    q_contact: "Tercih ettiğiniz iletişim yöntemi",
+    pickup_date: "Teslim alma tarihi", return_date: "İade tarihi",
+    pick_date: "Tarih seçin",
+    whatsapp: "WhatsApp", telegram: "Telegram", phone_call: "Telefon",
+    send_request: "Talep Gönder",
+    sending: "Gönderiliyor…",
+    fill_all: "Lütfen tüm zorunlu alanları doldurun.",
+    send_error: "Gönderilemedi. Lütfen WhatsApp'ı deneyin.",
+    thanks: "Teşekkürler! En kısa sürede sizinle iletişime geçeceğiz.",
+    close: "Kapat",
+    book_title: "Rezervasyon",
   },
 };
 
