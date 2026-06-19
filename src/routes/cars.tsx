@@ -101,6 +101,7 @@ export const CARS: Car[] = [
     description: "Legendary Lexus GX 470 — a reliable V8 SUV perfect for mountain roads and off-road adventures in Georgia.",
     specs: [{ label: "Engine", value: "4.7L V8" }, { label: "Power", value: "235 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }] },
   { name: "KIA Sedona", slug: "kia-sedona", year: 2016, seats: 8, price: 90, city: "batumi", images: [sedona1, sedona2, sedona3],
+    tiers: [{ label: "1–3 days", price: 90 }, { label: "4–7 days", price: 80 }, { label: "8–15 days", price: 70 }],
     description: "Spacious KIA Sedona minivan — comfortable transport for large groups and family vacations in Georgia.",
     specs: [{ label: "Engine", value: "3.3L V6" }, { label: "Power", value: "276 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "8" }, { label: "Class", value: "Minivan" }] },
   { name: "Jeep Wrangler", slug: "jeep-wrangler", year: 2016, price: 160, city: "batumi", images: [wrangler1, wrangler2],
