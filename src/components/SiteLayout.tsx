@@ -13,7 +13,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-40 bg-[var(--brand-blue)] text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
           <Link to="/" className="flex items-center gap-2">
-            <img src={logo.url} alt="GEOrent" className="h-48 w-auto" />
+            <img src={logo.url} alt="GEOrent" className="h-24 w-auto" />
             <span className="sr-only">GEOrent</span>
           </Link>
           <div className="flex items-center gap-2 sm:gap-4">
