@@ -29,10 +29,10 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
       </main>
 
       <footer className="bg-[var(--brand-blue-dark)] text-white/90">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 grid gap-8 md:grid-cols-3">
-          <div>
-            <img src={logo.url} alt="GEOrent" className="h-80 w-auto mb-4 -mt-[5px]" />
-            <p className="text-sm text-white/70 max-w-xs">Premium car rental & tours across Georgia.</p>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 grid gap-8 md:grid-cols-3 items-center">
+          <div className="flex flex-col items-start">
+            <img src={logo.url} alt="GEOrent" className="h-80 w-auto -mt-[15px]" />
+            <p className="text-sm text-white/70 max-w-xs -mt-2">Premium car rental & tours across Georgia.</p>
           </div>
           <div className="text-sm space-y-2">
             <h4 className="text-white font-semibold uppercase tracking-wider text-xs mb-3">Contact</h4>
