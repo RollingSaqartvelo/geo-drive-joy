@@ -1,11 +1,11 @@
-{
-  "version": 1,
-  "asset_id": "273c467d-e6dc-447c-9dcf-11035bfb2a8c",
-  "project_id": "710c0646-12de-41dc-88fc-1b90567e4682",
-  "url": "/__l5e/assets-v1/273c467d-e6dc-447c-9dcf-11035bfb2a8c/rrsport-red-1.jpg",
-  "r2_key": "a/v1/710c0646-12de-41dc-88fc-1b90567e4682/273c467d-e6dc-447c-9dcf-11035bfb2a8c/rrsport-red-1.jpg",
-  "original_filename": "rrsport-red-1.jpg",
-  "size": 221717,
-  "content_type": "image/jpeg",
-  "created_at": "2026-06-15T13:55:10Z"
+﻿{
+    "version":  1,
+    "asset_id":  "273c467d-e6dc-447c-9dcf-11035bfb2a8c",
+    "project_id":  "710c0646-12de-41dc-88fc-1b90567e4682",
+    "url":  "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a/v1/710c0646-12de-41dc-88fc-1b90567e4682/273c467d-e6dc-447c-9dcf-11035bfb2a8c/rrsport-red-1.jpg",
+    "r2_key":  "a/v1/710c0646-12de-41dc-88fc-1b90567e4682/273c467d-e6dc-447c-9dcf-11035bfb2a8c/rrsport-red-1.jpg",
+    "original_filename":  "rrsport-red-1.jpg",
+    "size":  221717,
+    "content_type":  "image/jpeg",
+    "created_at":  "2026-06-15T13:55:10Z"
 }

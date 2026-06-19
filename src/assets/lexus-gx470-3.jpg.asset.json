@@ -1,11 +1,11 @@
-{
-  "version": 1,
-  "asset_id": "28fe7cb9-a6f2-426c-9efb-ac77a2b6b713",
-  "project_id": "710c0646-12de-41dc-88fc-1b90567e4682",
-  "url": "/__l5e/assets-v1/28fe7cb9-a6f2-426c-9efb-ac77a2b6b713/lexus-gx470-3.jpg",
-  "r2_key": "a/v1/710c0646-12de-41dc-88fc-1b90567e4682/28fe7cb9-a6f2-426c-9efb-ac77a2b6b713/lexus-gx470-3.jpg",
-  "original_filename": "lexus-gx470-3.jpg",
-  "size": 236380,
-  "content_type": "image/jpeg",
-  "created_at": "2026-06-15T14:18:02Z"
+﻿{
+    "version":  1,
+    "asset_id":  "28fe7cb9-a6f2-426c-9efb-ac77a2b6b713",
+    "project_id":  "710c0646-12de-41dc-88fc-1b90567e4682",
+    "url":  "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a/v1/710c0646-12de-41dc-88fc-1b90567e4682/28fe7cb9-a6f2-426c-9efb-ac77a2b6b713/lexus-gx470-3.jpg",
+    "r2_key":  "a/v1/710c0646-12de-41dc-88fc-1b90567e4682/28fe7cb9-a6f2-426c-9efb-ac77a2b6b713/lexus-gx470-3.jpg",
+    "original_filename":  "lexus-gx470-3.jpg",
+    "size":  236380,
+    "content_type":  "image/jpeg",
+    "created_at":  "2026-06-15T14:18:02Z"
 }

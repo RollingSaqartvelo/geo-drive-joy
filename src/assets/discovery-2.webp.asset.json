@@ -1,11 +1,11 @@
-{
-  "version": 1,
-  "asset_id": "a4d7f539-d829-4e85-8ead-3ee63556919d",
-  "project_id": "710c0646-12de-41dc-88fc-1b90567e4682",
-  "url": "/__l5e/assets-v1/a4d7f539-d829-4e85-8ead-3ee63556919d/discovery-2.webp",
-  "r2_key": "a/v1/710c0646-12de-41dc-88fc-1b90567e4682/a4d7f539-d829-4e85-8ead-3ee63556919d/discovery-2.webp",
-  "original_filename": "discovery-2.webp",
-  "size": 34488,
-  "content_type": "image/webp",
-  "created_at": "2026-06-15T13:33:02Z"
+﻿{
+    "version":  1,
+    "asset_id":  "a4d7f539-d829-4e85-8ead-3ee63556919d",
+    "project_id":  "710c0646-12de-41dc-88fc-1b90567e4682",
+    "url":  "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a/v1/710c0646-12de-41dc-88fc-1b90567e4682/a4d7f539-d829-4e85-8ead-3ee63556919d/discovery-2.webp",
+    "r2_key":  "a/v1/710c0646-12de-41dc-88fc-1b90567e4682/a4d7f539-d829-4e85-8ead-3ee63556919d/discovery-2.webp",
+    "original_filename":  "discovery-2.webp",
+    "size":  34488,
+    "content_type":  "image/webp",
+    "created_at":  "2026-06-15T13:33:02Z"
 }

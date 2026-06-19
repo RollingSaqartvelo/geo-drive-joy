@@ -1,11 +1,11 @@
-{
-  "version": 1,
-  "asset_id": "e0e3c6c5-a0ce-4fcc-a7a0-e46ce42a2f64",
-  "project_id": "710c0646-12de-41dc-88fc-1b90567e4682",
-  "url": "/__l5e/assets-v1/e0e3c6c5-a0ce-4fcc-a7a0-e46ce42a2f64/wrangler2019-2.jpg",
-  "r2_key": "a/v1/710c0646-12de-41dc-88fc-1b90567e4682/e0e3c6c5-a0ce-4fcc-a7a0-e46ce42a2f64/wrangler2019-2.jpg",
-  "original_filename": "wrangler2019-2.jpg",
-  "size": 329493,
-  "content_type": "image/jpeg",
-  "created_at": "2026-06-18T20:13:02Z"
+﻿{
+    "version":  1,
+    "asset_id":  "e0e3c6c5-a0ce-4fcc-a7a0-e46ce42a2f64",
+    "project_id":  "710c0646-12de-41dc-88fc-1b90567e4682",
+    "url":  "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a/v1/710c0646-12de-41dc-88fc-1b90567e4682/e0e3c6c5-a0ce-4fcc-a7a0-e46ce42a2f64/wrangler2019-2.jpg",
+    "r2_key":  "a/v1/710c0646-12de-41dc-88fc-1b90567e4682/e0e3c6c5-a0ce-4fcc-a7a0-e46ce42a2f64/wrangler2019-2.jpg",
+    "original_filename":  "wrangler2019-2.jpg",
+    "size":  329493,
+    "content_type":  "image/jpeg",
+    "created_at":  "2026-06-18T20:13:02Z"
 }
