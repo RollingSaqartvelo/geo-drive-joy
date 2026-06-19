@@ -61,12 +61,15 @@ import x5f from "@/assets/bmwx5-6.avif.asset.json";
 
 type City = "batumi" | "tbilisi";
 
+type PriceTier = { label: string; price: number };
+
 type Car = {
   name: string;
   year: number;
   seats?: number;
   price: number;
   priceMax?: number;
+  tiers?: PriceTier[];
   city: City;
   images?: { url: string }[];
 };
@@ -83,7 +86,8 @@ const CARS: Car[] = [
   { name: "KIA Sedona", year: 2016, seats: 8, price: 90, city: "batumi", images: [sedona1, sedona2, sedona3] },
   { name: "Jeep Wrangler", year: 2016, price: 160, city: "batumi", images: [wrangler1, wrangler2] },
   { name: "BMW 740i", year: 2014, price: 150, city: "tbilisi", images: [bmw740a, bmw740b, bmw740c, bmw740d, bmw740e, bmw740f, bmw740g] },
-  { name: "BMW X5 Hybrid", year: 2020, price: 180, city: "tbilisi", images: [x5a, x5b, x5c, x5e, x5f] },
+  { name: "BMW X5 Hybrid", year: 2020, price: 125, city: "tbilisi", images: [x5a, x5b, x5c, x5e, x5f],
+    tiers: [{ label: "1–3 days", price: 125 }, { label: "4–7 days", price: 115 }, { label: "8–30 days", price: 110 }] },
   { name: "Toyota Prius", year: 2017, price: 45, city: "batumi", images: [prius1, prius2] },
   { name: "Jeep Wrangler Sahara", year: 2019, price: 120, priceMax: 170, city: "tbilisi", images: [wr19a, wr19b, wr19c, wr19d, wr19e, wr19f] },
 ];
@@ -126,10 +130,21 @@ function CarCard({ car }: { car: Car }) {
           <span className="inline-flex items-center gap-1.5"><Calendar className="h-4 w-4" />{car.year}</span>
           {car.seats && <span className="inline-flex items-center gap-1.5"><Users className="h-4 w-4" />{car.seats} seats</span>}
         </div>
-        <div className="mt-4 flex items-center justify-between">
-          <span className="inline-flex items-baseline gap-1 rounded-full bg-[var(--brand-olive)]/15 text-[var(--brand-olive)] px-3 py-1.5 font-bold">
-            ${car.price}{car.priceMax ? `–$${car.priceMax}` : ""}<span className="text-xs font-medium opacity-80">/day</span>
-          </span>
+        <div className="mt-4">
+          {car.tiers ? (
+            <div className="flex flex-col gap-1">
+              {car.tiers.map((t) => (
+                <div key={t.label} className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">{t.label}</span>
+                  <span className="font-bold text-[var(--brand-olive)]">${t.price}<span className="text-xs font-medium opacity-80">/day</span></span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <span className="inline-flex items-baseline gap-1 rounded-full bg-[var(--brand-olive)]/15 text-[var(--brand-olive)] px-3 py-1.5 font-bold">
+              ${car.price}{car.priceMax ? `–$${car.priceMax}` : ""}<span className="text-xs font-medium opacity-80">/day</span>
+            </span>
+          )}
         </div>
         <RequestRentalModal
           car={{ name: car.name, year: car.year }}
