@@ -269,13 +269,16 @@ function CarsPage() {
           style={{ clipPath: "polygon(0 0, 58% 0, 48% 100%, 0 100%)" }}
         >
           <img src="/batumi-panorama.jpg" alt="Batumi" className="h-full w-full object-cover object-center" />
-          <div className={`absolute inset-0 transition-all duration-500 ${city === "batumi" ? "bg-[var(--brand-blue)]/30" : "bg-black/55"}`} />
+          <div className={`absolute inset-0 transition-all duration-500 ${city === "batumi" ? "bg-black/20" : "bg-black/60"}`} />
           <div className="absolute inset-0 flex flex-col items-start justify-center pl-8 sm:pl-16">
             <p className="text-white/70 text-xs uppercase tracking-widest mb-1">Black Sea Coast</p>
             <h2 className="text-white font-black text-3xl sm:text-5xl drop-shadow-lg" style={{ fontFamily: "Georgia, serif" }}>Batumi</h2>
             <p className="text-white/80 text-sm mt-1">{CARS.filter(c => c.city === "batumi").length} cars available</p>
             {city === "batumi" && (
-              <span className="mt-3 px-3 py-1 rounded-full bg-white/20 border border-white/40 text-white text-xs font-semibold backdrop-blur-sm">Selected ✓</span>
+              <span className="mt-3 px-4 py-1.5 rounded-full text-xs font-bold tracking-wide backdrop-blur-sm"
+                style={{ background: "rgba(201,168,76,0.15)", border: "1.5px solid #c9a84c", color: "#f0d080" }}>
+                Selected ✓
+              </span>
             )}
           </div>
         </div>
@@ -287,13 +290,16 @@ function CarsPage() {
           style={{ clipPath: "polygon(52% 0, 100% 0, 100% 100%, 42% 100%)" }}
         >
           <img src="/tbilisi-panorama.jpg" alt="Tbilisi" className="h-full w-full object-cover object-center" />
-          <div className={`absolute inset-0 transition-all duration-500 ${city === "tbilisi" ? "bg-[var(--brand-blue)]/30" : "bg-black/55"}`} />
+          <div className={`absolute inset-0 transition-all duration-500 ${city === "tbilisi" ? "bg-black/20" : "bg-black/60"}`} />
           <div className="absolute inset-0 flex flex-col items-end justify-center pr-8 sm:pr-16">
             <p className="text-white/70 text-xs uppercase tracking-widest mb-1">Capital City</p>
             <h2 className="text-white font-black text-3xl sm:text-5xl drop-shadow-lg" style={{ fontFamily: "Georgia, serif" }}>Tbilisi</h2>
             <p className="text-white/80 text-sm mt-1">{CARS.filter(c => c.city === "tbilisi").length} cars available</p>
             {city === "tbilisi" && (
-              <span className="mt-3 px-3 py-1 rounded-full bg-white/20 border border-white/40 text-white text-xs font-semibold backdrop-blur-sm">Selected ✓</span>
+              <span className="mt-3 px-4 py-1.5 rounded-full text-xs font-bold tracking-wide backdrop-blur-sm"
+                style={{ background: "rgba(201,168,76,0.15)", border: "1.5px solid #c9a84c", color: "#f0d080" }}>
+                Selected ✓
+              </span>
             )}
           </div>
         </div>
