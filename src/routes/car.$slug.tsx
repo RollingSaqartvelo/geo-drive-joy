@@ -84,8 +84,8 @@ function CarDetailPage() {
               </div>
             )}
             {mainImage && (
-              <div className="aspect-[16/9] rounded-2xl overflow-hidden bg-muted">
-                <img src={mainImage.url} alt={car.name} className="h-full w-full object-cover object-bottom" />
+              <div className="aspect-[16/9] rounded-2xl overflow-hidden bg-muted flex items-center justify-center">
+                <img src={mainImage.url} alt={car.name} className="h-full w-full object-contain" />
               </div>
             )}
             {images.length > 4 && (
