@@ -85,7 +85,7 @@ function CarDetailPage() {
             )}
             {mainImage && (
               <div className="aspect-[16/9] rounded-2xl overflow-hidden bg-muted">
-                <img src={mainImage.url} alt={car.name} className="h-full w-full object-cover" />
+                <img src={mainImage.url} alt={car.name} className="h-full w-full object-cover object-bottom" />
               </div>
             )}
             {images.length > 4 && (
@@ -93,9 +93,24 @@ function CarDetailPage() {
                 {images.slice(4).map((img, i) => (
                   <button key={i + 4} onClick={() => setMainIdx(i + 4)}
                     className={`aspect-[4/3] rounded-lg overflow-hidden border-2 transition-all ${mainIdx === i + 4 ? "border-[var(--brand-blue)] opacity-100" : "border-transparent opacity-60 hover:opacity-100"}`}>
-                    <img src={img.url} alt={`${car.name} ${i + 5}`} className="h-full w-full object-cover" />
+                    <img src={img.url} alt={`${car.name} ${i + 5}`} className="h-full w-full object-cover object-bottom" />
                   </button>
                 ))}
+              </div>
+            )}
+
+            {/* Specs below photo */}
+            {car.specs && car.specs.length > 0 && (
+              <div className="mt-6">
+                <h2 className="text-lg font-bold mb-3">Specifications</h2>
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
+                  {car.specs.map((spec) => (
+                    <div key={spec.label} className="bg-card border rounded-xl p-4 text-center">
+                      <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">{spec.label}</p>
+                      <p className="font-semibold text-sm">{spec.value}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -201,20 +216,6 @@ function CarDetailPage() {
           </div>
         </div>
 
-        {/* Specs */}
-        {car.specs && car.specs.length > 0 && (
-          <div className="mt-14 border-t pt-10">
-            <h2 className="text-2xl font-bold mb-6">Specifications</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-              {car.specs.map((spec) => (
-                <div key={spec.label} className="bg-card border rounded-xl p-5 text-center">
-                  <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">{spec.label}</p>
-                  <p className="font-semibold text-sm">{spec.value}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     </SiteLayout>
   );
