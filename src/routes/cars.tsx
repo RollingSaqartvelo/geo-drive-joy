@@ -117,6 +117,7 @@ export const CARS: Car[] = [
     description: "The BMW X5 Hybrid combines a powerful 3.0L inline-6 with electric drive for exceptional efficiency and premium performance.",
     specs: [{ label: "Engine", value: "3.0L I6 Hybrid" }, { label: "Power", value: "394 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury SUV" }] },
   { name: "Toyota Prius", slug: "toyota-prius", year: 2017, price: 45, city: "batumi", images: [prius1, prius2],
+    tiers: [{ label: "1–3 days", price: 45 }, { label: "4–7 days", price: 40 }, { label: "7–15 days", price: 35 }],
     description: "Fuel-efficient Toyota Prius hybrid — economical and eco-friendly transport for everyday city driving.",
     specs: [{ label: "Engine", value: "1.8L Hybrid" }, { label: "Power", value: "122 HP" }, { label: "Transmission", value: "CVT" }, { label: "Seats", value: "5" }, { label: "Class", value: "Hybrid" }] },
   { name: "Ford Escape", slug: "ford-escape", year: 2015, seats: 5, price: 50, city: "batumi",
