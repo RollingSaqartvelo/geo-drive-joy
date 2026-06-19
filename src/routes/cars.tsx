@@ -103,7 +103,7 @@ const CARS: Car[] = [
     images: [{ url: "/nissan-rogue-1.avif" }, { url: "/nissan-rogue-2.webp" }, { url: "/nissan-rogue-3.avif" }, { url: "/nissan-rogue-4.avif" }],
     tiers: [{ label: "1–3 days", price: 60 }, { label: "4–7 days", price: 55 }, { label: "8–30 days", price: 40 }] },
   { name: "Lexus RX 350", year: 2022, seats: 5, price: 110, city: "tbilisi",
-    images: [{ url: "/lexus-rx350-1.jpg" }, { url: "/lexus-rx350-2.avif" }, { url: "/lexus-rx350-3.avif" }],
+    images: [{ url: "/lexus-rx350-1.avif" }, { url: "/lexus-rx350-2.avif" }, { url: "/lexus-rx350-3.avif" }, { url: "/lexus-rx350-4.avif" }, { url: "/lexus-rx350-5.avif" }],
     tiers: [{ label: "1–3 days", price: 110 }, { label: "4–7 days", price: 100 }, { label: "8–30 days", price: 75 }] },
 ];
 
