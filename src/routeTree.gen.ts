@@ -104,10 +104,10 @@ declare module '@tanstack/react-router' {
     }
     '/cars/$slug': {
       id: '/cars/$slug'
-      path: '/$slug'
+      path: '/cars/$slug'
       fullPath: '/cars/$slug'
       preLoaderRoute: typeof CarsSlugRouteImport
-      parentRoute: typeof CarsRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/': {
       id: '/'
