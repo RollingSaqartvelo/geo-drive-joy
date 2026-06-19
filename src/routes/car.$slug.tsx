@@ -56,6 +56,10 @@ function CarDetailPage() {
         `<b>Persons:</b> ${form.persons}\n` +
         (form.notes ? `<b>Notes:</b> ${form.notes}` : "");
       await sendBookingToTelegram(text);
+      // Track request in localStorage for admin panel
+      const reqs = JSON.parse(localStorage.getItem("georent_requests") || "[]");
+      reqs.push({ carSlug: car.slug, carName: car.name, name: form.name, phone: form.phone, from: form.from, to: form.to, date: new Date().toISOString() });
+      localStorage.setItem("georent_requests", JSON.stringify(reqs));
       setStatus("sent");
       setForm({ name: "", phone: "", from: "", to: "", persons: "1", notes: "" });
     } catch {
