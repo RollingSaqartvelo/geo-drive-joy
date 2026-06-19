@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Users, Calendar, MapPin } from "lucide-react";
 import { useState } from "react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { useI18n } from "@/lib/i18n";
 import mustang1 from "@/assets/mustang-1.jpg.asset.json";
 import mustang2 from "@/assets/mustang-2.jpg.asset.json";
 import mustang3 from "@/assets/mustang-3.jpg.asset.json";
@@ -211,6 +212,7 @@ export const Route = createFileRoute("/cars")({
 });
 
 function CarCard({ car }: { car: Car }) {
+  const { t } = useI18n();
   const hero = car.images?.[0];
   return (
     <Link to="/car/$slug" params={{ slug: car.slug }} className="block group">
@@ -234,7 +236,7 @@ function CarCard({ car }: { car: Car }) {
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
             <span className="inline-flex items-center gap-1.5"><Calendar className="h-4 w-4" />{car.year}</span>
-            {car.seats && <span className="inline-flex items-center gap-1.5"><Users className="h-4 w-4" />{car.seats} seats</span>}
+            {car.seats && <span className="inline-flex items-center gap-1.5"><Users className="h-4 w-4" />{car.seats} {t("seats_label")}</span>}
           </div>
           <div className="mt-4">
             {car.tiers ? (
@@ -254,7 +256,7 @@ function CarCard({ car }: { car: Car }) {
           </div>
           <div className="mt-auto pt-4">
             <div className="w-full h-11 bg-[var(--brand-tomato)] text-white font-semibold rounded-lg flex items-center justify-center text-sm transition-colors group-hover:bg-[var(--brand-tomato)]/90">
-              View Details →
+              {t("view_details")}
             </div>
           </div>
         </div>
@@ -266,14 +268,15 @@ function CarCard({ car }: { car: Car }) {
 function CarsPage() {
   const [city, setCity] = useState<City>("batumi");
   const filtered = CARS.filter((c) => c.city === city);
+  const { t } = useI18n();
 
   return (
     <SiteLayout>
       <section className="bg-[var(--brand-blue)] text-white py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <p className="uppercase tracking-[0.25em] text-xs text-white/70 mb-3">Our Fleet</p>
-          <h1 className="text-4xl sm:text-6xl font-black">Choose Your Drive</h1>
-          <p className="mt-4 text-white/80 max-w-xl">Premium, reliable vehicles ready for the roads of Georgia.</p>
+          <p className="uppercase tracking-[0.25em] text-xs text-white/70 mb-3">{t("fleet_eyebrow")}</p>
+          <h1 className="text-4xl sm:text-6xl font-black">{t("fleet_title")}</h1>
+          <p className="mt-4 text-white/80 max-w-xl">{t("fleet_body")}</p>
         </div>
       </section>
 
@@ -288,13 +291,13 @@ function CarsPage() {
           <img src="/batumi-panorama.jpg" alt="Batumi" className="h-full w-full object-cover object-center" />
           <div className={`absolute inset-0 transition-all duration-500 ${city === "batumi" ? "bg-black/20" : "bg-black/60"}`} />
           <div className="absolute inset-0 flex flex-col items-start justify-center pl-8 sm:pl-16">
-            <p className="text-white/70 text-xs uppercase tracking-widest mb-1">Black Sea Coast</p>
+            <p className="text-white/70 text-xs uppercase tracking-widest mb-1">{t("city_batumi_sub")}</p>
             <h2 className="text-white font-black text-3xl sm:text-5xl drop-shadow-lg" style={{ fontFamily: "Georgia, serif" }}>Batumi</h2>
-            <p className="text-white/80 text-sm mt-1">{CARS.filter(c => c.city === "batumi").length} cars available</p>
+            <p className="text-white/80 text-sm mt-1">{CARS.filter(c => c.city === "batumi").length} {t("cars_available")}</p>
             {city === "batumi" && (
               <span className="mt-3 px-4 py-1.5 rounded-full text-xs font-bold tracking-wide backdrop-blur-sm"
                 style={{ background: "rgba(201,168,76,0.15)", border: "1.5px solid #c9a84c", color: "#f0d080" }}>
-                Selected ✓
+                {t("selected")}
               </span>
             )}
           </div>
@@ -309,13 +312,13 @@ function CarsPage() {
           <img src="/tbilisi-panorama.jpg" alt="Tbilisi" className="h-full w-full object-cover object-center" />
           <div className={`absolute inset-0 transition-all duration-500 ${city === "tbilisi" ? "bg-black/20" : "bg-black/60"}`} />
           <div className="absolute inset-0 flex flex-col items-end justify-center pr-8 sm:pr-16">
-            <p className="text-white/70 text-xs uppercase tracking-widest mb-1">Capital City</p>
+            <p className="text-white/70 text-xs uppercase tracking-widest mb-1">{t("city_tbilisi_sub")}</p>
             <h2 className="text-white font-black text-3xl sm:text-5xl drop-shadow-lg" style={{ fontFamily: "Georgia, serif" }}>Tbilisi</h2>
-            <p className="text-white/80 text-sm mt-1">{CARS.filter(c => c.city === "tbilisi").length} cars available</p>
+            <p className="text-white/80 text-sm mt-1">{CARS.filter(c => c.city === "tbilisi").length} {t("cars_available")}</p>
             {city === "tbilisi" && (
               <span className="mt-3 px-4 py-1.5 rounded-full text-xs font-bold tracking-wide backdrop-blur-sm"
                 style={{ background: "rgba(201,168,76,0.15)", border: "1.5px solid #c9a84c", color: "#f0d080" }}>
-                Selected ✓
+                {t("selected")}
               </span>
             )}
           </div>

@@ -30,10 +30,10 @@ function Index() {
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 h-full flex flex-col justify-center text-white">
           <p className="uppercase tracking-[0.25em] text-xs sm:text-sm text-white/80 mb-4 animate-in fade-in slide-in-from-bottom-2 duration-700">GEOrent</p>
           <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black leading-[0.95] max-w-4xl animate-in fade-in slide-in-from-bottom-4 duration-700">
-            Premium Car Rental<br />in Georgia
+            {t("hero_title")}
           </h1>
           <p className="mt-6 text-lg sm:text-2xl text-white/85 max-w-xl">
-            Batumi · Tbilisi · Across Georgia
+            {t("hero_subtitle")}
           </p>
           <div className="mt-10">
             <RequestRentalModal
@@ -52,16 +52,16 @@ function Index() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="grid gap-8 md:grid-cols-3">
             {[
-              { Icon: Car, title: "Premium Fleet", body: "Mustang, Range Rover, Discovery — meticulously maintained." },
-              { Icon: Map, title: "Tours & Transfers", body: "Curated trips across Georgia's mountains, sea & wine country." },
-              { Icon: MapPin, title: "Offices in Batumi & Tbilisi", body: "Pick up and return where it works for your route." },
-            ].map(({ Icon, title, body }) => (
-              <div key={title} className="rounded-2xl border bg-card p-8 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
+              { Icon: Car, titleKey: "feature_fleet_title", bodyKey: "feature_fleet_body" },
+              { Icon: Map, titleKey: "feature_tours_title", bodyKey: "feature_tours_body" },
+              { Icon: MapPin, titleKey: "feature_offices_title", bodyKey: "feature_offices_body" },
+            ].map(({ Icon, titleKey, bodyKey }) => (
+              <div key={titleKey} className="rounded-2xl border bg-card p-8 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
                 <div className="h-14 w-14 rounded-xl bg-[var(--brand-olive)]/15 text-[var(--brand-olive)] flex items-center justify-center mb-5">
                   <Icon className="h-7 w-7" />
                 </div>
-                <h3 className="text-xl font-bold text-[var(--brand-blue)] mb-2">{title}</h3>
-                <p className="text-muted-foreground">{body}</p>
+                <h3 className="text-xl font-bold text-[var(--brand-blue)] mb-2">{t(titleKey)}</h3>
+                <p className="text-muted-foreground">{t(bodyKey)}</p>
               </div>
             ))}
           </div>
@@ -73,7 +73,7 @@ function Index() {
         <div className="mx-auto max-w-4xl px-4 sm:px-6 text-center">
           <p className="uppercase tracking-[0.3em] text-xs text-white/50 mb-4">Conditions</p>
           <h2 className="text-3xl sm:text-4xl font-black text-white mb-3" style={{ fontFamily: "Georgia, serif" }}>
-            Условия аренды
+            {t("terms_title")}
           </h2>
           <div className="flex items-center justify-center gap-3 mb-10">
             <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[var(--brand-gold,#c9a84c)]" />
@@ -82,16 +82,16 @@ function Index() {
           </div>
           <div className="grid sm:grid-cols-2 gap-4 text-left max-w-2xl mx-auto">
             {[
-              { icon: "🪪", title: "Стаж от 2 лет", sub: "Минимальный водительский опыт" },
-              { icon: "🎂", title: "Возраст от 21 года", sub: "Обязательное условие для всех водителей" },
-              { icon: "💵", title: "Депозит 150$", sub: "Возвратный депозит на время аренды" },
-              { icon: "💴", title: "Оплата наличными", sub: "Принимаем только наличные" },
-            ].map(({ icon, title, sub }) => (
-              <div key={title} className="flex items-start gap-4 bg-white/5 border border-white/10 rounded-xl p-5">
+              { icon: "🪪", titleKey: "term_exp", subKey: "term_exp_sub" },
+              { icon: "🎂", titleKey: "term_age", subKey: "term_age_sub" },
+              { icon: "💵", titleKey: "term_deposit", subKey: "term_deposit_sub" },
+              { icon: "💴", titleKey: "term_cash", subKey: "term_cash_sub" },
+            ].map(({ icon, titleKey, subKey }) => (
+              <div key={titleKey} className="flex items-start gap-4 bg-white/5 border border-white/10 rounded-xl p-5">
                 <span className="text-2xl shrink-0">{icon}</span>
                 <div>
-                  <p className="font-bold text-white">{title}</p>
-                  <p className="text-sm text-white/60 mt-0.5">{sub}</p>
+                  <p className="font-bold text-white">{t(titleKey)}</p>
+                  <p className="text-sm text-white/60 mt-0.5">{t(subKey)}</p>
                 </div>
               </div>
             ))}
@@ -99,8 +99,8 @@ function Index() {
           <div className="mt-4 flex items-start gap-4 bg-amber-500/10 border border-amber-400/30 rounded-xl p-5 max-w-2xl mx-auto text-left">
             <span className="text-2xl shrink-0">📋</span>
             <div>
-              <p className="font-bold text-amber-300">Физические права обязательны</p>
-              <p className="text-sm text-white/70 mt-0.5">Электронные права в Грузии не действуют. Без физического удостоверения автомобиль не выдаётся.</p>
+              <p className="font-bold text-amber-300">{t("term_license")}</p>
+              <p className="text-sm text-white/70 mt-0.5">{t("term_license_sub")}</p>
             </div>
           </div>
         </div>
@@ -110,9 +110,9 @@ function Index() {
       <section className="bg-[var(--brand-blue-dark,#0f1729)] text-white py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold">Ready when you are.</h2>
-            <p className="text-white/90 mt-2 text-sm font-medium">All our cars are new, well-maintained and fully insured (CASCO, tires excluded).</p>
-            <p className="text-white/60 mt-1 text-sm">Send a request — we'll confirm availability fast.</p>
+            <h2 className="text-3xl sm:text-4xl font-extrabold">{t("cta_title")}</h2>
+            <p className="text-white/90 mt-2 text-sm font-medium">{t("cta_insurance")}</p>
+            <p className="text-white/60 mt-1 text-sm">{t("cta_sub")}</p>
           </div>
           <RequestRentalModal
             trigger={

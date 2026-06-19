@@ -92,8 +92,8 @@ function ContactPage() {
       <section className="bg-[var(--brand-blue)] text-white py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <p className="uppercase tracking-[0.25em] text-xs text-white/70 mb-3">GEOrent</p>
-          <h1 className="text-4xl sm:text-6xl font-black">Book Your Car</h1>
-          <p className="mt-4 text-white/80 max-w-xl">Fill in the form or contact us directly on WhatsApp — we respond fast.</p>
+          <h1 className="text-4xl sm:text-6xl font-black">{t("contact_title")}</h1>
+          <p className="mt-4 text-white/80 max-w-xl">{t("contact_sub")}</p>
         </div>
       </section>
 
@@ -190,12 +190,12 @@ function ContactPage() {
           {/* Contact info */}
           <div className="space-y-8">
             <div>
-              <h2 className="text-3xl font-bold text-[var(--brand-blue)] mb-6">Contact Us</h2>
+              <h2 className="text-3xl font-bold text-[var(--brand-blue)] mb-6">{t("contact_us")}</h2>
               <div className="space-y-4 text-muted-foreground">
                 <div className="flex items-start gap-3">
                   <MapPin className="h-5 w-5 text-[var(--brand-blue)] mt-0.5 shrink-0" />
                   <div>
-                    <p className="font-medium text-foreground">Batumi Office</p>
+                    <p className="font-medium text-foreground">{t("batumi_office")}</p>
                     <p>212V Airport Hwy, Batumi 6000, Georgia</p>
                   </div>
                 </div>
@@ -205,7 +205,7 @@ function ContactPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <Clock className="h-5 w-5 text-[var(--brand-blue)] shrink-0" />
-                  <p>7 days a week, 09:00 – 21:00</p>
+                  <p>{t("hours")}</p>
                 </div>
               </div>
             </div>
@@ -215,7 +215,7 @@ function ContactPage() {
               <MessageCircle className="h-8 w-8 shrink-0" />
               <div>
                 <p className="font-bold text-lg">WhatsApp</p>
-                <p className="text-white/85 text-sm">+995 500 194 533 — reply in minutes</p>
+                <p className="text-white/85 text-sm">{t("wa_reply")}</p>
               </div>
             </a>
 
@@ -224,24 +224,24 @@ function ContactPage() {
               <Send className="h-8 w-8 shrink-0" />
               <div>
                 <p className="font-bold text-lg">Telegram</p>
-                <p className="text-white/85 text-sm">+995 500 194 533 — write anytime</p>
+                <p className="text-white/85 text-sm">{t("tg_reply")}</p>
               </div>
             </a>
 
             {/* Rental Terms */}
             <div className="rounded-2xl border-2 border-[var(--brand-blue)]/20 bg-[var(--brand-blue)]/5 p-6">
-              <h3 className="text-lg font-bold text-[var(--brand-blue)] mb-4">Условия аренды</h3>
+              <h3 className="text-lg font-bold text-[var(--brand-blue)] mb-4">{t("rental_terms_title")}</h3>
               <ul className="space-y-3">
                 {[
-                  { icon: "🪪", text: "Стаж вождения от 2 лет" },
-                  { icon: "🎂", text: "Возраст от 21 года" },
-                  { icon: "💵", text: "Возвратный депозит 150$ на время аренды" },
-                  { icon: "💴", text: "Оплата наличными" },
-                  { icon: "📋", text: "Физические права обязательны — электронные права в Грузии не действуют, без физических прав автомобиль не выдаётся" },
-                ].map(({ icon, text }) => (
-                  <li key={text} className="flex items-start gap-3 text-sm text-muted-foreground">
+                  { icon: "🪪", key: "term_exp" },
+                  { icon: "🎂", key: "term_age" },
+                  { icon: "💵", key: "term_deposit" },
+                  { icon: "💴", key: "term_cash" },
+                  { icon: "📋", key: "term_license_sub" },
+                ].map(({ icon, key }) => (
+                  <li key={key} className="flex items-start gap-3 text-sm text-muted-foreground">
                     <span className="text-base shrink-0 mt-0.5">{icon}</span>
-                    <span>{text}</span>
+                    <span>{t(key)}</span>
                   </li>
                 ))}
               </ul>

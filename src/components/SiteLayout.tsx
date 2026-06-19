@@ -32,20 +32,20 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 grid gap-8 md:grid-cols-3 items-center">
           <div className="flex flex-col items-start">
             <img src={logo.url} alt="GEOrent" className="h-80 w-auto -mt-[15px]" />
-            <p className="text-sm text-white/70 max-w-xs -mt-2">Premium car rental & tours across Georgia.</p>
+            <p className="text-sm text-white/70 max-w-xs -mt-2">{t("footer_tagline")}</p>
           </div>
           <div className="text-sm space-y-2">
-            <h4 className="text-white font-semibold uppercase tracking-wider text-xs mb-3">Contact</h4>
+            <h4 className="text-white font-semibold uppercase tracking-wider text-xs mb-3">{t("footer_contact")}</h4>
             <p>212V Airport Hwy, Batumi 6000, Georgia</p>
             <p><a href="https://wa.me/995500194533" className="hover:text-white">WhatsApp: +995 500 194 533</a></p>
             <p><a href="mailto:rolling_saqartvelo@outlook.com" className="hover:text-white break-all">rolling_saqartvelo@outlook.com</a></p>
           </div>
           <div className="text-sm space-y-2">
-            <h4 className="text-white font-semibold uppercase tracking-wider text-xs mb-3">Navigate</h4>
-            <Link to="/" className="block hover:text-white">Home</Link>
-            <Link to="/cars" className="block hover:text-white">Cars</Link>
-            <Link to="/tours" className="block hover:text-white">Tours & Excursions</Link>
-            <Link to="/contact" className="block hover:text-white">Contact & Book</Link>
+            <h4 className="text-white font-semibold uppercase tracking-wider text-xs mb-3">{t("footer_navigate")}</h4>
+            <Link to="/" className="block hover:text-white">{t("nav_home")}</Link>
+            <Link to="/cars" className="block hover:text-white">{t("nav_cars")}</Link>
+            <Link to="/tours" className="block hover:text-white">{t("nav_tours")}</Link>
+            <Link to="/contact" className="block hover:text-white">{t("nav_contact")}</Link>
           </div>
         </div>
         <div className="border-t border-white/10 py-4 text-center text-xs text-white/50">

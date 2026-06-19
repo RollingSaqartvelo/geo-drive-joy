@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ArrowLeft, MapPin, Calendar, Users, CalendarDays } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { CARS } from "./cars";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/car/$slug")({
   component: CarDetailPage,
@@ -21,6 +22,7 @@ async function sendBookingToTelegram(text: string) {
 
 function CarDetailPage() {
   const { slug } = Route.useParams();
+  const { t } = useI18n();
   const car = CARS.find((c) => c.slug === slug);
   const [mainIdx, setMainIdx] = useState(0);
   const [showForm, setShowForm] = useState(false);
@@ -32,7 +34,7 @@ function CarDetailPage() {
       <SiteLayout>
         <div className="max-w-7xl mx-auto px-4 py-20 text-center">
           <h1 className="text-3xl font-bold mb-4">Car not found</h1>
-          <Link to="/cars" className="text-[var(--brand-blue)] underline">← Back to Cars</Link>
+          <Link to="/cars" className="text-[var(--brand-blue)] underline">{t("back_to_cars")}</Link>
         </div>
       </SiteLayout>
     );
@@ -71,7 +73,7 @@ function CarDetailPage() {
     <SiteLayout>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
         <Link to="/cars" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
-          <ArrowLeft className="h-4 w-4" /> Back to Cars
+          <ArrowLeft className="h-4 w-4" /> {t("back_to_cars")}
         </Link>
 
         <div className="grid lg:grid-cols-[1fr_380px] gap-10 items-start">
@@ -106,7 +108,7 @@ function CarDetailPage() {
             {/* Specs below photo */}
             {car.specs && car.specs.length > 0 && (
               <div className="mt-6">
-                <h2 className="text-lg font-bold mb-3">Specifications</h2>
+                <h2 className="text-lg font-bold mb-3">{t("specs_title")}</h2>
                 <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
                   {car.specs.map((spec) => (
                     <div key={spec.label} className="bg-card border rounded-xl p-4 text-center">
@@ -129,7 +131,7 @@ function CarDetailPage() {
             </div>
             <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
               <span className="inline-flex items-center gap-1.5"><Calendar className="h-4 w-4" />{car.year}</span>
-              {car.seats && <span className="inline-flex items-center gap-1.5"><Users className="h-4 w-4" />{car.seats} seats</span>}
+              {car.seats && <span className="inline-flex items-center gap-1.5"><Users className="h-4 w-4" />{car.seats} {t("seats_label")}</span>}
             </div>
             {car.description && <p className="mt-4 text-sm text-muted-foreground leading-relaxed">{car.description}</p>}
 
@@ -149,19 +151,19 @@ function CarDetailPage() {
                 onClick={() => setShowForm(true)}
                 className="mt-6 w-full h-12 rounded-xl bg-[var(--brand-tomato)] text-white font-bold text-base hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
               >
-                <CalendarDays className="h-5 w-5" /> Book this car
+                <CalendarDays className="h-5 w-5" /> {t("book_car")}
               </button>
             )}
 
             {/* Booking form */}
             {showForm && (
               <form onSubmit={handleSubmit} className="mt-6 border rounded-xl p-5 flex flex-col gap-4 bg-card">
-                <h3 className="font-bold text-lg text-[var(--brand-blue)]">Book {car.name}</h3>
+                <h3 className="font-bold text-lg text-[var(--brand-blue)]">{t("book_car")} — {car.name}</h3>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-muted-foreground font-medium">Full Name *</label>
+                  <label className="text-xs text-muted-foreground font-medium">{t("full_name")} *</label>
                   <input required value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                    className="border rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--brand-blue)]" placeholder="Your name" />
+                    className="border rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--brand-blue)]" placeholder={t("full_name")} />
                 </div>
 
                 <div className="flex flex-col gap-1">
@@ -172,19 +174,19 @@ function CarDetailPage() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs text-muted-foreground font-medium">Pickup date *</label>
+                    <label className="text-xs text-muted-foreground font-medium">{t("pickup_date")} *</label>
                     <input required type="date" value={form.from} onChange={e => setForm(f => ({ ...f, from: e.target.value }))}
                       className="border rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--brand-blue)]" />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs text-muted-foreground font-medium">Return date *</label>
+                    <label className="text-xs text-muted-foreground font-medium">{t("return_date")} *</label>
                     <input required type="date" value={form.to} onChange={e => setForm(f => ({ ...f, to: e.target.value }))}
                       className="border rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--brand-blue)]" />
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-muted-foreground font-medium">Number of persons</label>
+                  <label className="text-xs text-muted-foreground font-medium">{t("persons")}</label>
                   <select value={form.persons} onChange={e => setForm(f => ({ ...f, persons: e.target.value }))}
                     className="border rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--brand-blue)]">
                     {[1,2,3,4,5,6,7,8].map(n => <option key={n} value={n}>{n}</option>)}
@@ -192,27 +194,27 @@ function CarDetailPage() {
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-muted-foreground font-medium">Additional notes</label>
+                  <label className="text-xs text-muted-foreground font-medium">{t("notes")}</label>
                   <textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
                     className="border rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--brand-blue)] resize-none" rows={3}
-                    placeholder="Any questions or special requests..." />
+                    placeholder={t("notes_ph")} />
                 </div>
 
                 {status === "sent" && (
-                  <div className="text-green-600 text-sm font-medium text-center py-2">✓ Request sent! We'll contact you soon.</div>
+                  <div className="text-green-600 text-sm font-medium text-center py-2">{t("request_sent")}</div>
                 )}
                 {status === "error" && (
-                  <div className="text-red-500 text-sm text-center py-2">Something went wrong. Please try again.</div>
+                  <div className="text-red-500 text-sm text-center py-2">{t("send_error")}</div>
                 )}
 
                 <div className="flex gap-3">
                   <button type="button" onClick={() => setShowForm(false)}
                     className="flex-1 h-11 rounded-xl border text-sm font-medium hover:bg-muted transition-colors">
-                    Cancel
+                    {t("cancel")}
                   </button>
                   <button type="submit" disabled={status === "sending"}
                     className="flex-1 h-11 rounded-xl bg-[var(--brand-tomato)] text-white font-bold text-sm hover:opacity-90 transition-opacity disabled:opacity-50">
-                    {status === "sending" ? "Sending..." : "Send Request"}
+                    {status === "sending" ? t("sending") : t("send_request")}
                   </button>
                 </div>
               </form>
