@@ -298,10 +298,6 @@ function CarsPage() {
           </div>
         </div>
 
-        {/* Diagonal divider line */}
-        <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-          <div className="w-[2px] h-full bg-white/30 rotate-[8deg] shadow-lg" />
-        </div>
       </div>
 
       <section className="py-16 sm:py-20">
