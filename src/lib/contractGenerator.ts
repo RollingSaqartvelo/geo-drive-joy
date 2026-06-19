@@ -80,7 +80,7 @@ export function openContract(b: AdminBooking) {
     <td style="background:#f0f0f0;font-weight:bold;width:22%">Марка и модель</td>
     <td style="width:28%"><b>${b.carName}</b></td>
     <td colspan="2" rowspan="4">
-      <div class="diagram-area">Фото-видеофиксация повреждений&nbsp;☐</div>
+      <img src="/car-diagram.png" alt="Схема ТС" style="width:100%;max-height:140px;object-fit:contain;display:block" /><div style="text-align:center;font-size:8.5pt;margin-top:2pt">Фото-видеофиксация повреждений&nbsp;☐</div>
     </td>
   </tr>
   <tr>
