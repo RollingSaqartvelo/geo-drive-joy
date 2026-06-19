@@ -89,6 +89,7 @@ export const CARS: Car[] = [
     description: "Comfortable 8-seat minivan — ideal for family trips and group tours across Georgia.",
     specs: [{ label: "Engine", value: "3.6L V6" }, { label: "Power", value: "287 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "8" }, { label: "Class", value: "Minivan" }] },
   { name: "Discovery Land Rover", slug: "discovery-land-rover", year: 2023, price: 200, city: "tbilisi", images: [disc3, disc1, disc2],
+    tiers: [{ label: "1–3 days", price: 200 }, { label: "4–7 days", price: 180 }, { label: "7–15 days", price: 160 }],
     description: "The latest Land Rover Discovery — premium adventure-ready luxury SUV built for Georgia's diverse terrain.",
     specs: [{ label: "Engine", value: "3.0L I6" }, { label: "Power", value: "395 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury SUV" }] },
   { name: "Ford Mustang Cabrio", slug: "ford-mustang-cabrio", year: 2020, price: 150, city: "batumi", images: [{ url: "/mustang-bw.png" }, { url: "/mustang-2-new.png" }, { url: "/mustang-3-new.png" }],
