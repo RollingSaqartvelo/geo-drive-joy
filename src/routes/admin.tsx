@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Calendar, Car, LogOut } from "lucide-react";
+import { CalendarDays, Car, LogOut } from "lucide-react";
+import logo from "@/assets/logo.png.asset.json";
 
 export const Route = createFileRoute("/admin")({
   component: AdminLayout,
@@ -31,26 +32,23 @@ export function AdminLayout() {
 
   if (!authed) {
     return (
-      <div className="min-h-screen bg-[#0a1020] flex items-center justify-center">
-        <form onSubmit={login} className="bg-[#111d30] rounded-2xl p-8 w-80 flex flex-col gap-4 border border-white/5 shadow-2xl">
+      <div className="min-h-screen bg-gradient-to-br from-[var(--brand-blue)] to-[var(--brand-blue-dark,#0f1729)] flex items-center justify-center p-4">
+        <form onSubmit={login} className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-sm flex flex-col gap-4">
           <div className="text-center mb-2">
-            <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#c9a84c]/10 mb-4">
-              <span className="text-2xl">🔐</span>
-            </div>
-            <h1 className="text-2xl font-black text-white">GEOrent</h1>
-            <p className="text-white/40 text-sm mt-1">Admin Panel</p>
+            <img src={logo.url} alt="GEOrent" className="h-20 w-auto mx-auto mb-4" />
+            <p className="text-gray-500 text-sm">Панель управления</p>
           </div>
           <input
             type="password"
             value={pin}
             onChange={e => { setPin(e.target.value); setError(false); }}
             placeholder="PIN-код"
-            className="bg-[#0a1020] text-white border border-white/10 rounded-xl px-4 py-3 text-center text-2xl tracking-[0.5em] outline-none focus:border-[#c9a84c] transition-colors"
+            className={`border-2 rounded-xl px-4 py-3 text-center text-2xl tracking-[0.8em] outline-none transition-colors ${error ? "border-red-400 bg-red-50" : "border-gray-200 focus:border-[var(--brand-blue)]"}`}
             maxLength={6}
             autoFocus
           />
-          {error && <p className="text-red-400 text-sm text-center -mt-2">Неверный PIN</p>}
-          <button type="submit" className="bg-[#c9a84c] text-[#0a1020] font-bold rounded-xl py-3 hover:opacity-90 transition-opacity">
+          {error && <p className="text-red-500 text-sm text-center -mt-2">Неверный PIN</p>}
+          <button type="submit" className="bg-[var(--brand-blue)] text-white font-bold rounded-xl py-3 hover:opacity-90 transition-opacity">
             Войти
           </button>
         </form>
@@ -59,26 +57,25 @@ export function AdminLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a1020] flex">
+    <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
-      <aside className="w-56 shrink-0 bg-[#111d30] border-r border-white/5 flex flex-col">
-        <div className="p-5 border-b border-white/5">
-          <p className="text-[#c9a84c] font-black text-lg tracking-wide">GEOrent</p>
-          <p className="text-white/30 text-xs mt-0.5">Admin Panel</p>
+      <aside className="w-52 shrink-0 bg-white border-r border-gray-200 flex flex-col shadow-sm">
+        <div className="p-4 border-b border-gray-100 flex items-center justify-center">
+          <img src={logo.url} alt="GEOrent" className="h-14 w-auto" />
         </div>
         <nav className="flex-1 p-3 flex flex-col gap-1 mt-2">
           <Link to="/admin/calendar"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 [&.active]:bg-[#c9a84c]/10 [&.active]:text-[#c9a84c] transition-all">
-            <Calendar className="h-4 w-4 shrink-0" /> Календарь
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:text-[var(--brand-blue)] hover:bg-blue-50 [&.active]:bg-[var(--brand-blue)] [&.active]:text-white transition-all">
+            <CalendarDays className="h-4 w-4 shrink-0" /> Календарь
           </Link>
           <Link to="/admin/cars"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 [&.active]:bg-[#c9a84c]/10 [&.active]:text-[#c9a84c] transition-all">
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:text-[var(--brand-blue)] hover:bg-blue-50 [&.active]:bg-[var(--brand-blue)] [&.active]:text-white transition-all">
             <Car className="h-4 w-4 shrink-0" /> Автомобили
           </Link>
         </nav>
-        <div className="p-3 border-t border-white/5">
+        <div className="p-3 border-t border-gray-100">
           <button onClick={logout}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-white/30 hover:text-white hover:bg-white/5 w-full transition-all">
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-400 hover:text-red-500 hover:bg-red-50 w-full transition-all">
             <LogOut className="h-4 w-4" /> Выйти
           </button>
         </div>
