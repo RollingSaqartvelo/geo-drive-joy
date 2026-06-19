@@ -96,7 +96,7 @@ const CARS: Car[] = [
     tiers: [{ label: "1–3 days", price: 170 }, { label: "4–7 days", price: 140 }, { label: "8–15 days", price: 125 }] },
   { name: "BMW 430i", year: 2016, seats: 4, price: 100, city: "tbilisi",
     images: [{ url: "/bmw430i-1.avif" }, { url: "/bmw430i-2.avif" }, { url: "/bmw430i-3.webp" }],
-    tiers: [{ label: "1–3 days", price: 100 }, { label: "4–15 days", price: 90 }, { label: "15–30 days", price: 60 }] },
+    tiers: [{ label: "1–3 days", price: 110 }, { label: "4–15 days", price: 100 }, { label: "15–30 days", price: 70 }] },
   { name: "Mercedes GLE 350", year: 2020, seats: 5, price: 220, city: "tbilisi",
     images: [{ url: "/mercedes-gle-2.jpg" }, { url: "/mercedes-gle-1.jpg" }, { url: "/mercedes-gle-3.jpg" }, { url: "/mercedes-gle-4.jpg" }, { url: "/mercedes-gle-5.jpg" }, { url: "/mercedes-gle-6.jpg" }, { url: "/mercedes-gle-7.jpg" }, { url: "/mercedes-gle-8.jpg" }],
     tiers: [{ label: "1–2 days", price: 220 }, { label: "3–5 days", price: 200 }, { label: "5+ days", price: 180 }] },
