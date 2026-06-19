@@ -1,10 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { MessageCircle, Send } from "lucide-react";
 import logo from "@/assets/logo.png.asset.json";
 import { LanguageSwitcher, useI18n } from "@/lib/i18n";
-
-const WA = "https://wa.me/995500194533";
-const TG = "https://t.me/+995500194533";
 
 export function SiteLayout({ children }: { children: React.ReactNode }) {
   const { t } = useI18n();
@@ -57,17 +53,6 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
         </div>
       </footer>
 
-      {/* Floating buttons: Telegram + WhatsApp */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
-        <a href={TG} target="_blank" rel="noopener noreferrer" aria-label="Contact us on Telegram"
-          className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#2AABEE] text-white shadow-lg shadow-black/20 hover:scale-110 transition-transform">
-          <Send className="h-6 w-6" />
-        </a>
-        <a href={WA} target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp"
-          className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/20 hover:scale-110 transition-transform">
-          <MessageCircle className="h-7 w-7" />
-        </a>
-      </div>
     </div>
   );
 }
