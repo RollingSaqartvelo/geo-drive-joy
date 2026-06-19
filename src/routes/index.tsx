@@ -68,8 +68,46 @@ function Index() {
         </div>
       </section>
 
+      {/* Rental Terms */}
+      <section className="py-20 sm:py-24 bg-[var(--brand-blue)]">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 text-center">
+          <p className="uppercase tracking-[0.3em] text-xs text-white/50 mb-4">Conditions</p>
+          <h2 className="text-3xl sm:text-4xl font-black text-white mb-3" style={{ fontFamily: "Georgia, serif" }}>
+            Условия аренды
+          </h2>
+          <div className="flex items-center justify-center gap-3 mb-10">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[var(--brand-gold,#c9a84c)]" />
+            <span className="text-[var(--brand-gold,#c9a84c)] text-xl">✦</span>
+            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[var(--brand-gold,#c9a84c)]" />
+          </div>
+          <div className="grid sm:grid-cols-2 gap-4 text-left max-w-2xl mx-auto">
+            {[
+              { icon: "🪪", title: "Стаж от 2 лет", sub: "Минимальный водительский опыт" },
+              { icon: "🎂", title: "Возраст от 21 года", sub: "Обязательное условие для всех водителей" },
+              { icon: "💵", title: "Депозит 150$", sub: "Возвратный депозит на время аренды" },
+              { icon: "💴", title: "Оплата наличными", sub: "Принимаем только наличные" },
+            ].map(({ icon, title, sub }) => (
+              <div key={title} className="flex items-start gap-4 bg-white/5 border border-white/10 rounded-xl p-5">
+                <span className="text-2xl shrink-0">{icon}</span>
+                <div>
+                  <p className="font-bold text-white">{title}</p>
+                  <p className="text-sm text-white/60 mt-0.5">{sub}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 flex items-start gap-4 bg-amber-500/10 border border-amber-400/30 rounded-xl p-5 max-w-2xl mx-auto text-left">
+            <span className="text-2xl shrink-0">📋</span>
+            <div>
+              <p className="font-bold text-amber-300">Физические права обязательны</p>
+              <p className="text-sm text-white/70 mt-0.5">Электронные права в Грузии не действуют. Без физического удостоверения автомобиль не выдаётся.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA band */}
-      <section className="bg-[var(--brand-blue)] text-white py-16">
+      <section className="bg-[var(--brand-blue-dark,#0f1729)] text-white py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <h2 className="text-3xl sm:text-4xl font-extrabold">Ready when you are.</h2>

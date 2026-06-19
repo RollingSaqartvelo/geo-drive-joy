@@ -227,6 +227,25 @@ function ContactPage() {
                 <p className="text-white/85 text-sm">+995 500 194 533 — write anytime</p>
               </div>
             </a>
+
+            {/* Rental Terms */}
+            <div className="rounded-2xl border-2 border-[var(--brand-blue)]/20 bg-[var(--brand-blue)]/5 p-6">
+              <h3 className="text-lg font-bold text-[var(--brand-blue)] mb-4">Условия аренды</h3>
+              <ul className="space-y-3">
+                {[
+                  { icon: "🪪", text: "Стаж вождения от 2 лет" },
+                  { icon: "🎂", text: "Возраст от 21 года" },
+                  { icon: "💵", text: "Возвратный депозит 150$ на время аренды" },
+                  { icon: "💴", text: "Оплата наличными" },
+                  { icon: "📋", text: "Физические права обязательны — электронные права в Грузии не действуют, без физических прав автомобиль не выдаётся" },
+                ].map(({ icon, text }) => (
+                  <li key={text} className="flex items-start gap-3 text-sm text-muted-foreground">
+                    <span className="text-base shrink-0 mt-0.5">{icon}</span>
+                    <span>{text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
         </div>
