@@ -105,6 +105,7 @@ export const CARS: Car[] = [
     description: "Spacious KIA Sedona minivan — comfortable transport for large groups and family vacations in Georgia.",
     specs: [{ label: "Engine", value: "3.3L V6" }, { label: "Power", value: "276 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "8" }, { label: "Class", value: "Minivan" }] },
   { name: "Jeep Wrangler", slug: "jeep-wrangler", year: 2016, price: 160, city: "batumi", images: [wrangler1, wrangler2],
+    tiers: [{ label: "1–3 days", price: 160 }, { label: "4–7 days", price: 150 }, { label: "7–15 days", price: 130 }],
     description: "Classic Jeep Wrangler — unstoppable off-road performance for Batumi's wildest adventures.",
     specs: [{ label: "Engine", value: "3.6L V6" }, { label: "Power", value: "285 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Off-Road" }] },
   { name: "BMW 740i", slug: "bmw-740i", year: 2014, price: 150, city: "batumi", images: [bmw740a, bmw740b, bmw740c, bmw740d, bmw740e, bmw740f, bmw740g],
