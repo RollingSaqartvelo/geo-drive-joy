@@ -56,6 +56,7 @@ import wr19f from "@/assets/wrangler2019-6.jpg.asset.json";
 import x5a from "@/assets/bmwx5-1.avif.asset.json";
 import x5b from "@/assets/bmwx5-2.avif.asset.json";
 import x5c from "@/assets/bmwx5-3.avif.asset.json";
+import x5e from "@/assets/bmwx5-5.avif.asset.json";
 
 type City = "batumi" | "tbilisi";
 
@@ -81,7 +82,7 @@ const CARS: Car[] = [
   { name: "KIA Sedona", year: 2016, seats: 8, price: 90, city: "batumi", images: [sedona1, sedona2, sedona3] },
   { name: "Jeep Wrangler", year: 2016, price: 160, city: "batumi", images: [wrangler1, wrangler2] },
   { name: "BMW 740i", year: 2014, price: 150, city: "tbilisi", images: [bmw740a, bmw740b, bmw740c, bmw740d, bmw740e, bmw740f, bmw740g] },
-  { name: "BMW X5 Hybrid", year: 2020, price: 180, city: "tbilisi", images: [x5a, x5b, x5c] },
+  { name: "BMW X5 Hybrid", year: 2020, price: 180, city: "tbilisi", images: [x5a, x5b, x5c, x5e] },
   { name: "Toyota Prius", year: 2017, price: 45, city: "batumi", images: [prius1, prius2] },
   { name: "Jeep Wrangler Sahara", year: 2019, price: 120, priceMax: 170, city: "tbilisi", images: [wr19a, wr19b, wr19c, wr19d, wr19e, wr19f] },
 ];
