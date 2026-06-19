@@ -75,6 +75,11 @@ export type Car = {
 };
 
 export const CARS: Car[] = [
+  { name: "Mercedes E350", slug: "mercedes-e350", year: 2015, seats: 5, price: 100, city: "batumi",
+    images: [{ url: "/mercedes-e350-1.jpg" }, { url: "/mercedes-e350-2.jpg" }, { url: "/mercedes-e350-3.jpg" }, { url: "/mercedes-e350-4.jpg" }],
+    tiers: [{ label: "1–3 days", price: 100 }, { label: "4–7 days", price: 90 }, { label: "7–15 days", price: 80 }],
+    description: "Elegant Mercedes-Benz E350 AMG Line — premium German sedan with refined comfort and powerful performance for Batumi's roads.",
+    specs: [{ label: "Engine", value: "3.5L V6" }, { label: "Power", value: "302 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury Sedan" }] },
   { name: "Ford Mustang Cabrio", slug: "ford-mustang-cabrio", year: 2020, price: 150, city: "batumi", images: [{ url: "/mustang-bw.png" }, { url: "/mustang-2-new.png" }, { url: "/mustang-3-new.png" }],
     tiers: [{ label: "1–3 days", price: 150 }, { label: "4–7 days", price: 140 }, { label: "7–15 days", price: 130 }],
     description: "Feel the freedom on Batumi's coastal roads in this iconic American convertible sports car.",
