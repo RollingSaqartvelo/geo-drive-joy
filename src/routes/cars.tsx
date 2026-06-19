@@ -88,6 +88,7 @@ export const CARS: Car[] = [
     description: "Spacious 7-seat Range Rover — luxury for the whole group with superior off-road capability and first-class comfort.",
     specs: [{ label: "Engine", value: "3.0L V6" }, { label: "Power", value: "340 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "7" }, { label: "Class", value: "Luxury SUV" }] },
   { name: "Chrysler Pacifica", slug: "chrysler-pacifica", year: 2015, seats: 8, price: 90, city: "tbilisi", images: [pac1, pac2, pac3, pac4],
+    tiers: [{ label: "1–3 days", price: 90 }, { label: "4–7 days", price: 80 }, { label: "7–15 days", price: 70 }],
     description: "Comfortable 8-seat minivan — ideal for family trips and group tours across Georgia.",
     specs: [{ label: "Engine", value: "3.6L V6" }, { label: "Power", value: "287 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "8" }, { label: "Class", value: "Minivan" }] },
   { name: "Discovery Land Rover", slug: "discovery-land-rover", year: 2023, price: 200, city: "tbilisi", images: [disc3, disc1, disc2],
