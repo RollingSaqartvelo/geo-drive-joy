@@ -199,7 +199,7 @@ function CarCard({ car }: { car: Car }) {
   const hero = car.images?.[0];
   return (
     <Link to="/car/$slug" params={{ slug: car.slug }} className="block group">
-      <article className="rounded-2xl overflow-hidden bg-card border shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all h-full">
+      <article className="rounded-2xl overflow-hidden bg-card border shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all h-full flex flex-col">
         <div className="aspect-[4/3] bg-muted relative overflow-hidden">
           {hero ? (
             <img src={hero.url} alt={car.name} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -209,7 +209,7 @@ function CarCard({ car }: { car: Car }) {
             </div>
           )}
         </div>
-        <div className="p-6">
+        <div className="p-6 flex flex-col flex-1">
           <div className="flex items-start justify-between gap-2">
             <h3 className="text-xl font-bold text-[var(--brand-blue)]">{car.name}</h3>
             <span className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full bg-[var(--brand-blue)]/10 text-[var(--brand-blue)] whitespace-nowrap">
@@ -237,7 +237,7 @@ function CarCard({ car }: { car: Car }) {
               </span>
             )}
           </div>
-          <div className="mt-5 w-full h-11 bg-[var(--brand-tomato)] text-white font-semibold rounded-lg flex items-center justify-center text-sm transition-colors group-hover:bg-[var(--brand-tomato)]/90">
+          <div className="mt-auto pt-5 w-full h-11 bg-[var(--brand-tomato)] text-white font-semibold rounded-lg flex items-center justify-center text-sm transition-colors group-hover:bg-[var(--brand-tomato)]/90">
             View Details →
           </div>
         </div>
