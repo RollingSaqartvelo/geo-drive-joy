@@ -260,26 +260,47 @@ function CarsPage() {
         </div>
       </section>
 
-      {/* City filter */}
-      <div className="sticky top-16 z-30 bg-background border-b shadow-sm">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-4 flex items-center gap-3">
-          <MapPin className="h-4 w-4 text-muted-foreground shrink-0" />
-          <span className="text-sm font-medium text-muted-foreground mr-2">City:</span>
-          {(["batumi", "tbilisi"] as City[]).map((c) => (
-            <button
-              key={c}
-              onClick={() => setCity(c)}
-              className={
-                "px-6 py-2 rounded-full text-sm font-semibold transition-all border-2 " +
-                (city === c
-                  ? "bg-[var(--brand-blue)] text-white border-[var(--brand-blue)] shadow-md"
-                  : "bg-white text-[var(--brand-blue)] border-[var(--brand-blue)]/30 hover:border-[var(--brand-blue)]")
-              }
-            >
-              {c === "batumi" ? "🌊 Batumi" : "🏙️ Tbilisi"}
-            </button>
-          ))}
-          <span className="ml-auto text-xs text-muted-foreground">{filtered.length} cars</span>
+      {/* City selector — diagonal split */}
+      <div className="relative h-48 sm:h-64 w-full overflow-hidden cursor-pointer select-none">
+        {/* BATUMI — left */}
+        <div
+          onClick={() => setCity("batumi")}
+          className="absolute inset-0 transition-all duration-500"
+          style={{ clipPath: "polygon(0 0, 58% 0, 48% 100%, 0 100%)" }}
+        >
+          <img src="/batumi-panorama.jpg" alt="Batumi" className="h-full w-full object-cover object-center" />
+          <div className={`absolute inset-0 transition-all duration-500 ${city === "batumi" ? "bg-[var(--brand-blue)]/30" : "bg-black/55"}`} />
+          <div className="absolute inset-0 flex flex-col items-start justify-center pl-8 sm:pl-16">
+            <p className="text-white/70 text-xs uppercase tracking-widest mb-1">Black Sea Coast</p>
+            <h2 className="text-white font-black text-3xl sm:text-5xl drop-shadow-lg" style={{ fontFamily: "Georgia, serif" }}>Batumi</h2>
+            <p className="text-white/80 text-sm mt-1">{CARS.filter(c => c.city === "batumi").length} cars available</p>
+            {city === "batumi" && (
+              <span className="mt-3 px-3 py-1 rounded-full bg-white/20 border border-white/40 text-white text-xs font-semibold backdrop-blur-sm">Selected ✓</span>
+            )}
+          </div>
+        </div>
+
+        {/* TBILISI — right */}
+        <div
+          onClick={() => setCity("tbilisi")}
+          className="absolute inset-0 transition-all duration-500"
+          style={{ clipPath: "polygon(52% 0, 100% 0, 100% 100%, 42% 100%)" }}
+        >
+          <img src="/tbilisi-panorama.jpg" alt="Tbilisi" className="h-full w-full object-cover object-center" />
+          <div className={`absolute inset-0 transition-all duration-500 ${city === "tbilisi" ? "bg-[var(--brand-blue)]/30" : "bg-black/55"}`} />
+          <div className="absolute inset-0 flex flex-col items-end justify-center pr-8 sm:pr-16">
+            <p className="text-white/70 text-xs uppercase tracking-widest mb-1">Capital City</p>
+            <h2 className="text-white font-black text-3xl sm:text-5xl drop-shadow-lg" style={{ fontFamily: "Georgia, serif" }}>Tbilisi</h2>
+            <p className="text-white/80 text-sm mt-1">{CARS.filter(c => c.city === "tbilisi").length} cars available</p>
+            {city === "tbilisi" && (
+              <span className="mt-3 px-3 py-1 rounded-full bg-white/20 border border-white/40 text-white text-xs font-semibold backdrop-blur-sm">Selected ✓</span>
+            )}
+          </div>
+        </div>
+
+        {/* Diagonal divider line */}
+        <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+          <div className="w-[2px] h-full bg-white/30 rotate-[8deg] shadow-lg" />
         </div>
       </div>
 
