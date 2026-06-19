@@ -108,6 +108,7 @@ export const CARS: Car[] = [
     description: "Classic Jeep Wrangler — unstoppable off-road performance for Batumi's wildest adventures.",
     specs: [{ label: "Engine", value: "3.6L V6" }, { label: "Power", value: "285 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Off-Road" }] },
   { name: "BMW 740i", slug: "bmw-740i", year: 2014, price: 150, city: "batumi", images: [bmw740a, bmw740b, bmw740c, bmw740d, bmw740e, bmw740f, bmw740g],
+    tiers: [{ label: "1–3 days", price: 150 }, { label: "4–7 days", price: 140 }, { label: "7–15 days", price: 130 }],
     description: "Prestigious BMW 7 Series — the pinnacle of luxury sedans with a smooth inline-6 engine and first-class comfort.",
     specs: [{ label: "Engine", value: "3.0L I6 Turbo" }, { label: "Power", value: "326 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury Sedan" }] },
   { name: "BMW X5 Hybrid", slug: "bmw-x5-hybrid", year: 2020, price: 125, city: "tbilisi", images: [x5a, x5b, x5c, x5e, x5f],
