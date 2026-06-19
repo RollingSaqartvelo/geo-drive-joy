@@ -13,7 +13,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-40 bg-[var(--brand-blue)] text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
           <Link to="/" className="flex items-center gap-2">
-            <img src={logo.url} alt="GEOrent" className="h-10 w-auto" />
+            <img src={logo.url} alt="GEOrent" className="h-16 w-auto" />
             <span className="sr-only">GEOrent</span>
           </Link>
           <div className="flex items-center gap-2 sm:gap-4">
@@ -35,7 +35,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
       <footer className="bg-[var(--brand-blue-dark)] text-white/90">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 grid gap-8 md:grid-cols-3">
           <div>
-            <img src={logo.url} alt="GEOrent" className="h-14 w-auto bg-white rounded-md p-1.5 mb-4" />
+            <img src={logo.url} alt="GEOrent" className="h-20 w-auto mb-4" />
             <p className="text-sm text-white/70 max-w-xs">Premium car rental & tours across Georgia.</p>
           </div>
           <div className="text-sm space-y-2">
