@@ -237,8 +237,10 @@ function CarCard({ car }: { car: Car }) {
               </span>
             )}
           </div>
-          <div className="mt-auto pt-5 w-full h-11 bg-[var(--brand-tomato)] text-white font-semibold rounded-lg flex items-center justify-center text-sm transition-colors group-hover:bg-[var(--brand-tomato)]/90">
-            View Details →
+          <div className="mt-auto pt-4">
+            <div className="w-full h-11 bg-[var(--brand-tomato)] text-white font-semibold rounded-lg flex items-center justify-center text-sm transition-colors group-hover:bg-[var(--brand-tomato)]/90">
+              View Details →
+            </div>
           </div>
         </div>
       </article>
