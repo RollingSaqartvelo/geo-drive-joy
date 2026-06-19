@@ -126,7 +126,7 @@ export const CARS: Car[] = [
     tiers: [{ label: "1–3 days", price: 90 }, { label: "4–7 days", price: 80 }, { label: "8–15 days", price: 70 }],
     description: "Spacious KIA Sedona minivan — comfortable transport for large groups and family vacations in Georgia.",
     specs: [{ label: "Engine", value: "3.3L V6" }, { label: "Power", value: "276 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "8" }, { label: "Class", value: "Minivan" }] },
-  { name: "Jeep Wrangler", slug: "jeep-wrangler", year: 2016, price: 160, city: "batumi", images: [wrangler1, wrangler2],
+  { name: "Jeep Wrangler", slug: "jeep-wrangler", year: 2016, price: 160, city: "batumi", images: [{ url: "/wrangler-1.jpg" }, { url: "/wrangler-2.jpg" }],
     tiers: [{ label: "1–3 days", price: 160 }, { label: "4–7 days", price: 150 }, { label: "7–15 days", price: 130 }],
     description: "Classic Jeep Wrangler — unstoppable off-road performance for Batumi's wildest adventures.",
     specs: [{ label: "Engine", value: "3.6L V6" }, { label: "Power", value: "285 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Off-Road" }] },
