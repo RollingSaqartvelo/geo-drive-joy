@@ -73,7 +73,8 @@ function Index() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <h2 className="text-3xl sm:text-4xl font-extrabold">Ready when you are.</h2>
-            <p className="text-white/75 mt-2">Send a request — we'll confirm availability fast.</p>
+            <p className="text-white/90 mt-2 text-sm font-medium">All our cars are new, well-maintained and fully insured (CASCO, tires excluded).</p>
+            <p className="text-white/60 mt-1 text-sm">Send a request — we'll confirm availability fast.</p>
           </div>
           <RequestRentalModal
             trigger={
