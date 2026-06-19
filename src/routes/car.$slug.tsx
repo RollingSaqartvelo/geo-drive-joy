@@ -4,7 +4,7 @@ import { ArrowLeft, MapPin, Calendar, Users, MessageCircle, Send } from "lucide-
 import { SiteLayout } from "@/components/SiteLayout";
 import { CARS } from "./cars";
 
-export const Route = createFileRoute("/cars/$slug")({
+export const Route = createFileRoute("/car/$slug")({
   component: CarDetailPage,
 });
 

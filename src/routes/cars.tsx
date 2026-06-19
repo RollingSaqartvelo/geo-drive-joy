@@ -183,7 +183,7 @@ export const Route = createFileRoute("/cars")({
 function CarCard({ car }: { car: Car }) {
   const hero = car.images?.[0];
   return (
-    <Link to="/cars/$slug" params={{ slug: car.slug }} className="block group">
+    <Link to="/car/$slug" params={{ slug: car.slug }} className="block group">
       <article className="rounded-2xl overflow-hidden bg-card border shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all h-full">
         <div className="aspect-[4/3] bg-muted relative overflow-hidden">
           {hero ? (
