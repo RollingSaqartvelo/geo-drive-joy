@@ -91,7 +91,7 @@ export const CARS: Car[] = [
   { name: "Discovery Land Rover", slug: "discovery-land-rover", year: 2023, price: 200, city: "tbilisi", images: [disc3, disc1, disc2],
     description: "The latest Land Rover Discovery — premium adventure-ready luxury SUV built for Georgia's diverse terrain.",
     specs: [{ label: "Engine", value: "3.0L I6" }, { label: "Power", value: "395 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury SUV" }] },
-  { name: "Ford Mustang Cabrio", slug: "ford-mustang-cabrio", year: 2020, price: 130, city: "batumi", images: [mustang2, mustang1, mustang3, mustang4],
+  { name: "Ford Mustang Cabrio", slug: "ford-mustang-cabrio", year: 2020, price: 130, city: "batumi", images: [{ url: "/mustang-bw.png" }, { url: "/mustang-2-new.png" }, { url: "/mustang-3-new.png" }],
     description: "Feel the freedom on Batumi's coastal roads in this iconic American convertible sports car.",
     specs: [{ label: "Engine", value: "2.3L I4 Turbo" }, { label: "Power", value: "310 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "4" }, { label: "Class", value: "Convertible" }] },
   { name: "BMW X4 3.0L", slug: "bmw-x4", year: 2019, price: 120, city: "batumi", images: [bmwx4a, bmwx4b, bmwx4c],
