@@ -31,7 +31,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
       <footer className="bg-[var(--brand-blue-dark)] text-white/90">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 grid gap-8 md:grid-cols-3">
           <div>
-            <img src={logo.url} alt="GEOrent" className="h-40 w-auto mb-4 -mt-[5px]" />
+            <img src={logo.url} alt="GEOrent" className="h-80 w-auto mb-4 -mt-[5px]" />
             <p className="text-sm text-white/70 max-w-xs">Premium car rental & tours across Georgia.</p>
           </div>
           <div className="text-sm space-y-2">

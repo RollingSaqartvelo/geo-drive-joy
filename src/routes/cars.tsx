@@ -176,6 +176,11 @@ export const CARS: Car[] = [
     tiers: [{ label: "1–3 days", price: 110 }, { label: "4–7 days", price: 100 }, { label: "8–30 days", price: 75 }],
     description: "The Lexus RX 350 — Japanese luxury SUV with a smooth V6 engine, plush interior and outstanding reliability.",
     specs: [{ label: "Engine", value: "3.5L V6" }, { label: "Power", value: "295 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury SUV" }] },
+  { name: "Ford Bronco Badlands", slug: "ford-bronco-badlands", year: 2022, seats: 5, price: 220, city: "tbilisi",
+    images: [{ url: "/ford-bronco-1.avif" }, { url: "/ford-bronco-2.avif" }, { url: "/ford-bronco-3.avif" }, { url: "/ford-bronco-4.avif" }],
+    tiers: [{ label: "1 day", price: 220 }, { label: "2–3 days", price: 200 }, { label: "4–7 days", price: 180 }, { label: "8–30 days", price: 100 }],
+    description: "Adventure-ready Ford Bronco Badlands — a powerful 4x4 SUV built for exploring Georgia's mountains and countryside roads. Features leather seats, 12-inch touchscreen, blind spot monitoring and lane departure warnings.",
+    specs: [{ label: "Engine", value: "2.7L V6" }, { label: "Power", value: "330 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Off-Road SUV" }] },
 ];
 
 export const Route = createFileRoute("/cars")({
