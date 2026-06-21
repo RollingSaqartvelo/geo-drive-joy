@@ -78,7 +78,7 @@ export type Car = {
 export const CARS: Car[] = [
   { name: "Toyota RAV4 Hybrid Plug-In", slug: "toyota-rav4-hybrid", year: 2023, seats: 5, price: 60, city: "batumi",
     images: [{ url: "/toyota-rav4-1.avif" }, { url: "/toyota-rav4-2.avif" }, { url: "/toyota-rav4-3.avif" }, { url: "/toyota-rav4-4.avif" }, { url: "/toyota-rav4-5.avif" }, { url: "/toyota-rav4-6.avif" }, { url: "/toyota-rav4-7.avif" }],
-    tiers: [{ label: "1–3 days", price: 70 }, { label: "4–7 days", price: 60 }, { label: "7–15 days", price: 50 }, { label: "15–30 days", price: 40 }],
+    tiers: [{ label: "1–3 days", price: 70 }, { label: "4–7 days", price: 60 }, { label: "7–15 days", price: 55 }, { label: "15–30 days", price: 40 }],
     description: "Toyota RAV4 2023 Hybrid Plug-In — полная комплектация, полный привод AWD, экономичный гибридный двигатель с возможностью зарядки от сети. Мощный и экономичный SUV для любых дорог Грузии.",
     specs: [{ label: "Engine", value: "2.5L Hybrid" }, { label: "Type", value: "Plug-In" }, { label: "Drive", value: "AWD" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }] },
   { name: "Subaru Crosstrek Limited", slug: "subaru-crosstrek-limited", year: 2022, seats: 5, price: 65, city: "batumi",
