@@ -79,6 +79,7 @@ export type Car = {
   vehicleOwner?: string;
   mileage?: number;
   mileageUnit?: "km" | "mi";
+  commission?: number;
 };
 
 export const CARS: Car[] = [
@@ -87,23 +88,23 @@ export const CARS: Car[] = [
     tiers: [{ label: "1–3 days", price: 75 }, { label: "4–7 days", price: 65 }, { label: "7–15 days", price: 60 }, { label: "15–30 days", price: 50 }],
     description: "Toyota RAV4 2023 Hybrid Plug-In — полная комплектация, полный привод AWD, экономичный гибридный двигатель с возможностью зарядки от сети. Мощный и экономичный SUV для любых дорог Грузии.",
     specs: [{ label: "Engine", value: "2.5L Hybrid" }, { label: "Type", value: "Plug-In" }, { label: "Drive", value: "AWD" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }],
-    plate: "UU174ZU", receiptNo: "BVA0999848", vehicleOwner: "SHAKARISHVILI TEMUR", mileage: 133000, mileageUnit: "km" },
+    plate: "UU174ZU", receiptNo: "BVA0999848", vehicleOwner: "SHAKARISHVILI TEMUR", mileage: 133000, mileageUnit: "km", commission: 30 },
   { name: "Subaru Crosstrek Limited", slug: "subaru-crosstrek-limited", year: 2022, seats: 5, price: 65, city: "batumi",
     images: [{ url: "/subaru-crosstrek-1.avif" }, { url: "/subaru-crosstrek-2.avif" }, { url: "/subaru-crosstrek-3.avif" }, { url: "/subaru-crosstrek-4.avif" }, { url: "/subaru-crosstrek-5.avif" }, { url: "/subaru-crosstrek-6.avif" }],
     tiers: [{ label: "1–3 days", price: 65 }, { label: "4–7 days", price: 60 }, { label: "7–15 days", price: 55 }, { label: "15–30 days", price: 40 }],
     description: "Subaru Crosstrek 2022 Limited — полная комплектация, полный привод AWD, подогрев сидений, камера заднего вида. Универсальный кроссовер для города и горных дорог Грузии.",
     specs: [{ label: "Engine", value: "2.0L" }, { label: "Drive", value: "AWD" }, { label: "Trim", value: "Limited" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }],
-    plate: "TS278TT", vin: "JFGTHNCXMH681462", receiptNo: "BVA1860180", vehicleOwner: "KAKHA BERIDZE", mileage: 49100 },
+    plate: "TS278TT", vin: "JFGTHNCXMH681462", receiptNo: "BVA1860180", vehicleOwner: "KAKHA BERIDZE", mileage: 49100, commission: 30 },
   { name: "Ford Fusion Plug-In", slug: "ford-fusion-plugin", year: 2016, seats: 5, price: 45, city: "batumi",
     images: [{ url: "/ford-fusion-1.avif" }, { url: "/ford-fusion-2.avif" }, { url: "/ford-fusion-3.avif" }, { url: "/ford-fusion-4.avif" }, { url: "/ford-fusion-5.avif" }, { url: "/ford-fusion-6.avif" }, { url: "/ford-fusion-7.avif" }],
     tiers: [{ label: "1–3 days", price: 45 }, { label: "4–7 days", price: 42 }, { label: "7–15 days", price: 40 }, { label: "15–30 days", price: 35 }],
     description: "Ford Fusion 2016 Plug-In Hybrid — экономичный гибридный седан с возможностью зарядки от сети. Отличный выбор для городских поездок по Батуми с минимальными расходами на топливо.",
-    specs: [{ label: "Engine", value: "2.0L Hybrid" }, { label: "Type", value: "Plug-In" }, { label: "Transmission", value: "CVT" }, { label: "Seats", value: "5" }, { label: "Class", value: "Sedan" }] },
+    specs: [{ label: "Engine", value: "2.0L Hybrid" }, { label: "Type", value: "Plug-In" }, { label: "Transmission", value: "CVT" }, { label: "Seats", value: "5" }, { label: "Class", value: "Sedan" }], commission: 30 },
   { name: "Subaru Forester", slug: "subaru-forester", year: 2022, seats: 5, price: 75, city: "batumi",
     images: [{ url: "/subaru-forester-1.avif" }, { url: "/subaru-forester-2.avif" }, { url: "/subaru-forester-3.avif" }, { url: "/subaru-forester-4.avif" }],
     tiers: [{ label: "1–3 days", price: 75 }, { label: "4–7 days", price: 65 }, { label: "7–15 days", price: 60 }, { label: "15–30 days", price: 50 }],
     description: "Subaru Forester 2022 — надёжный полноприводный кроссовер с просторным салоном, идеально подходящий для поездок по Батуми и горным маршрутам Грузии.",
-    specs: [{ label: "Engine", value: "2.5L" }, { label: "Drive", value: "AWD" }, { label: "Transmission", value: "CVT" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }] },
+    specs: [{ label: "Engine", value: "2.5L" }, { label: "Drive", value: "AWD" }, { label: "Transmission", value: "CVT" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }], commission: 30 },
   { name: "Mercedes E350", slug: "mercedes-e350", year: 2015, seats: 5, price: 100, city: "batumi",
     images: [{ url: "/mercedes-e350-1.jpg" }, { url: "/mercedes-e350-2.jpg" }, { url: "/mercedes-e350-3.jpg" }, { url: "/mercedes-e350-4.jpg" }],
     tiers: [{ label: "1–3 days", price: 100 }, { label: "4–7 days", price: 90 }, { label: "7–15 days", price: 80 }],
