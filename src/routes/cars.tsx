@@ -76,6 +76,11 @@ export type Car = {
 };
 
 export const CARS: Car[] = [
+  { name: "Ford Fusion Plug-In", slug: "ford-fusion-plugin", year: 2016, seats: 5, price: 45, city: "batumi",
+    images: [{ url: "/ford-fusion-1.avif" }, { url: "/ford-fusion-2.avif" }, { url: "/ford-fusion-3.avif" }, { url: "/ford-fusion-4.avif" }, { url: "/ford-fusion-5.avif" }, { url: "/ford-fusion-6.avif" }, { url: "/ford-fusion-7.avif" }],
+    tiers: [{ label: "1–3 days", price: 45 }, { label: "4–7 days", price: 42 }, { label: "7–15 days", price: 40 }, { label: "15–30 days", price: 35 }],
+    description: "Ford Fusion 2016 Plug-In Hybrid — экономичный гибридный седан с возможностью зарядки от сети. Отличный выбор для городских поездок по Батуми с минимальными расходами на топливо.",
+    specs: [{ label: "Engine", value: "2.0L Hybrid" }, { label: "Type", value: "Plug-In" }, { label: "Transmission", value: "CVT" }, { label: "Seats", value: "5" }, { label: "Class", value: "Sedan" }] },
   { name: "Subaru Forester", slug: "subaru-forester", year: 2022, seats: 5, price: 65, city: "batumi",
     images: [{ url: "/subaru-forester-1.avif" }, { url: "/subaru-forester-2.avif" }, { url: "/subaru-forester-3.avif" }, { url: "/subaru-forester-4.avif" }],
     tiers: [{ label: "1–3 days", price: 65 }, { label: "4–7 days", price: 55 }, { label: "7–15 days", price: 50 }],
