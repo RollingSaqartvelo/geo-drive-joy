@@ -247,7 +247,7 @@ function CarCard({ car }: { car: Car }) {
       <article className="rounded-2xl overflow-hidden bg-card border shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all h-full flex flex-col">
         <div className="aspect-[4/3] bg-muted relative overflow-hidden">
           {hero ? (
-            <img src={hero.url} alt={car.name} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <img src={hero.url} alt={car.name} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" />
           ) : (
             <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-muted to-muted-foreground/10 text-center p-4">
               <span className="text-muted-foreground font-medium">{car.name}</span>

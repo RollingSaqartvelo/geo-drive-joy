@@ -80,7 +80,7 @@ function PhotoModal({ car, onClose }: { car: typeof CARS[0]; onClose: () => void
             <div className="grid grid-cols-3 gap-3 mb-5">
               {photos.map((url, idx) => (
                 <div key={idx} className="relative group aspect-[4/3] rounded-xl overflow-hidden border border-gray-100">
-                  <img src={url} alt={`${car.name} ${idx + 1}`} className="h-full w-full object-cover" />
+                  <img src={url} alt={`${car.name} ${idx + 1}`} className="h-full w-full object-cover" loading="lazy" decoding="async" />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center">
                     <button onClick={() => remove(idx)}
                       className="opacity-0 group-hover:opacity-100 transition-opacity bg-red-500 text-white rounded-full h-8 w-8 flex items-center justify-center shadow-lg hover:bg-red-600">
@@ -189,7 +189,7 @@ function AdminCars() {
               {/* Thumbnail */}
               <div className="aspect-[16/9] bg-gray-100 relative overflow-hidden">
                 {thumb
-                  ? <img src={thumb} alt={car.name} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                  ? <img src={thumb} alt={car.name} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" decoding="async" />
                   : <div className="h-full w-full flex items-center justify-center text-gray-300"><ImageIcon className="h-12 w-12" /></div>
                 }
                 <div className="absolute top-2 right-2 bg-black/50 backdrop-blur-sm text-white text-xs rounded-full px-2.5 py-1 font-semibold">

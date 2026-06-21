@@ -84,14 +84,14 @@ function CarDetailPage() {
                 {images.slice(0, 4).map((img, i) => (
                   <button key={i} onClick={() => setMainIdx(i)}
                     className={`aspect-[4/3] rounded-lg overflow-hidden border-2 transition-all ${mainIdx === i ? "border-[var(--brand-blue)] opacity-100" : "border-transparent opacity-60 hover:opacity-100"}`}>
-                    <img src={img.url} alt={`${car.name} ${i + 1}`} className="h-full w-full object-cover" />
+                    <img src={img.url} alt={`${car.name} ${i + 1}`} className="h-full w-full object-cover" loading="lazy" decoding="async" />
                   </button>
                 ))}
               </div>
             )}
             {mainImage && (
               <div className="aspect-[16/9] rounded-2xl overflow-hidden bg-muted flex items-center justify-center">
-                <img src={mainImage.url} alt={car.name} className="h-full w-full object-contain" />
+                <img src={mainImage.url} alt={car.name} className="h-full w-full object-contain" fetchPriority="high" decoding="async" />
               </div>
             )}
             {images.length > 4 && (
@@ -99,7 +99,7 @@ function CarDetailPage() {
                 {images.slice(4).map((img, i) => (
                   <button key={i + 4} onClick={() => setMainIdx(i + 4)}
                     className={`aspect-[4/3] rounded-lg overflow-hidden border-2 transition-all ${mainIdx === i + 4 ? "border-[var(--brand-blue)] opacity-100" : "border-transparent opacity-60 hover:opacity-100"}`}>
-                    <img src={img.url} alt={`${car.name} ${i + 5}`} className="h-full w-full object-cover object-bottom" />
+                    <img src={img.url} alt={`${car.name} ${i + 5}`} className="h-full w-full object-cover object-bottom" loading="lazy" decoding="async" />
                   </button>
                 ))}
               </div>

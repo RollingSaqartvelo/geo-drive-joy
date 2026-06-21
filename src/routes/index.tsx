@@ -25,7 +25,7 @@ function Index() {
     <SiteLayout>
       {/* Hero */}
       <section className="relative h-[calc(100vh-4rem)] min-h-[560px] w-full overflow-hidden">
-        <img src={hero.url} alt="Premium car on a Georgian mountain road" className="absolute inset-0 h-full w-full object-cover" />
+        <img src={hero.url} alt="Premium car on a Georgian mountain road" className="absolute inset-0 h-full w-full object-cover" fetchPriority="high" decoding="async" />
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--brand-blue)]/85 via-[var(--brand-blue)]/55 to-black/40" />
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 h-full flex flex-col justify-center text-white">
           <p className="uppercase tracking-[0.25em] text-xs sm:text-sm text-white/80 mb-4 animate-in fade-in slide-in-from-bottom-2 duration-700">GEOrent</p>
