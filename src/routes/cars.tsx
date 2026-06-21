@@ -73,6 +73,11 @@ export type Car = {
   images?: { url: string }[];
   description?: string;
   specs?: CarSpec[];
+  plate?: string;
+  vin?: string;
+  receiptNo?: string;
+  vehicleOwner?: string;
+  mileage?: number;
 };
 
 export const CARS: Car[] = [
@@ -85,7 +90,8 @@ export const CARS: Car[] = [
     images: [{ url: "/subaru-crosstrek-1.avif" }, { url: "/subaru-crosstrek-2.avif" }, { url: "/subaru-crosstrek-3.avif" }, { url: "/subaru-crosstrek-4.avif" }, { url: "/subaru-crosstrek-5.avif" }, { url: "/subaru-crosstrek-6.avif" }],
     tiers: [{ label: "1–3 days", price: 65 }, { label: "4–7 days", price: 60 }, { label: "7–15 days", price: 55 }, { label: "15–30 days", price: 40 }],
     description: "Subaru Crosstrek 2022 Limited — полная комплектация, полный привод AWD, подогрев сидений, камера заднего вида. Универсальный кроссовер для города и горных дорог Грузии.",
-    specs: [{ label: "Engine", value: "2.0L" }, { label: "Drive", value: "AWD" }, { label: "Trim", value: "Limited" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }] },
+    specs: [{ label: "Engine", value: "2.0L" }, { label: "Drive", value: "AWD" }, { label: "Trim", value: "Limited" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }],
+    plate: "TS278TT", vin: "JFGTHNCXMH681462", receiptNo: "BVA1860180", vehicleOwner: "KAKHA BERIDZE", mileage: 49100 },
   { name: "Ford Fusion Plug-In", slug: "ford-fusion-plugin", year: 2016, seats: 5, price: 45, city: "batumi",
     images: [{ url: "/ford-fusion-1.avif" }, { url: "/ford-fusion-2.avif" }, { url: "/ford-fusion-3.avif" }, { url: "/ford-fusion-4.avif" }, { url: "/ford-fusion-5.avif" }, { url: "/ford-fusion-6.avif" }, { url: "/ford-fusion-7.avif" }],
     tiers: [{ label: "1–3 days", price: 45 }, { label: "4–7 days", price: 42 }, { label: "7–15 days", price: 40 }, { label: "15–30 days", price: 35 }],

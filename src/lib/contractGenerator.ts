@@ -1,4 +1,5 @@
 import type { AdminBooking } from "./adminBookings";
+import { CARS } from "@/routes/cars";
 
 const MONTHS = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
 
@@ -26,6 +27,7 @@ function daysWord(n: number): string {
 }
 
 export function openContract(b: AdminBooking) {
+  const carData = CARS.find(c => c.slug === b.carSlug);
   const isOneWay = b.pickupCity !== b.returnCity;
   const cityStr = b.pickupCity === "tbilisi" ? "Тбилиси" : "Батуми";
   const servicesList = b.services.length > 0
@@ -85,12 +87,12 @@ export function openContract(b: AdminBooking) {
     </td>
   </tr>
   <tr>
-    <td style="background:#f0f0f0;font-weight:bold">Номер кузова</td>
-    <td>—</td>
+    <td style="background:#f0f0f0;font-weight:bold">Гос. номер / VIN</td>
+    <td>${carData?.plate ? `<b>${carData.plate}</b> / ${carData.vin || "—"}` : "—"}</td>
   </tr>
   <tr>
-    <td style="background:#f0f0f0;font-weight:bold">Пробег</td>
-    <td>—</td>
+    <td style="background:#f0f0f0;font-weight:bold">Пробег при выдаче</td>
+    <td>${carData?.mileage ? `${carData.mileage.toLocaleString()} mi` : "—"}</td>
   </tr>
   <tr>
     <td colspan="2" style="background:#f0f0f0;font-weight:bold">Дополнительные услуги</td>
