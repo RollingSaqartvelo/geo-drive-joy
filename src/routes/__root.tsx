@@ -97,14 +97,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     scripts: [
       {
-        src: "https://www.googletagmanager.com/gtag/js?id=G-FDQ4E2400V",
+        src: "https://www.googletagmanager.com/gtag/js?id=AW-18241492414",
         async: true,
       },
       {
         children: `window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', 'G-FDQ4E2400V');`,
+gtag('config', 'G-FDQ4E2400V');
+gtag('config', 'AW-18241492414');`,
       },
     ],
   }),
