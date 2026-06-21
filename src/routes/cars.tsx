@@ -88,6 +88,7 @@ export const CARS: Car[] = [
   { name: "BMW 430i Cabriolet M Sport", slug: "bmw-430i-cabriolet", year: 2019, seats: 4, price: 170, city: "batumi",
     images: [{ url: "/bmw430i-cab-1.png" }, { url: "/bmw430i-cab-2.png" }, { url: "/bmw430i-cab-3.png" }],
     tiers: [{ label: "1–3 days", price: 170 }, { label: "4–7 days", price: 160 }, { label: "7–15 days", price: 140 }],
+    ownerTiers: [{ price: 140 }, { price: 130 }, { price: 120 }],
     description: "BMW 430i Cabriolet M Sport F33 (рестайлинг) — роскошный 2-дверный кабриолет с мягкой складной крышей. 2.0L турбо 252 л.с., 8-ступенчатый автомат ZF, кожаный салон, двухзонный климат-контроль, электрокрыша. Идеален для прибрежных дорог Батуми.",
     specs: [{ label: "Engine", value: "2.0L Turbo" }, { label: "Power", value: "252 HP" }, { label: "Transmission", value: "8-spd Auto" }, { label: "Seats", value: "4" }, { label: "Class", value: "Convertible" }] },
   { name: "Toyota RAV4 Hybrid Plug-In", slug: "toyota-rav4-hybrid", year: 2023, seats: 5, price: 75, city: "batumi",
