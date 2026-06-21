@@ -85,6 +85,11 @@ export type Car = {
 };
 
 export const CARS: Car[] = [
+  { name: "BMW 430i Cabriolet M Sport", slug: "bmw-430i-cabriolet", year: 2019, seats: 4, price: 120, city: "batumi",
+    images: [{ url: "/bmw430i-cab-1.png" }, { url: "/bmw430i-cab-2.png" }, { url: "/bmw430i-cab-3.png" }],
+    tiers: [{ label: "1–3 days", price: 120 }, { label: "4–7 days", price: 110 }, { label: "7–15 days", price: 100 }],
+    description: "BMW 430i Cabriolet M Sport F33 (рестайлинг) — роскошный 2-дверный кабриолет с мягкой складной крышей. 2.0L турбо 252 л.с., 8-ступенчатый автомат ZF, кожаный салон, двухзонный климат-контроль, электрокрыша. Идеален для прибрежных дорог Батуми.",
+    specs: [{ label: "Engine", value: "2.0L Turbo" }, { label: "Power", value: "252 HP" }, { label: "Transmission", value: "8-spd Auto" }, { label: "Seats", value: "4" }, { label: "Class", value: "Convertible" }] },
   { name: "Toyota RAV4 Hybrid Plug-In", slug: "toyota-rav4-hybrid", year: 2023, seats: 5, price: 75, city: "batumi",
     images: [{ url: "/toyota-rav4-1.avif" }, { url: "/toyota-rav4-2.avif" }, { url: "/toyota-rav4-3.avif" }, { url: "/toyota-rav4-4.avif" }, { url: "/toyota-rav4-5.avif" }, { url: "/toyota-rav4-6.avif" }, { url: "/toyota-rav4-7.avif" }],
     tiers: [{ label: "1–3 days", price: 75 }, { label: "4–7 days", price: 65 }, { label: "7–15 days", price: 60 }, { label: "15–30 days", price: 50 }],
