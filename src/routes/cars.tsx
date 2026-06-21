@@ -76,6 +76,11 @@ export type Car = {
 };
 
 export const CARS: Car[] = [
+  { name: "Subaru Forester", slug: "subaru-forester", year: 2022, seats: 5, price: 65, city: "batumi",
+    images: [{ url: "/subaru-forester-1.avif" }, { url: "/subaru-forester-2.avif" }, { url: "/subaru-forester-3.avif" }, { url: "/subaru-forester-4.avif" }],
+    tiers: [{ label: "1–3 days", price: 65 }, { label: "4–7 days", price: 55 }, { label: "7–15 days", price: 50 }],
+    description: "Subaru Forester 2022 — надёжный полноприводный кроссовер с просторным салоном, идеально подходящий для поездок по Батуми и горным маршрутам Грузии.",
+    specs: [{ label: "Engine", value: "2.5L" }, { label: "Drive", value: "AWD" }, { label: "Transmission", value: "CVT" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }] },
   { name: "Mercedes E350", slug: "mercedes-e350", year: 2015, seats: 5, price: 100, city: "batumi",
     images: [{ url: "/mercedes-e350-1.jpg" }, { url: "/mercedes-e350-2.jpg" }, { url: "/mercedes-e350-3.jpg" }, { url: "/mercedes-e350-4.jpg" }],
     tiers: [{ label: "1–3 days", price: 100 }, { label: "4–7 days", price: 90 }, { label: "7–15 days", price: 80 }],
