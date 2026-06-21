@@ -80,6 +80,7 @@ export type Car = {
   mileage?: number;
   mileageUnit?: "km" | "mi";
   commission?: number;
+  commissionFixed?: number;
 };
 
 export const CARS: Car[] = [
@@ -127,15 +128,15 @@ export const CARS: Car[] = [
   { name: "Range Rover Sport", slug: "range-rover-sport", year: 2016, price: 180, city: "batumi", images: [rrw1, rrw2, rrw3],
     tiers: [{ label: "1–3 days", price: 180 }, { label: "4–7 days", price: 160 }, { label: "7–15 days", price: 140 }],
     description: "Premium British luxury SUV with outstanding performance and sophisticated design. Perfect for city drives and Georgia's mountain roads.",
-    specs: [{ label: "Engine", value: "5.0L V8" }, { label: "Power", value: "510 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury SUV" }] },
+    specs: [{ label: "Engine", value: "5.0L V8" }, { label: "Power", value: "510 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury SUV" }], commissionFixed: 30 },
   { name: "Range Rover Sport Red", slug: "range-rover-sport-red", year: 2016, price: 180, city: "batumi", images: [rrred1, rrred2, rrred3],
     tiers: [{ label: "1–3 days", price: 180 }, { label: "4–7 days", price: 160 }, { label: "7–15 days", price: 140 }],
     description: "Striking red Range Rover Sport — turn heads on every road with British luxury and powerful V8 performance.",
-    specs: [{ label: "Engine", value: "5.0L V8" }, { label: "Power", value: "510 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury SUV" }] },
+    specs: [{ label: "Engine", value: "5.0L V8" }, { label: "Power", value: "510 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury SUV" }], commissionFixed: 30 },
   { name: "Range Rover 7 Seats", slug: "range-rover-7-seats", year: 2018, seats: 7, price: 180, city: "batumi", images: [rr7a, rr7b, rr7c],
     tiers: [{ label: "1–3 days", price: 180 }, { label: "4–7 days", price: 150 }, { label: "7–15 days", price: 140 }, { label: "15–30 days", price: 130 }],
     description: "Spacious 7-seat Range Rover — luxury for the whole group with superior off-road capability and first-class comfort.",
-    specs: [{ label: "Engine", value: "3.0L V6" }, { label: "Power", value: "340 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "7" }, { label: "Class", value: "Luxury SUV" }] },
+    specs: [{ label: "Engine", value: "3.0L V6" }, { label: "Power", value: "340 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "7" }, { label: "Class", value: "Luxury SUV" }], commissionFixed: 30 },
   { name: "Chrysler Pacifica", slug: "chrysler-pacifica", year: 2015, seats: 8, price: 90, city: "tbilisi", images: [pac1, pac2, pac3, pac4],
     tiers: [{ label: "1–3 days", price: 90 }, { label: "4–7 days", price: 80 }, { label: "7–15 days", price: 70 }],
     description: "Comfortable 8-seat minivan — ideal for family trips and group tours across Georgia.",

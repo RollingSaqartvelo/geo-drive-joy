@@ -74,15 +74,21 @@ function AdminFinance() {
     const d = new Date(b.pickupDate);
     const inMonth = d.getMonth() === selectedMonth && d.getFullYear() === selectedYear;
     const car = CARS.find(c => c.slug === b.carSlug);
-    return inMonth && car?.commission && !importedIds.has(b.id);
+    return inMonth && (car?.commission || car?.commissionFixed) && !importedIds.has(b.id);
   });
+
+  function calcMyIncome(b: { totalPrice: number; days: number; carSlug: string }): number {
+    const car = CARS.find(c => c.slug === b.carSlug);
+    if (car?.commissionFixed) return car.commissionFixed * b.days;
+    if (car?.commission) return Math.round(b.totalPrice * car.commission / 100);
+    return 0;
+  }
 
   const importBooking = (bookingId: string) => {
     const b = allBookings.find(x => x.id === bookingId);
     if (!b) return;
     const car = CARS.find(c => c.slug === b.carSlug);
-    const pct = car?.commission ?? 30;
-    const myIncome = Math.round(b.totalPrice * pct / 100);
+    const myIncome = calcMyIncome(b);
     const entry: Entry = {
       id: Date.now().toString(),
       type: "income",
@@ -210,8 +216,10 @@ function AdminFinance() {
           <div className="flex flex-col gap-2">
             {pendingBookings.map(b => {
               const car = CARS.find(c => c.slug === b.carSlug);
-              const pct = car?.commission ?? 30;
-              const myIncome = Math.round(b.totalPrice * pct / 100);
+              const myIncome = calcMyIncome(b);
+              const label = car?.commissionFixed
+                ? `$${car.commissionFixed}/день`
+                : car?.commission ? `${car.commission}%` : "";
               return (
                 <div key={b.id} className="flex items-center justify-between bg-white rounded-xl px-4 py-3 border border-amber-100">
                   <div>
@@ -220,7 +228,7 @@ function AdminFinance() {
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="text-green-600 font-black text-lg">+${myIncome}</span>
-                    <span className="text-xs text-gray-400">({pct}%)</span>
+                    <span className="text-xs text-gray-400">({label})</span>
                     <button onClick={() => importBooking(b.id)}
                       className="bg-green-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-green-600 transition-colors">
                       Добавить
