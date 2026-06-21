@@ -52,7 +52,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
           </div>
           <div className="text-sm space-y-2">
             <h4 className="text-white font-semibold uppercase tracking-wider text-xs mb-3">{t("footer_contact")}</h4>
-            <p>212V Airport Hwy, Batumi 6000, Georgia</p>
+            <p>Lermontov Street 101, Batumi, Georgia</p>
             <p><a href="https://wa.me/995500194533" className="hover:text-white">WhatsApp: +995 500 194 533</a></p>
             <p><a href="mailto:rolling_saqartvelo@outlook.com" className="hover:text-white break-all">rolling_saqartvelo@outlook.com</a></p>
           </div>
