@@ -74,11 +74,16 @@ function AdminFinance() {
     const d = new Date(b.pickupDate);
     const inMonth = d.getMonth() === selectedMonth && d.getFullYear() === selectedYear;
     const car = CARS.find(c => c.slug === b.carSlug);
-    return inMonth && (car?.commission || car?.commissionFixed) && !importedIds.has(b.id);
+    return inMonth && (car?.commission || car?.commissionFixed || car?.ownerTiers) && !importedIds.has(b.id);
   });
 
-  function calcMyIncome(b: { totalPrice: number; days: number; carSlug: string }): number {
+  function calcMyIncome(b: { totalPrice: number; days: number; carSlug: string; pricePerDay: number }): number {
     const car = CARS.find(c => c.slug === b.carSlug);
+    if (car?.ownerTiers && car.tiers) {
+      const tierIdx = car.tiers.findIndex(t => t.price === b.pricePerDay);
+      const ownerPrice = tierIdx >= 0 ? (car.ownerTiers[tierIdx]?.price ?? 0) : 0;
+      return (b.pricePerDay - ownerPrice) * b.days;
+    }
     if (car?.commissionFixed) return car.commissionFixed * b.days;
     if (car?.commission) return Math.round(b.totalPrice * car.commission / 100);
     return 0;
@@ -217,8 +222,9 @@ function AdminFinance() {
             {pendingBookings.map(b => {
               const car = CARS.find(c => c.slug === b.carSlug);
               const myIncome = calcMyIncome(b);
-              const label = car?.commissionFixed
-                ? `$${car.commissionFixed}/день`
+              const label = car?.ownerTiers
+                ? `$${b.pricePerDay - (car.ownerTiers[car.tiers?.findIndex(t => t.price === b.pricePerDay) ?? 0]?.price ?? 0)}/день`
+                : car?.commissionFixed ? `$${car.commissionFixed}/день`
                 : car?.commission ? `${car.commission}%` : "";
               return (
                 <div key={b.id} className="flex items-center justify-between bg-white rounded-xl px-4 py-3 border border-amber-100">

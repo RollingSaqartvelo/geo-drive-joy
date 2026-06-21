@@ -81,6 +81,7 @@ export type Car = {
   mileageUnit?: "km" | "mi";
   commission?: number;
   commissionFixed?: number;
+  ownerTiers?: { price: number }[];
 };
 
 export const CARS: Car[] = [
@@ -113,16 +114,19 @@ export const CARS: Car[] = [
     specs: [{ label: "Engine", value: "3.5L V6" }, { label: "Power", value: "302 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury Sedan" }] },
   { name: "Ford Mustang Cabrio", slug: "ford-mustang-cabrio", year: 2020, price: 150, city: "batumi", images: [{ url: "/mustang-bw.png" }, { url: "/mustang-2-new.png" }, { url: "/mustang-3-new.png" }],
     tiers: [{ label: "1–3 days", price: 150 }, { label: "4–7 days", price: 140 }, { label: "7–15 days", price: 130 }],
+    ownerTiers: [{ price: 130 }, { price: 115 }, { price: 110 }],
     description: "Feel the freedom on Batumi's coastal roads in this iconic American convertible sports car.",
     specs: [{ label: "Engine", value: "2.3L I4 Turbo" }, { label: "Power", value: "310 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "4" }, { label: "Class", value: "Convertible" }] },
   { name: "Ford Mustang Cabrio Red", slug: "ford-mustang-cabrio-red", year: 2020, price: 150, city: "batumi",
     images: [{ url: "/mustang-red-1.jpg" }, { url: "/mustang-red-2.jpg" }, { url: "/mustang-red-3.jpg" }, { url: "/mustang-red-4.jpg" }],
     tiers: [{ label: "1–3 days", price: 150 }, { label: "4–7 days", price: 140 }, { label: "7–15 days", price: 130 }],
+    ownerTiers: [{ price: 130 }, { price: 115 }, { price: 110 }],
     description: "Feel the freedom on Batumi's coastal roads in this iconic red American convertible sports car.",
     specs: [{ label: "Engine", value: "2.3L I4 Turbo" }, { label: "Power", value: "310 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "4" }, { label: "Class", value: "Convertible" }] },
   { name: "Ford Mustang Cabrio 3.7L Dark Black", slug: "ford-mustang-cabrio-dark-black", year: 2016, seats: 4, price: 150, city: "batumi",
     images: [{ url: "/mustang-black-1.jpg" }, { url: "/mustang-black-2.jpg" }, { url: "/mustang-black-3.jpg" }, { url: "/mustang-black-4.jpg" }, { url: "/mustang-black-5.jpg" }, { url: "/mustang-black-6.jpg" }, { url: "/mustang-black-7.jpg" }, { url: "/mustang-black-8.jpg" }],
     tiers: [{ label: "1–3 days", price: 150 }, { label: "4–7 days", price: 140 }, { label: "7–15 days", price: 130 }],
+    ownerTiers: [{ price: 130 }, { price: 115 }, { price: 110 }],
     description: "Iconic Ford Mustang Cabrio in stunning dark black — powerful 3.7L V6 with open-top driving along Batumi's beautiful coastline.",
     specs: [{ label: "Engine", value: "3.7L V6" }, { label: "Power", value: "300 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "4" }, { label: "Class", value: "Convertible" }] },
   { name: "Range Rover Sport", slug: "range-rover-sport", year: 2016, price: 180, city: "batumi", images: [rrw1, rrw2, rrw3],
