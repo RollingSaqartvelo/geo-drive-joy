@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { CalendarDays, Car, LogOut } from "lucide-react";
+import { CalendarDays, Car, LogOut, BarChart2 } from "lucide-react";
 import logo from "@/assets/logo.png.asset.json";
 
 export const Route = createFileRoute("/admin")({
@@ -71,6 +71,10 @@ export function AdminLayout() {
           <Link to="/admin/cars"
             className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:text-[var(--brand-blue)] hover:bg-blue-50 [&.active]:bg-[var(--brand-blue)] [&.active]:text-white transition-all">
             <Car className="h-4 w-4 shrink-0" /> Автомобили
+          </Link>
+          <Link to="/admin/finance"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:text-[var(--brand-blue)] hover:bg-blue-50 [&.active]:bg-[var(--brand-blue)] [&.active]:text-white transition-all">
+            <BarChart2 className="h-4 w-4 shrink-0" /> Финансы
           </Link>
         </nav>
         <div className="p-3 border-t border-gray-100">
