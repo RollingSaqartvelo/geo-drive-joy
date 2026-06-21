@@ -92,7 +92,7 @@ export function openContract(b: AdminBooking) {
   </tr>
   <tr>
     <td style="background:#f0f0f0;font-weight:bold">Пробег при выдаче</td>
-    <td>${carData?.mileage ? `${carData.mileage.toLocaleString()} mi` : "—"}</td>
+    <td>${carData?.mileage ? `${carData.mileage.toLocaleString()} ${carData.mileageUnit ?? "mi"}` : "—"}</td>
   </tr>
   <tr>
     <td colspan="2" style="background:#f0f0f0;font-weight:bold">Дополнительные услуги</td>

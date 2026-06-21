@@ -78,6 +78,7 @@ export type Car = {
   receiptNo?: string;
   vehicleOwner?: string;
   mileage?: number;
+  mileageUnit?: "km" | "mi";
 };
 
 export const CARS: Car[] = [
@@ -85,7 +86,8 @@ export const CARS: Car[] = [
     images: [{ url: "/toyota-rav4-1.avif" }, { url: "/toyota-rav4-2.avif" }, { url: "/toyota-rav4-3.avif" }, { url: "/toyota-rav4-4.avif" }, { url: "/toyota-rav4-5.avif" }, { url: "/toyota-rav4-6.avif" }, { url: "/toyota-rav4-7.avif" }],
     tiers: [{ label: "1–3 days", price: 70 }, { label: "4–7 days", price: 60 }, { label: "7–15 days", price: 55 }, { label: "15–30 days", price: 40 }],
     description: "Toyota RAV4 2023 Hybrid Plug-In — полная комплектация, полный привод AWD, экономичный гибридный двигатель с возможностью зарядки от сети. Мощный и экономичный SUV для любых дорог Грузии.",
-    specs: [{ label: "Engine", value: "2.5L Hybrid" }, { label: "Type", value: "Plug-In" }, { label: "Drive", value: "AWD" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }] },
+    specs: [{ label: "Engine", value: "2.5L Hybrid" }, { label: "Type", value: "Plug-In" }, { label: "Drive", value: "AWD" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }],
+    plate: "UU174ZU", receiptNo: "BVA0999848", vehicleOwner: "SHAKARISHVILI TEMUR", mileage: 132955, mileageUnit: "km" },
   { name: "Subaru Crosstrek Limited", slug: "subaru-crosstrek-limited", year: 2022, seats: 5, price: 65, city: "batumi",
     images: [{ url: "/subaru-crosstrek-1.avif" }, { url: "/subaru-crosstrek-2.avif" }, { url: "/subaru-crosstrek-3.avif" }, { url: "/subaru-crosstrek-4.avif" }, { url: "/subaru-crosstrek-5.avif" }, { url: "/subaru-crosstrek-6.avif" }],
     tiers: [{ label: "1–3 days", price: 65 }, { label: "4–7 days", price: 60 }, { label: "7–15 days", price: 55 }, { label: "15–30 days", price: 40 }],
