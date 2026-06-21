@@ -55,7 +55,7 @@ function AdminFinance() {
   const [entries, setEntries] = useState<Entry[]>(loadEntries);
   const [selectedMonth, setSelectedMonth] = useState(now.getMonth());
   const [selectedYear, setSelectedYear] = useState(now.getFullYear());
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState<"income" | "expense" | null>(null);
   const [form, setForm] = useState<{
     type: EntryType; date: string; description: string; category: string; amount: string;
   }>({
@@ -131,7 +131,7 @@ function AdminFinance() {
     setEntries(next);
     saveEntries(next);
     setForm(f => ({ ...f, description: "", amount: "" }));
-    setShowForm(false);
+    setShowForm(null);
   };
 
   const remove = (id: string) => {
@@ -162,16 +162,22 @@ function AdminFinance() {
           <h1 className="text-2xl font-black text-gray-800">Финансы агентства</h1>
           <p className="text-gray-400 text-sm mt-0.5">Ваша комиссия минус расходы на рекламу</p>
         </div>
-        <button onClick={() => setShowForm(v => !v)}
-          className="flex items-center gap-2 bg-[var(--brand-blue)] text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:opacity-90 transition-opacity">
-          <Plus className="h-4 w-4" /> Добавить расход
-        </button>
+        <div className="flex gap-2">
+          <button onClick={() => { setShowForm("income"); setForm(f => ({ ...f, type: "income", category: "Аренда авто (комиссия)" })); }}
+            className="flex items-center gap-2 bg-green-500 text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:opacity-90 transition-opacity">
+            <Plus className="h-4 w-4" /> Доход
+          </button>
+          <button onClick={() => { setShowForm("expense"); setForm(f => ({ ...f, type: "expense", category: "Google Ads" })); }}
+            className="flex items-center gap-2 bg-red-500 text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:opacity-90 transition-opacity">
+            <Plus className="h-4 w-4" /> Расход
+          </button>
+        </div>
       </div>
 
       {/* Add expense form */}
       {showForm && (
         <div className="bg-white border border-gray-200 rounded-2xl p-5 mb-6 shadow-sm">
-          <h3 className="font-bold text-gray-700 mb-4">Новый расход</h3>
+          <h3 className="font-bold text-gray-700 mb-4">{showForm === "income" ? "Новый доход" : "Новый расход"}</h3>
           <div className="grid grid-cols-2 gap-3 mb-3">
             <div>
               <label className="text-xs text-gray-500 mb-1 block">Дата</label>
@@ -189,18 +195,22 @@ function AdminFinance() {
               <label className="text-xs text-gray-500 mb-1 block">Категория</label>
               <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
                 className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-[var(--brand-blue)]">
-                {EXPENSE_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                {(showForm === "income" ? INCOME_CATEGORIES : EXPENSE_CATEGORIES).map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div>
               <label className="text-xs text-gray-500 mb-1 block">Описание</label>
               <input value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
-                placeholder="Например: Google Ads июнь" className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-[var(--brand-blue)]" />
+                placeholder={showForm === "income" ? "Например: BMW 430i, 17-20 июня" : "Например: Google Ads июнь"}
+                className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-[var(--brand-blue)]" />
             </div>
           </div>
           <div className="flex gap-2 justify-end">
-            <button onClick={() => setShowForm(false)} className="px-4 py-2 rounded-xl border text-sm text-gray-500 hover:bg-gray-50">Отмена</button>
-            <button onClick={addEntry} className="px-5 py-2 rounded-xl bg-red-500 text-white text-sm font-bold hover:opacity-90">Сохранить расход</button>
+            <button onClick={() => setShowForm(null)} className="px-4 py-2 rounded-xl border text-sm text-gray-500 hover:bg-gray-50">Отмена</button>
+            <button onClick={addEntry}
+              className={`px-5 py-2 rounded-xl text-white text-sm font-bold hover:opacity-90 ${showForm === "income" ? "bg-green-500" : "bg-red-500"}`}>
+              Сохранить
+            </button>
           </div>
         </div>
       )}
