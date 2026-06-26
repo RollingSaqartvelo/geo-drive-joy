@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+﻿import { createFileRoute, Link } from "@tanstack/react-router";
 import { Users, Calendar, MapPin } from "lucide-react";
 import { useState } from "react";
 import { SiteLayout } from "@/components/SiteLayout";
@@ -34,8 +34,8 @@ import gx5 from "@/assets/lexus-gx470-5.jpg.asset.json";
 import sedona1 from "@/assets/sedona-1.jpg.asset.json";
 import sedona2 from "@/assets/sedona-2.jpg.asset.json";
 import sedona3 from "@/assets/sedona-3.jpg.asset.json";
-import wrangler1 from "@/assets/wrangler-1.jpg.asset.json";
-import wrangler2 from "@/assets/wrangler-2.jpg.asset.json";
+import wrangler1 from "@/assets/wrangler-1.webp.asset.json";
+import wrangler2 from "@/assets/wrangler-2.webp.asset.json";
 import bmw740a from "@/assets/bmw740-1.jpg.asset.json";
 import bmw740b from "@/assets/bmw740-2.jpg.asset.json";
 import bmw740c from "@/assets/bmw740-3.jpg.asset.json";
@@ -86,57 +86,57 @@ export type Car = {
 
 export const CARS: Car[] = [
   { name: "BMW 430i Cabriolet M Sport", slug: "bmw-430i-cabriolet", year: 2019, seats: 4, price: 170, city: "batumi",
-    images: [{ url: "/bmw430i-cab-1.png" }, { url: "/bmw430i-cab-2.png" }, { url: "/bmw430i-cab-3.png" }],
+    images: [{ url: "/bmw430i-cab-1.webp" }, { url: "/bmw430i-cab-2.webp" }, { url: "/bmw430i-cab-3.webp" }],
     tiers: [{ label: "1–3 days", price: 170 }, { label: "4–7 days", price: 160 }, { label: "7–15 days", price: 140 }],
     ownerTiers: [{ price: 140 }, { price: 130 }, { price: 120 }],
     description: "BMW 430i Cabriolet M Sport F33 (рестайлинг) — роскошный 2-дверный кабриолет с мягкой складной крышей. 2.0L турбо 252 л.с., 8-ступенчатый автомат ZF, кожаный салон, двухзонный климат-контроль, электрокрыша. Идеален для прибрежных дорог Батуми.",
     specs: [{ label: "Engine", value: "2.0L Turbo" }, { label: "Power", value: "252 HP" }, { label: "Transmission", value: "8-spd Auto" }, { label: "Seats", value: "4" }, { label: "Class", value: "Convertible" }] },
   { name: "Toyota RAV4 Hybrid Plug-In", slug: "toyota-rav4-hybrid", year: 2023, seats: 5, price: 75, city: "batumi",
-    images: [{ url: "/toyota-rav4-1.avif" }, { url: "/toyota-rav4-2.avif" }, { url: "/toyota-rav4-3.avif" }, { url: "/toyota-rav4-4.avif" }, { url: "/toyota-rav4-5.avif" }, { url: "/toyota-rav4-6.avif" }, { url: "/toyota-rav4-7.avif" }],
+    images: [{ url: "/toyota-rav4-1.webp" }, { url: "/toyota-rav4-2.webp" }, { url: "/toyota-rav4-3.webp" }, { url: "/toyota-rav4-4.webp" }, { url: "/toyota-rav4-5.avif" }, { url: "/toyota-rav4-6.avif" }, { url: "/toyota-rav4-7.avif" }],
     tiers: [{ label: "1–3 days", price: 75 }, { label: "4–7 days", price: 65 }, { label: "7–15 days", price: 60 }, { label: "15–30 days", price: 50 }],
     description: "Toyota RAV4 2023 Hybrid Plug-In — полная комплектация, полный привод AWD, экономичный гибридный двигатель с возможностью зарядки от сети. Мощный и экономичный SUV для любых дорог Грузии.",
     specs: [{ label: "Engine", value: "2.5L Hybrid" }, { label: "Type", value: "Plug-In" }, { label: "Drive", value: "AWD" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }],
     plate: "UU174ZU", receiptNo: "BVA0999848", vehicleOwner: "SHAKARISHVILI TEMUR", mileage: 133000, mileageUnit: "km", commission: 30 },
   { name: "Subaru Crosstrek Limited", slug: "subaru-crosstrek-limited", year: 2022, seats: 5, price: 65, city: "batumi",
-    images: [{ url: "/subaru-crosstrek-1.avif" }, { url: "/subaru-crosstrek-2.avif" }, { url: "/subaru-crosstrek-3.avif" }, { url: "/subaru-crosstrek-4.avif" }, { url: "/subaru-crosstrek-5.avif" }, { url: "/subaru-crosstrek-6.avif" }],
+    images: [{ url: "/subaru-crosstrek-1.webp" }, { url: "/subaru-crosstrek-2.webp" }, { url: "/subaru-crosstrek-3.webp" }, { url: "/subaru-crosstrek-4.avif" }, { url: "/subaru-crosstrek-5.avif" }, { url: "/subaru-crosstrek-6.avif" }],
     tiers: [{ label: "1–3 days", price: 65 }, { label: "4–7 days", price: 60 }, { label: "7–15 days", price: 55 }, { label: "15–30 days", price: 40 }],
     description: "Subaru Crosstrek 2022 Limited — полная комплектация, полный привод AWD, подогрев сидений, камера заднего вида. Универсальный кроссовер для города и горных дорог Грузии.",
     specs: [{ label: "Engine", value: "2.0L" }, { label: "Drive", value: "AWD" }, { label: "Trim", value: "Limited" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }],
     plate: "TS278TT", vin: "JFGTHNCXMH681462", receiptNo: "BVA1860180", vehicleOwner: "KAKHA BERIDZE", mileage: 49100, commission: 30 },
   { name: "Subaru Crosstrek Black", slug: "subaru-crosstrek-black", year: 2022, seats: 5, price: 65, city: "batumi",
-    images: [{ url: "/crosstrek-black-1.jpeg" }, { url: "/crosstrek-black-2.jpeg" }, { url: "/crosstrek-black-3.jpeg" }, { url: "/crosstrek-black-4.jpeg" }],
+    images: [{ url: "/crosstrek-black-1.jpeg" }, { url: "/crosstrek-black-2.jpeg" }, { url: "/crosstrek-black-3.jpeg" }, { url: "/crosstrek-black-4.webp" }],
     tiers: [{ label: "1–3 days", price: 65 }, { label: "4–7 days", price: 60 }, { label: "7–15 days", price: 55 }, { label: "15–30 days", price: 40 }],
     description: "Subaru Crosstrek 2022 — полный привод AWD, чёрный цвет, подогрев сидений, камера заднего вида. Универсальный кроссовер для города и горных дорог Грузии.",
     specs: [{ label: "Engine", value: "2.0L" }, { label: "Drive", value: "AWD" }, { label: "Color", value: "Black" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }],
     plate: "FL118FF", vin: "JF2GTHSC0PH275330", receiptNo: "BVA1497730", vehicleOwner: "KHAKHUTAISHVILI LEDI", mileage: 5006, mileageUnit: "mi", commission: 30 },
   { name: "Ford Fusion Plug-In", slug: "ford-fusion-plugin", year: 2016, seats: 5, price: 45, city: "batumi",
-    images: [{ url: "/ford-fusion-1.avif" }, { url: "/ford-fusion-2.avif" }, { url: "/ford-fusion-3.avif" }, { url: "/ford-fusion-4.avif" }, { url: "/ford-fusion-5.avif" }, { url: "/ford-fusion-6.avif" }, { url: "/ford-fusion-7.avif" }],
+    images: [{ url: "/ford-fusion-1.webp" }, { url: "/ford-fusion-2.webp" }, { url: "/ford-fusion-3.webp" }, { url: "/ford-fusion-4.avif" }, { url: "/ford-fusion-5.avif" }, { url: "/ford-fusion-6.avif" }, { url: "/ford-fusion-7.avif" }],
     tiers: [{ label: "1–3 days", price: 45 }, { label: "4–7 days", price: 42 }, { label: "7–15 days", price: 40 }, { label: "15–30 days", price: 35 }],
     description: "Ford Fusion 2016 Plug-In Hybrid — экономичный гибридный седан с возможностью зарядки от сети. Отличный выбор для городских поездок по Батуми с минимальными расходами на топливо.",
     specs: [{ label: "Engine", value: "2.0L Hybrid" }, { label: "Type", value: "Plug-In" }, { label: "Transmission", value: "CVT" }, { label: "Seats", value: "5" }, { label: "Class", value: "Sedan" }], commission: 30 },
   { name: "Subaru Forester", slug: "subaru-forester", year: 2022, seats: 5, price: 75, city: "batumi",
-    images: [{ url: "/subaru-forester-1.avif" }, { url: "/subaru-forester-2.avif" }, { url: "/subaru-forester-3.avif" }, { url: "/subaru-forester-4.avif" }],
+    images: [{ url: "/subaru-forester-1.webp" }, { url: "/subaru-forester-2.webp" }, { url: "/subaru-forester-3.webp" }, { url: "/subaru-forester-4.avif" }],
     tiers: [{ label: "1–3 days", price: 75 }, { label: "4–7 days", price: 65 }, { label: "7–15 days", price: 60 }, { label: "15–30 days", price: 50 }],
     description: "Subaru Forester 2022 — надёжный полноприводный кроссовер с просторным салоном, идеально подходящий для поездок по Батуми и горным маршрутам Грузии.",
     specs: [{ label: "Engine", value: "2.5L" }, { label: "Drive", value: "AWD" }, { label: "Transmission", value: "CVT" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }], commission: 30 },
   { name: "Mercedes E350", slug: "mercedes-e350", year: 2015, seats: 5, price: 100, city: "batumi",
-    images: [{ url: "/mercedes-e350-1.jpg" }, { url: "/mercedes-e350-2.jpg" }, { url: "/mercedes-e350-3.jpg" }, { url: "/mercedes-e350-4.jpg" }],
+    images: [{ url: "/mercedes-e350-1.webp" }, { url: "/mercedes-e350-2.webp" }, { url: "/mercedes-e350-3.webp" }, { url: "/mercedes-e350-4.webp" }],
     tiers: [{ label: "1–3 days", price: 100 }, { label: "4–7 days", price: 90 }, { label: "7–15 days", price: 80 }],
     description: "Elegant Mercedes-Benz E350 AMG Line — premium German sedan with refined comfort and powerful performance for Batumi's roads.",
     specs: [{ label: "Engine", value: "3.5L V6" }, { label: "Power", value: "302 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury Sedan" }] },
-  { name: "Ford Mustang Cabrio", slug: "ford-mustang-cabrio", year: 2020, price: 150, city: "batumi", images: [{ url: "/mustang-bw.png" }, { url: "/mustang-2-new.png" }, { url: "/mustang-3-new.png" }],
+  { name: "Ford Mustang Cabrio", slug: "ford-mustang-cabrio", year: 2020, price: 150, city: "batumi", images: [{ url: "/mustang-bw.webp" }, { url: "/mustang-2-new.webp" }, { url: "/mustang-3-new.webp" }],
     tiers: [{ label: "1–3 days", price: 150 }, { label: "4–7 days", price: 140 }, { label: "7–15 days", price: 130 }],
     ownerTiers: [{ price: 130 }, { price: 115 }, { price: 110 }],
     description: "Feel the freedom on Batumi's coastal roads in this iconic American convertible sports car.",
     specs: [{ label: "Engine", value: "2.3L I4 Turbo" }, { label: "Power", value: "310 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "4" }, { label: "Class", value: "Convertible" }] },
   { name: "Ford Mustang Cabrio Red", slug: "ford-mustang-cabrio-red", year: 2020, price: 150, city: "batumi",
-    images: [{ url: "/mustang-red-1.jpg" }, { url: "/mustang-red-2.jpg" }, { url: "/mustang-red-3.jpg" }, { url: "/mustang-red-4.jpg" }],
+    images: [{ url: "/mustang-red-1.webp" }, { url: "/mustang-red-2.webp" }, { url: "/mustang-red-3.webp" }, { url: "/mustang-red-4.webp" }],
     tiers: [{ label: "1–3 days", price: 150 }, { label: "4–7 days", price: 140 }, { label: "7–15 days", price: 130 }],
     ownerTiers: [{ price: 130 }, { price: 115 }, { price: 110 }],
     description: "Feel the freedom on Batumi's coastal roads in this iconic red American convertible sports car.",
     specs: [{ label: "Engine", value: "2.3L I4 Turbo" }, { label: "Power", value: "310 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "4" }, { label: "Class", value: "Convertible" }] },
   { name: "Ford Mustang Cabrio 3.7L Dark Black", slug: "ford-mustang-cabrio-dark-black", year: 2016, seats: 4, price: 150, city: "batumi",
-    images: [{ url: "/mustang-black-1.jpg" }, { url: "/mustang-black-2.jpg" }, { url: "/mustang-black-3.jpg" }, { url: "/mustang-black-4.jpg" }, { url: "/mustang-black-5.jpg" }, { url: "/mustang-black-6.jpg" }, { url: "/mustang-black-7.jpg" }, { url: "/mustang-black-8.jpg" }],
+    images: [{ url: "/mustang-black-1.jpg" }, { url: "/mustang-black-2.jpg" }, { url: "/mustang-black-3.webp" }, { url: "/mustang-black-4.jpg" }, { url: "/mustang-black-5.jpg" }, { url: "/mustang-black-6.webp" }, { url: "/mustang-black-7.webp" }, { url: "/mustang-black-8.jpg" }],
     tiers: [{ label: "1–3 days", price: 150 }, { label: "4–7 days", price: 140 }, { label: "7–15 days", price: 130 }],
     ownerTiers: [{ price: 130 }, { price: 115 }, { price: 110 }],
     description: "Iconic Ford Mustang Cabrio in stunning dark black — powerful 3.7L V6 with open-top driving along Batumi's beautiful coastline.",
@@ -173,11 +173,11 @@ export const CARS: Car[] = [
     tiers: [{ label: "1–3 days", price: 90 }, { label: "4–7 days", price: 80 }, { label: "8–15 days", price: 70 }],
     description: "Spacious KIA Sedona minivan — comfortable transport for large groups and family vacations in Georgia.",
     specs: [{ label: "Engine", value: "3.3L V6" }, { label: "Power", value: "276 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "8" }, { label: "Class", value: "Minivan" }] },
-  { name: "Jeep Wrangler", slug: "jeep-wrangler", year: 2016, price: 160, city: "batumi", images: [{ url: "/wrangler-1.jpg" }, { url: "/wrangler-2.jpg" }],
+  { name: "Jeep Wrangler", slug: "jeep-wrangler", year: 2016, price: 160, city: "batumi", images: [{ url: "/wrangler-1.webp" }, { url: "/wrangler-2.webp" }],
     tiers: [{ label: "1–3 days", price: 160 }, { label: "4–7 days", price: 150 }, { label: "7–15 days", price: 130 }],
     description: "Classic Jeep Wrangler — unstoppable off-road performance for Batumi's wildest adventures.",
     specs: [{ label: "Engine", value: "3.6L V6" }, { label: "Power", value: "285 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Off-Road" }] },
-  { name: "BMW 740i", slug: "bmw-740i", year: 2014, price: 150, city: "batumi", images: [{ url: "/bmw-740i-main.jpg" }, bmw740a, bmw740b, bmw740c, bmw740d, bmw740e, bmw740f, bmw740g],
+  { name: "BMW 740i", slug: "bmw-740i", year: 2014, price: 150, city: "batumi", images: [{ url: "/bmw-740i-main.webp" }, bmw740a, bmw740b, bmw740c, bmw740d, bmw740e, bmw740f, bmw740g],
     tiers: [{ label: "1–3 days", price: 150 }, { label: "4–7 days", price: 140 }, { label: "7–15 days", price: 130 }],
     description: "Prestigious BMW 7 Series — the pinnacle of luxury sedans with a smooth inline-6 engine and first-class comfort.",
     specs: [{ label: "Engine", value: "3.0L I6 Turbo" }, { label: "Power", value: "326 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury Sedan" }] },
@@ -190,7 +190,7 @@ export const CARS: Car[] = [
     description: "Fuel-efficient Toyota Prius hybrid — economical and eco-friendly transport for everyday city driving.",
     specs: [{ label: "Engine", value: "1.8L Hybrid" }, { label: "Power", value: "122 HP" }, { label: "Transmission", value: "CVT" }, { label: "Seats", value: "5" }, { label: "Class", value: "Hybrid" }] },
   { name: "Ford Escape", slug: "ford-escape", year: 2015, seats: 5, price: 50, city: "batumi",
-    images: [{ url: "/ford-escape-1.jpg" }, { url: "/ford-escape-2.jpg" }, { url: "/ford-escape-3.jpg" }, { url: "/ford-escape-4.jpg" }, { url: "/ford-escape-5.jpg" }, { url: "/ford-escape-6.jpg" }, { url: "/ford-escape-7.jpg" }],
+    images: [{ url: "/ford-escape-1.webp" }, { url: "/ford-escape-2.webp" }, { url: "/ford-escape-3.webp" }, { url: "/ford-escape-4.webp" }, { url: "/ford-escape-5.webp" }, { url: "/ford-escape-6.webp" }, { url: "/ford-escape-7.webp" }],
     tiers: [{ label: "1–3 days", price: 50 }, { label: "4–15 days", price: 45 }, { label: "15–30 days", price: 40 }],
     description: "Practical and reliable Ford Escape compact SUV — great value for exploring all corners of Georgia.",
     specs: [{ label: "Engine", value: "1.6L I4 Turbo" }, { label: "Power", value: "178 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Compact SUV" }] },
@@ -199,7 +199,7 @@ export const CARS: Car[] = [
     description: "The iconic 2019 Jeep Wrangler Sahara — built for adventure, perfect for Georgia's mountain and coastal terrain.",
     specs: [{ label: "Engine", value: "2.0L I4 Turbo" }, { label: "Power", value: "272 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Off-Road SUV" }] },
   { name: "Mini Countryman Cooper S", slug: "mini-countryman-cooper-s", year: 2022, seats: 5, price: 70, city: "tbilisi",
-    images: [{ url: "/mini-countryman-1.avif" }, { url: "/mini-countryman-2.avif" }, { url: "/mini-countryman-3.avif" }, { url: "/mini-countryman-4.avif" }, { url: "/mini-countryman-5.avif" }],
+    images: [{ url: "/mini-countryman-1.webp" }, { url: "/mini-countryman-2.avif" }, { url: "/mini-countryman-3.avif" }, { url: "/mini-countryman-4.avif" }, { url: "/mini-countryman-5.avif" }],
     tiers: [{ label: "1–3 days", price: 70 }, { label: "4–15 days", price: 65 }, { label: "15–30 days", price: 45 }],
     description: "Modern premium compact crossover combining MINI's sporty character with all-wheel drive confidence. Keyless entry, Apple CarPlay, heated seats.",
     specs: [{ label: "Engine", value: "2.0L I4 Turbo" }, { label: "Power", value: "178 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Compact SUV" }] },
@@ -209,7 +209,7 @@ export const CARS: Car[] = [
     description: "Elegant BMW 4 Series coupe — turbocharged 2.0L engine with premium interior and driver-focused dynamics.",
     specs: [{ label: "Engine", value: "2.0L I4 Turbo" }, { label: "Power", value: "252 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "4" }, { label: "Class", value: "Coupe" }] },
   { name: "Mercedes GLE 350", slug: "mercedes-gle-350", year: 2020, seats: 5, price: 220, city: "tbilisi",
-    images: [{ url: "/mercedes-gle-2.jpg" }, { url: "/mercedes-gle-1.jpg" }, { url: "/mercedes-gle-3.jpg" }, { url: "/mercedes-gle-4.jpg" }, { url: "/mercedes-gle-5.jpg" }, { url: "/mercedes-gle-6.jpg" }, { url: "/mercedes-gle-7.jpg" }, { url: "/mercedes-gle-8.jpg" }],
+    images: [{ url: "/mercedes-gle-2.webp" }, { url: "/mercedes-gle-1.webp" }, { url: "/mercedes-gle-3.webp" }, { url: "/mercedes-gle-4.webp" }, { url: "/mercedes-gle-5.webp" }, { url: "/mercedes-gle-6.webp" }, { url: "/mercedes-gle-7.webp" }, { url: "/mercedes-gle-8.webp" }],
     tiers: [{ label: "1–2 days", price: 220 }, { label: "3–5 days", price: 200 }, { label: "5+ days", price: 180 }],
     description: "The Mercedes-Benz GLE 350 — a masterpiece of German engineering combining luxury, power and cutting-edge technology.",
     specs: [{ label: "Engine", value: "2.0L I4 Turbo" }, { label: "Power", value: "255 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury SUV" }] },
@@ -234,7 +234,7 @@ export const CARS: Car[] = [
     description: "Serious 4x4 Jeep Wrangler Rubicon Diesel — built for Georgia's mountains. Removable roof, Dana 44 axles, leather interior, Apple CarPlay, backup camera. The ultimate off-road adventure vehicle.",
     specs: [{ label: "Engine", value: "3.0L V6 Diesel" }, { label: "Power", value: "260 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Off-Road SUV" }] },
   { name: "Mercedes GLC 300", slug: "mercedes-glc-300", year: 2023, seats: 5, price: 100, city: "tbilisi",
-    images: [{ url: "/mercedes-glc-300-1.avif" }, { url: "/mercedes-glc-300-2.avif" }, { url: "/mercedes-glc-300-3.avif" }, { url: "/mercedes-glc-300-4.avif" }],
+    images: [{ url: "/mercedes-glc-300-1.webp" }, { url: "/mercedes-glc-300-2.avif" }, { url: "/mercedes-glc-300-3.avif" }, { url: "/mercedes-glc-300-4.avif" }],
     tiers: [{ label: "1–7 days", price: 100 }, { label: "8–30 days", price: 80 }],
     description: "Luxury Mercedes-Benz GLC 300 — business-class comfort in a practical SUV. Panoramic sunroof, 360° camera, heated & ventilated leather seats, adaptive cruise control. Perfect for both city and mountain roads.",
     specs: [{ label: "Engine", value: "2.0L I4" }, { label: "Power", value: "240 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury SUV" }] },
@@ -334,7 +334,7 @@ function CarsPage() {
           className="absolute inset-0 transition-all duration-500"
           style={{ clipPath: "polygon(0 0, 58% 0, 48% 100%, 0 100%)" }}
         >
-          <img src="/batumi-panorama.jpg" alt="Batumi" className="h-full w-full object-cover object-center" />
+          <img src="/batumi-panorama.webp" alt="Batumi" className="h-full w-full object-cover object-center" />
           <div className={`absolute inset-0 transition-all duration-500 ${city === "batumi" ? "bg-black/20" : "bg-black/60"}`} />
           <div className="absolute inset-0 flex flex-col items-start justify-center pl-8 sm:pl-16">
             <p className="text-white/70 text-xs uppercase tracking-widest mb-1">{t("city_batumi_sub")}</p>
@@ -355,7 +355,7 @@ function CarsPage() {
           className="absolute inset-0 transition-all duration-500"
           style={{ clipPath: "polygon(52% 0, 100% 0, 100% 100%, 42% 100%)" }}
         >
-          <img src="/tbilisi-panorama.jpg" alt="Tbilisi" className="h-full w-full object-cover object-center" />
+          <img src="/tbilisi-panorama.webp" alt="Tbilisi" className="h-full w-full object-cover object-center" />
           <div className={`absolute inset-0 transition-all duration-500 ${city === "tbilisi" ? "bg-black/20" : "bg-black/60"}`} />
           <div className="absolute inset-0 flex flex-col items-end justify-center pr-8 sm:pr-16">
             <p className="text-white/70 text-xs uppercase tracking-widest mb-1">{t("city_tbilisi_sub")}</p>

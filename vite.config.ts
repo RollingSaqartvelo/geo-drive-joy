@@ -8,8 +8,17 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
   tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
     server: { entry: "server" },
+    nitro: {
+      routeRules: {
+        "/_build/**": { headers: { "cache-control": "public, max-age=31536000, immutable" } },
+        "/**.webp": { headers: { "cache-control": "public, max-age=604800, stale-while-revalidate=86400" } },
+        "/**.avif": { headers: { "cache-control": "public, max-age=604800, stale-while-revalidate=86400" } },
+        "/**.jpg": { headers: { "cache-control": "public, max-age=604800, stale-while-revalidate=86400" } },
+        "/**.jpeg": { headers: { "cache-control": "public, max-age=604800, stale-while-revalidate=86400" } },
+        "/**.png": { headers: { "cache-control": "public, max-age=604800, stale-while-revalidate=86400" } },
+        "/**.woff2": { headers: { "cache-control": "public, max-age=31536000, immutable" } },
+      },
+    },
   },
 });
