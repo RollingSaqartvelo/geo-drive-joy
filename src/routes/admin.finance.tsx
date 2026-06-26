@@ -36,6 +36,8 @@ const INCOME_CATEGORIES = [
   "Прочее",
 ];
 
+const fmt = (n: number) => String(parseFloat(n.toFixed(2)));
+
 const STORAGE_KEY = "georent_finance_entries";
 const MONTHS = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
 
@@ -243,7 +245,7 @@ function AdminFinance() {
                     <p className="text-xs text-gray-400">{b.clientName || "—"} · {b.days} дн. · ${b.totalPrice} общая</p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-green-600 font-black text-lg">+${myIncome}</span>
+                    <span className="text-green-600 font-black text-lg">+${fmt(myIncome)}</span>
                     <span className="text-xs text-gray-400">({label})</span>
                     <button onClick={() => importBooking(b.id)}
                       className="bg-green-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-green-600 transition-colors">
@@ -264,18 +266,18 @@ function AdminFinance() {
             <TrendingUp className="h-4 w-4 text-green-600" />
             <p className="text-xs font-semibold text-green-600 uppercase tracking-wide">Мои доходы</p>
           </div>
-          <p className="text-3xl font-black text-green-700">${totalIncome}</p>
+          <p className="text-3xl font-black text-green-700">${fmt(totalIncome)}</p>
         </div>
         <div className="bg-red-50 border border-red-100 rounded-2xl px-5 py-4">
           <div className="flex items-center gap-2 mb-1">
             <TrendingDown className="h-4 w-4 text-red-500" />
             <p className="text-xs font-semibold text-red-500 uppercase tracking-wide">Расходы</p>
           </div>
-          <p className="text-3xl font-black text-red-600">${totalExpense}</p>
+          <p className="text-3xl font-black text-red-600">${fmt(totalExpense)}</p>
           {expenseByCategory.length > 0 && (
             <div className="mt-2 flex flex-col gap-0.5">
               {expenseByCategory.map(({ cat, total }) => (
-                <p key={cat} className="text-xs text-red-400">{cat}: ${total}</p>
+                <p key={cat} className="text-xs text-red-400">{cat}: ${fmt(total)}</p>
               ))}
             </div>
           )}
@@ -285,7 +287,7 @@ function AdminFinance() {
             <DollarSign className={`h-4 w-4 ${netProfit >= 0 ? "text-[var(--brand-blue)]" : "text-orange-500"}`} />
             <p className={`text-xs font-semibold uppercase tracking-wide ${netProfit >= 0 ? "text-[var(--brand-blue)]" : "text-orange-500"}`}>Чистая прибыль</p>
           </div>
-          <p className={`text-3xl font-black ${netProfit >= 0 ? "text-[var(--brand-blue)]" : "text-orange-600"}`}>${netProfit}</p>
+          <p className={`text-3xl font-black ${netProfit >= 0 ? "text-[var(--brand-blue)]" : "text-orange-600"}`}>${fmt(netProfit)}</p>
           <p className="text-xs text-gray-400 mt-1">доходы − расходы</p>
         </div>
       </div>
@@ -322,7 +324,7 @@ function AdminFinance() {
                   </td>
                   <td className="px-5 py-3 text-gray-600 text-xs">{e.description || "—"}</td>
                   <td className={`px-5 py-3 text-right font-bold ${e.type === "income" ? "text-green-600" : "text-red-500"}`}>
-                    {e.type === "income" ? "+" : "−"}${e.amount}
+                    {e.type === "income" ? "+" : "−"}${fmt(e.amount)}
                   </td>
                   <td className="px-3 py-3">
                     <button onClick={() => remove(e.id)} className="text-gray-300 hover:text-red-400 transition-colors">
