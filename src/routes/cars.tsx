@@ -104,7 +104,7 @@ export const CARS: Car[] = [
     specs: [{ label: "Engine", value: "2.0L" }, { label: "Drive", value: "AWD" }, { label: "Trim", value: "Limited" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }],
     plate: "TS278TT", vin: "JFGTHNCXMH681462", receiptNo: "BVA1860180", vehicleOwner: "KAKHA BERIDZE", mileage: 49100, commission: 30 },
   { name: "Subaru Crosstrek Black", slug: "subaru-crosstrek-black", year: 2022, seats: 5, price: 65, city: "batumi",
-    images: [{ url: "/crosstrek-black-4.jpeg" }, { url: "/crosstrek-black-3.jpeg" }, { url: "/crosstrek-black-2.jpeg" }, { url: "/crosstrek-black-1.jpeg" }],
+    images: [{ url: "/crosstrek-black-1.jpeg" }, { url: "/crosstrek-black-2.jpeg" }, { url: "/crosstrek-black-3.jpeg" }, { url: "/crosstrek-black-4.jpeg" }],
     tiers: [{ label: "1–3 days", price: 65 }, { label: "4–7 days", price: 60 }, { label: "7–15 days", price: 55 }, { label: "15–30 days", price: 40 }],
     description: "Subaru Crosstrek 2022 — полный привод AWD, чёрный цвет, подогрев сидений, камера заднего вида. Универсальный кроссовер для города и горных дорог Грузии.",
     specs: [{ label: "Engine", value: "2.0L" }, { label: "Drive", value: "AWD" }, { label: "Color", value: "Black" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }],
