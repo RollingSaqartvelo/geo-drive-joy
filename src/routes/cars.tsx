@@ -244,6 +244,12 @@ export const CARS: Car[] = [
     tiers: [{ label: "1 day", price: 220 }, { label: "2–3 days", price: 200 }, { label: "4–7 days", price: 180 }, { label: "8–30 days", price: 100 }],
     description: "Adventure-ready Ford Bronco Badlands — a powerful 4x4 SUV built for exploring Georgia's mountains and countryside roads. Features leather seats, 12-inch touchscreen, blind spot monitoring and lane departure warnings.",
     specs: [{ label: "Engine", value: "2.7L V6" }, { label: "Power", value: "330 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Off-Road SUV" }] },
+  { name: "Ford Mustang Shelby", slug: "mustang-shelby-black", year: 2017, seats: 4, price: 120, city: "tbilisi",
+    images: [{ url: "/mustang-shelby-1.webp" }, { url: "/mustang-shelby-2.webp" }, { url: "/mustang-shelby-3.webp" }, { url: "/mustang-shelby-4.webp" }],
+    tiers: [{ label: "1–3 days", price: 120 }, { label: "4–7 days", price: 110 }, { label: "7–15 days", price: 100 }],
+    description: "Ford Mustang Shelby 2017 — культовый американский маслкар в полной комплектации. V6 3.7L, тёмно-чёрный цвет, агрессивный аэродинамический обвес Shelby, спортивный выхлоп, кожаный салон. Незабываемый опыт вождения по улицам Тбилиси.",
+    specs: [{ label: "Engine", value: "3.7L V6" }, { label: "Power", value: "300 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Color", value: "Dark Black" }, { label: "Class", value: "Muscle Car" }],
+    commission: 30 },
 ];
 
 export const Route = createFileRoute("/cars")({
