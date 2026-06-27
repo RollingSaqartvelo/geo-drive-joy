@@ -107,7 +107,7 @@ export const CARS: Car[] = [
     images: [{ url: "/crosstrek-black-1.jpeg" }, { url: "/crosstrek-black-2.jpeg" }, { url: "/crosstrek-black-3.jpeg" }, { url: "/crosstrek-black-4.webp" }],
     tiers: [{ label: "1–3 days", price: 65 }, { label: "4–7 days", price: 60 }, { label: "7–15 days", price: 55 }, { label: "15–30 days", price: 40 }],
     description: "Subaru Crosstrek 2022 — полный привод AWD, чёрный цвет, подогрев сидений, камера заднего вида. Универсальный кроссовер для города и горных дорог Грузии.",
-    specs: [{ label: "Engine", value: "2.0L" }, { label: "Drive", value: "AWD" }, { label: "Color", value: "Black" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }],
+    specs: [{ label: "Engine", value: "2.5L" }, { label: "Drive", value: "AWD" }, { label: "Fuel", value: "Gasoline" }, { label: "Color", value: "Black" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }],
     plate: "FL118FF", vin: "JF2GTHSC0PH275330", receiptNo: "BVA1497730", vehicleOwner: "KHAKHUTAISHVILI LEDI", mileage: 5006, mileageUnit: "mi", commission: 30 },
   { name: "Ford Fusion Plug-In", slug: "ford-fusion-plugin", year: 2015, seats: 5, price: 45, city: "batumi",
     images: [{ url: "/ford-fusion-1.webp" }, { url: "/ford-fusion-2.webp" }, { url: "/ford-fusion-3.webp" }, { url: "/ford-fusion-4.avif" }, { url: "/ford-fusion-5.avif" }, { url: "/ford-fusion-6.avif" }, { url: "/ford-fusion-7.avif" }],
