@@ -4,6 +4,7 @@ import { ArrowLeft, MapPin, Calendar, Users, CalendarDays } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { CARS } from "./cars";
 import { useI18n } from "@/lib/i18n";
+import { trackLead } from "@/lib/analytics";
 
 export const Route = createFileRoute("/car/$slug")({
   component: CarDetailPage,
@@ -62,6 +63,7 @@ function CarDetailPage() {
       const reqs = JSON.parse(localStorage.getItem("georent_requests") || "[]");
       reqs.push({ carSlug: car.slug, carName: car.name, name: form.name, phone: form.phone, from: form.from, to: form.to, date: new Date().toISOString() });
       localStorage.setItem("georent_requests", JSON.stringify(reqs));
+      trackLead({ car: car.name, source: "car_page" });
       setStatus("sent");
       setForm({ name: "", phone: "", from: "", to: "", persons: "1", notes: "" });
     } catch {

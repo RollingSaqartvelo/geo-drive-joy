@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import logo from "@/assets/logo.png.asset.json";
 import { LanguageSwitcher, useI18n } from "@/lib/i18n";
+import { trackWhatsAppClick } from "@/lib/analytics";
 
 export function SiteLayout({ children }: { children: React.ReactNode }) {
   const { t } = useI18n();
@@ -33,6 +34,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
         href="https://wa.me/995500194533?text=Hello!%20I%20would%20like%20to%20rent%20a%20car."
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() => trackWhatsAppClick({ source: "floating_button" })}
         className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] hover:bg-[#1ebe5d] text-white font-bold rounded-full shadow-2xl transition-all hover:scale-105 active:scale-95 group"
         aria-label="WhatsApp"
       >
@@ -53,7 +55,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
           <div className="text-sm space-y-2">
             <h4 className="text-white font-semibold uppercase tracking-wider text-xs mb-3">{t("footer_contact")}</h4>
             <p>Lermontov Street 101, Batumi, Georgia</p>
-            <p><a href="https://wa.me/995500194533" className="hover:text-white">WhatsApp: +995 500 194 533</a></p>
+            <p><a href="https://wa.me/995500194533" onClick={() => trackWhatsAppClick({ source: "footer" })} className="hover:text-white">WhatsApp: +995 500 194 533</a></p>
             <p><a href="mailto:rolling_saqartvelo@outlook.com" className="hover:text-white break-all">rolling_saqartvelo@outlook.com</a></p>
           </div>
           <div className="text-sm space-y-2">

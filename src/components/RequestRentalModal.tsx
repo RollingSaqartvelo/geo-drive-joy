@@ -10,6 +10,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
+import { trackLead } from "@/lib/analytics";
 
 type Method = "WhatsApp" | "Telegram" | "Phone call";
 
@@ -90,6 +91,7 @@ export function RequestRentalModal({ trigger, car }: Props) {
       );
       const data = await res.json();
       if (!data.ok) throw new Error(data.description || "Telegram error");
+      trackLead({ car: car?.name, source: car ? "car_modal" : "general_modal" });
       setDone(true);
     } catch (err) {
       setError((err as Error).message || t("send_error"));
