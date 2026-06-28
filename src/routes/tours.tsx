@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { MessageCircle, MapPin, Check } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
@@ -263,7 +263,7 @@ function ToursPage() {
           <div className="grid gap-6 sm:grid-cols-2">
             <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
               <div className="h-64 bg-gray-100 overflow-hidden">
-                <img src="/vito-1.jpeg" alt="Mercedes-Benz Vito белый" className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                <img src="/vito-1.webp" alt="Mercedes-Benz Vito белый" className="w-full h-full object-cover" loading="lazy" decoding="async" />
               </div>
               <div className="p-5">
                 <h3 className="font-bold text-lg text-[var(--brand-blue)]">Mercedes-Benz Vito — белый</h3>

@@ -77,6 +77,9 @@ export type Car = {
   vin?: string;
   receiptNo?: string;
   vehicleOwner?: string;
+  ownerId?: string;
+  ownerAddress?: string;
+  regDate?: string;
   mileage?: number;
   mileageUnit?: "km" | "mi";
   commission?: number;
@@ -119,7 +122,8 @@ export const CARS: Car[] = [
     images: [{ url: "/subaru-forester-1.webp" }, { url: "/subaru-forester-2.webp" }, { url: "/subaru-forester-3.webp" }, { url: "/subaru-forester-4.avif" }],
     tiers: [{ label: "1–3 days", price: 75 }, { label: "4–7 days", price: 65 }, { label: "7–15 days", price: 60 }, { label: "15–30 days", price: 50 }],
     description: "Subaru Forester 2022 — надёжный полноприводный кроссовер с просторным салоном, идеально подходящий для поездок по Батуми и горным маршрутам Грузии.",
-    specs: [{ label: "Engine", value: "2.5L" }, { label: "Drive", value: "AWD" }, { label: "Transmission", value: "CVT" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }], commission: 30 },
+    specs: [{ label: "Engine", value: "2.5L" }, { label: "Drive", value: "AWD" }, { label: "Transmission", value: "CVT" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }],
+    plate: "YW961YW", vin: "JF2SKACC9PH438138", receiptNo: "AJA8963518", vehicleOwner: "GOGITIDZE KHVICHA", ownerId: "61008007134", ownerAddress: "Keda, vil. Tsoniarisi, 1st str. N1, Georgia", regDate: "14/04/2026", mileage: 58239, mileageUnit: "km", commission: 30 },
   { name: "Mercedes E350", slug: "mercedes-e350", year: 2015, seats: 5, price: 100, city: "batumi",
     images: [{ url: "/mercedes-e350-1.webp" }, { url: "/mercedes-e350-2.webp" }, { url: "/mercedes-e350-3.webp" }, { url: "/mercedes-e350-4.webp" }],
     tiers: [{ label: "1–3 days", price: 100 }, { label: "4–7 days", price: 90 }, { label: "7–15 days", price: 80 }],

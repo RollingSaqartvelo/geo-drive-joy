@@ -210,6 +210,9 @@ function AdminCars() {
                     {car.vin && <p className="text-xs text-gray-400 mt-0.5 font-mono truncate max-w-[160px]" title={car.vin}>VIN: {car.vin}</p>}
                     {car.receiptNo && <p className="text-xs text-gray-400 mt-0.5">Receipt: {car.receiptNo}</p>}
                     {car.vehicleOwner && <p className="text-xs text-gray-500 mt-0.5">👤 {car.vehicleOwner}</p>}
+                    {car.ownerId && <p className="text-xs text-gray-400 mt-0.5 font-mono">ID: {car.ownerId}</p>}
+                    {car.ownerAddress && <p className="text-xs text-gray-400 mt-0.5">🏠 {car.ownerAddress}</p>}
+                    {car.regDate && <p className="text-xs text-gray-400 mt-0.5">📅 {car.regDate}</p>}
                     {car.mileage && <p className="text-xs text-gray-400 mt-0.5">📍 {car.mileage.toLocaleString()} {car.mileageUnit ?? "mi"}</p>}
                   </div>
                   <span className="text-lg font-black text-[var(--brand-blue)] shrink-0">${car.price}</span>
