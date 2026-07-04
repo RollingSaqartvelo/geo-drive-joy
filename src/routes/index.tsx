@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Car, Map, MapPin } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { RequestRentalModal } from "@/components/RequestRentalModal";
+import { VipTransfersSection } from "@/components/VipTransfersSection";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import hero from "@/assets/hero.jpg.asset.json";
@@ -67,6 +68,9 @@ function Index() {
           </div>
         </div>
       </section>
+
+      {/* VIP Transfers & Executive Protection */}
+      <VipTransfersSection />
 
       {/* Rental Terms */}
       <section className="py-20 sm:py-24 bg-[var(--brand-blue)]">
