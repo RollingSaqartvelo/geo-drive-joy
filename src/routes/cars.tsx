@@ -31,8 +31,12 @@ import gx5 from "@/assets/lexus-gx470-5.jpg.asset.json";
 import sedona1 from "@/assets/sedona-1.jpg.asset.json";
 import sedona2 from "@/assets/sedona-2.jpg.asset.json";
 import sedona3 from "@/assets/sedona-3.jpg.asset.json";
-import wrangler1 from "@/assets/wrangler-1.jpg.asset.json";
-import wrangler2 from "@/assets/wrangler-2.jpg.asset.json";
+import wrangler1 from "@/assets/wrangler-new-1.jpg.asset.json";
+import wrangler2 from "@/assets/wrangler-new-2.jpg.asset.json";
+import wrangler3 from "@/assets/wrangler-new-3.jpg.asset.json";
+import wrangler4 from "@/assets/wrangler-new-4.jpg.asset.json";
+import wrangler5 from "@/assets/wrangler-new-5.jpg.asset.json";
+import wrangler6 from "@/assets/wrangler-new-6.jpg.asset.json";
 import bmw740a from "@/assets/bmw740-1.jpg.asset.json";
 import bmw740b from "@/assets/bmw740-2.jpg.asset.json";
 import bmw740c from "@/assets/bmw740-3.jpg.asset.json";
@@ -234,8 +238,8 @@ export const CARS: Car[] = [
     tiers: [{ label: "1–3 days", price: 90 }, { label: "4–7 days", price: 80 }, { label: "8–15 days", price: 70 }],
     description: "Spacious KIA Sedona minivan — comfortable transport for large groups and family vacations in Georgia.",
     specs: [{ label: "Engine", value: "3.3L V6" }, { label: "Power", value: "276 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "8" }, { label: "Class", value: "Minivan" }] },
-  { name: "Jeep Wrangler", slug: "jeep-wrangler", year: 2016, price: 160, city: "batumi", images: [{ url: "/wrangler-1.webp" }, { url: "/wrangler-2.webp" }],
-    tiers: [{ label: "1–3 days", price: 160 }, { label: "4–7 days", price: 150 }, { label: "7–15 days", price: 130 }],
+  { name: "Jeep Wrangler", slug: "jeep-wrangler", year: 2016, price: 130, city: "batumi", images: [wrangler1, wrangler2, wrangler3, wrangler4, wrangler5, wrangler6],
+    tiers: [{ label: "1–3 days", price: 130 }, { label: "4–7 days", price: 120 }, { label: "7–15 days", price: 110 }],
     description: "Classic Jeep Wrangler — unstoppable off-road performance for Batumi's wildest adventures.",
     specs: [{ label: "Engine", value: "3.6L V6" }, { label: "Power", value: "285 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Off-Road" }] },
   { name: "BMW 740i", slug: "bmw-740i", year: 2014, price: 150, city: "batumi", images: [{ url: "/bmw-740i-main.webp" }, bmw740a, bmw740b, bmw740c, bmw740d, bmw740e, bmw740f, bmw740g],
