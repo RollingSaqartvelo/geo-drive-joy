@@ -62,6 +62,10 @@ import lincoln3 from "@/assets/lincoln-mkz-3.jpg.asset.json";
 import lincoln4 from "@/assets/lincoln-mkz-4.jpg.asset.json";
 import lincoln5 from "@/assets/lincoln-mkz-5.jpg.asset.json";
 import lincoln6 from "@/assets/lincoln-mkz-6.jpg.asset.json";
+import kuga1 from "@/assets/ford-kuga-1.jpg.asset.json";
+import kuga2 from "@/assets/ford-kuga-2.jpg.asset.json";
+import kuga3 from "@/assets/ford-kuga-3.jpg.asset.json";
+import kuga4 from "@/assets/ford-kuga-4.jpg.asset.json";
 
 type City = "batumi" | "tbilisi";
 type PriceTier = { label: string; price: number };
