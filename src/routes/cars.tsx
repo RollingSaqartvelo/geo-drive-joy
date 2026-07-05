@@ -62,6 +62,10 @@ import lincoln3 from "@/assets/lincoln-mkz-3.jpg.asset.json";
 import lincoln4 from "@/assets/lincoln-mkz-4.jpg.asset.json";
 import lincoln5 from "@/assets/lincoln-mkz-5.jpg.asset.json";
 import lincoln6 from "@/assets/lincoln-mkz-6.jpg.asset.json";
+import kuga1 from "@/assets/ford-kuga-1.jpg.asset.json";
+import kuga2 from "@/assets/ford-kuga-2.jpg.asset.json";
+import kuga3 from "@/assets/ford-kuga-3.jpg.asset.json";
+import kuga4 from "@/assets/ford-kuga-4.jpg.asset.json";
 
 type City = "batumi" | "tbilisi";
 type PriceTier = { label: string; price: number };
@@ -94,6 +98,12 @@ export type Car = {
 };
 
 export const CARS: Car[] = [
+  { name: "Ford Kuga (Escape)", slug: "ford-kuga-escape", year: 2019, seats: 5, price: 50, city: "batumi",
+    images: [{ url: kuga1.url }, { url: kuga2.url }, { url: kuga3.url }, { url: kuga4.url }],
+    tiers: [{ label: "1–3 days", price: 50 }, { label: "4–7 days", price: 45 }],
+    plate: "BE-800-00",
+    description: "Ford Kuga (Escape) 2019 — надёжный и комфортный компактный SUV. Экономичный двигатель, просторный салон, отличная управляемость. Идеальный выбор для поездок по Батуми и всей Грузии.",
+    specs: [{ label: "Engine", value: "1.5L EcoBoost" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }] },
   { name: "Lincoln MKZ Hybrid", slug: "lincoln-mkz-hybrid", year: 2017, seats: 5, price: 55, city: "batumi",
     images: [{ url: lincoln1.url }, { url: lincoln2.url }, { url: lincoln3.url }, { url: lincoln4.url }, { url: lincoln5.url }, { url: lincoln6.url }],
     tiers: [{ label: "1–3 days", price: 55 }, { label: "4–7 days", price: 50 }, { label: "7–15 days", price: 45 }],
