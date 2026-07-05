@@ -56,6 +56,12 @@ import x5b from "@/assets/bmwx5-2.avif.asset.json";
 import x5c from "@/assets/bmwx5-3.avif.asset.json";
 import x5e from "@/assets/bmwx5-5.avif.asset.json";
 import x5f from "@/assets/bmwx5-6.avif.asset.json";
+import lincoln1 from "@/assets/lincoln-mkz-1.jpg.asset.json";
+import lincoln2 from "@/assets/lincoln-mkz-2.jpg.asset.json";
+import lincoln3 from "@/assets/lincoln-mkz-3.jpg.asset.json";
+import lincoln4 from "@/assets/lincoln-mkz-4.jpg.asset.json";
+import lincoln5 from "@/assets/lincoln-mkz-5.jpg.asset.json";
+import lincoln6 from "@/assets/lincoln-mkz-6.jpg.asset.json";
 
 type City = "batumi" | "tbilisi";
 type PriceTier = { label: string; price: number };
