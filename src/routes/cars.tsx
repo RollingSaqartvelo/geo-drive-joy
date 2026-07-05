@@ -14,9 +14,6 @@ import pac1 from "@/assets/pacifica-1.webp.asset.json";
 import pac2 from "@/assets/pacifica-2.webp.asset.json";
 import pac3 from "@/assets/pacifica-3.webp.asset.json";
 import pac4 from "@/assets/pacifica-4.webp.asset.json";
-import bmwx4a from "@/assets/bmwx4-1.jpg.asset.json";
-import bmwx4b from "@/assets/bmwx4-2.jpg.asset.json";
-import bmwx4c from "@/assets/bmwx4-3.jpg.asset.json";
 import rrred1 from "@/assets/rrsport-red-1.jpg.asset.json";
 import rrred2 from "@/assets/rrsport-red-2.jpg.asset.json";
 import rrred3 from "@/assets/rrsport-red-3.jpg.asset.json";
@@ -223,10 +220,6 @@ export const CARS: Car[] = [
     tiers: [{ label: "1–3 days", price: 200 }, { label: "4–7 days", price: 180 }, { label: "7–15 days", price: 160 }],
     description: "The latest Land Rover Discovery — premium adventure-ready luxury SUV built for Georgia's diverse terrain.",
     specs: [{ label: "Engine", value: "3.0L I6" }, { label: "Power", value: "395 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury SUV" }] },
-  { name: "BMW X4 3.0L", slug: "bmw-x4", year: 2019, price: 150, city: "batumi", images: [bmwx4a, bmwx4b, bmwx4c],
-    tiers: [{ label: "1–3 days", price: 150 }, { label: "4–7 days", price: 140 }, { label: "7–15 days", price: 130 }],
-    description: "Dynamic BMW X4 with powerful inline-6 engine — sporty coupe SUV for those who demand both style and performance.",
-    specs: [{ label: "Engine", value: "3.0L I6" }, { label: "Power", value: "360 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Sports SUV" }] },
   { name: "BMW X3", slug: "bmw-x3", year: 2020, seats: 5, price: 130, city: "batumi",
     images: [{ url: "/bmw-x3-1.webp" }, { url: "/bmw-x3-2.webp" }, { url: "/bmw-x3-3.webp" }, { url: "/bmw-x3-4.webp" }, { url: "/bmw-x3-5.webp" }, { url: "/bmw-x3-6.webp" }, { url: "/bmw-x3-7.webp" }, { url: "/bmw-x3-8.webp" }],
     tiers: [{ label: "1–3 days", price: 130 }, { label: "4–7 days", price: 120 }, { label: "7–15 days", price: 110 }],
