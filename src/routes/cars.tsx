@@ -34,8 +34,8 @@ import gx5 from "@/assets/lexus-gx470-5.jpg.asset.json";
 import sedona1 from "@/assets/sedona-1.jpg.asset.json";
 import sedona2 from "@/assets/sedona-2.jpg.asset.json";
 import sedona3 from "@/assets/sedona-3.jpg.asset.json";
-import wrangler1 from "@/assets/wrangler-1.webp.asset.json";
-import wrangler2 from "@/assets/wrangler-2.webp.asset.json";
+import wrangler1 from "@/assets/wrangler-1.jpg.asset.json";
+import wrangler2 from "@/assets/wrangler-2.jpg.asset.json";
 import bmw740a from "@/assets/bmw740-1.jpg.asset.json";
 import bmw740b from "@/assets/bmw740-2.jpg.asset.json";
 import bmw740c from "@/assets/bmw740-3.jpg.asset.json";
@@ -56,6 +56,12 @@ import x5b from "@/assets/bmwx5-2.avif.asset.json";
 import x5c from "@/assets/bmwx5-3.avif.asset.json";
 import x5e from "@/assets/bmwx5-5.avif.asset.json";
 import x5f from "@/assets/bmwx5-6.avif.asset.json";
+import lincoln1 from "@/assets/lincoln-mkz-1.jpg.asset.json";
+import lincoln2 from "@/assets/lincoln-mkz-2.jpg.asset.json";
+import lincoln3 from "@/assets/lincoln-mkz-3.jpg.asset.json";
+import lincoln4 from "@/assets/lincoln-mkz-4.jpg.asset.json";
+import lincoln5 from "@/assets/lincoln-mkz-5.jpg.asset.json";
+import lincoln6 from "@/assets/lincoln-mkz-6.jpg.asset.json";
 
 type City = "batumi" | "tbilisi";
 type PriceTier = { label: string; price: number };
@@ -88,6 +94,12 @@ export type Car = {
 };
 
 export const CARS: Car[] = [
+  { name: "Lincoln MKZ Hybrid", slug: "lincoln-mkz-hybrid", year: 2017, seats: 5, price: 55, city: "batumi",
+    images: [{ url: lincoln1.url }, { url: lincoln2.url }, { url: lincoln3.url }, { url: lincoln4.url }, { url: lincoln5.url }, { url: lincoln6.url }],
+    tiers: [{ label: "1–3 days", price: 55 }, { label: "4–7 days", price: 50 }, { label: "7–15 days", price: 45 }],
+    plate: "2984 BZ",
+    description: "Lincoln MKZ Hybrid — элегантный премиальный седан с гибридным двигателем. Экономичный расход топлива, кожаный салон, плавный и тихий ход. Идеальный выбор для комфортных поездок по Батуми и всей Грузии.",
+    specs: [{ label: "Engine", value: "2.0L Hybrid" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Sedan" }] },
   { name: "BMW 430i Cabriolet M Sport", slug: "bmw-430i-cabriolet", year: 2019, seats: 4, price: 170, city: "batumi",
     images: [{ url: "/bmw430i-cab-1.webp" }, { url: "/bmw430i-cab-2.webp" }, { url: "/bmw430i-cab-3.webp" }],
     tiers: [{ label: "1–3 days", price: 170 }, { label: "4–7 days", price: 160 }, { label: "7–15 days", price: 140 }],
