@@ -94,6 +94,12 @@ export type Car = {
 };
 
 export const CARS: Car[] = [
+  { name: "Lincoln MKZ Hybrid", slug: "lincoln-mkz-hybrid", year: 2017, seats: 5, price: 55, city: "batumi",
+    images: [{ url: lincoln1.url }, { url: lincoln2.url }, { url: lincoln3.url }, { url: lincoln4.url }, { url: lincoln5.url }, { url: lincoln6.url }],
+    tiers: [{ label: "1–3 days", price: 55 }, { label: "4–7 days", price: 50 }, { label: "7–15 days", price: 45 }],
+    plate: "2984 BZ",
+    description: "Lincoln MKZ Hybrid — элегантный премиальный седан с гибридным двигателем. Экономичный расход топлива, кожаный салон, плавный и тихий ход. Идеальный выбор для комфортных поездок по Батуми и всей Грузии.",
+    specs: [{ label: "Engine", value: "2.0L Hybrid" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Sedan" }] },
   { name: "BMW 430i Cabriolet M Sport", slug: "bmw-430i-cabriolet", year: 2019, seats: 4, price: 170, city: "batumi",
     images: [{ url: "/bmw430i-cab-1.webp" }, { url: "/bmw430i-cab-2.webp" }, { url: "/bmw430i-cab-3.webp" }],
     tiers: [{ label: "1–3 days", price: 170 }, { label: "4–7 days", price: 160 }, { label: "7–15 days", price: 140 }],
