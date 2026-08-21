@@ -8,6 +8,8 @@ import {
   loadBookings, saveBookings, nextContractNumber, calcDays, getCarCurrentCity
 } from "@/lib/adminBookings";
 import { openContract } from "@/lib/contractGenerator";
+import { AvailabilitySearch, type AvailCar } from "@/components/AvailabilitySearch";
+import type { Loc } from "@/lib/availability";
 
 export const Route = createFileRoute("/admin/calendar")({
   component: AdminCalendar,
@@ -349,17 +351,19 @@ function AdminCalendar() {
   const [blkFrom, setBlkFrom] = useState("");
   const [blkTo, setBlkTo] = useState("");
 
-  const openNewBooking = (slug: string, presetDate = "") => {
+  const openNewBooking = (slug: string, from = "", to = "", pCity?: string, rCity?: string) => {
     const car = CARS.find(c => c.slug === slug);
     const curCity = getCarCurrentCity(slug, car?.city || "batumi");
+    const days = from && to ? calcDays(from, to) : 0;
+    const ppd = car ? suggestPrice(car, days || 1) : 0;
     setModal({
       isNew: true, carSlug: slug, carName: car?.name || "",
-      carBaseCity: car?.city || curCity, pickupCity: curCity, returnCity: curCity,
-      pickupDate: presetDate, returnDate: "", pickupTime: "11:00", returnTime: "11:00",
+      carBaseCity: car?.city || curCity, pickupCity: pCity || curCity, returnCity: rCity || pCity || curCity,
+      pickupDate: from, returnDate: to, pickupTime: "11:00", returnTime: "11:00",
       pickupType: "office", deliveryAddress: "", services: [],
       clientName: "", clientPassport: "", clientLicense: "", clientPhone: "",
-      clientContact: "whatsapp", pricePerDay: car ? suggestPrice(car, 1) : 0,
-      totalPrice: 0, deposit: 150, days: 0, note: "",
+      clientContact: "whatsapp", pricePerDay: ppd,
+      totalPrice: days * ppd, deposit: 150, days, note: "",
     });
   };
 
@@ -453,6 +457,12 @@ function AdminCalendar() {
 
   const totalW = CAR_COL + DAY_W * DAYS;
 
+  const availCars: AvailCar[] = CARS.map(c => ({
+    slug: c.slug, baseCity: c.city as Loc, name: c.name,
+    priceFrom: c.tiers && c.tiers.length ? c.tiers[c.tiers.length - 1].price : c.price,
+    image: c.images?.[0]?.url,
+  }));
+
   return (
     <div className="p-4 sm:p-6 select-none" onMouseUp={() => {
       if (dragStart.current) { dragStart.current = null; dragMoved.current = false; setHoverDate(null); }
@@ -472,6 +482,17 @@ function AdminCalendar() {
             </button>
           ))}
         </div>
+      </div>
+
+      {/* Availability questionnaire — same engine used for public site */}
+      <div className="mb-5">
+        <AvailabilitySearch
+          cars={availCars}
+          bookings={bookings}
+          blocks={blocks}
+          ctaLabel="Оформить бронь"
+          onPick={(slug, q) => openNewBooking(slug, q.pickupDate, q.returnDate, q.pickupCity, q.returnCity)}
+        />
       </div>
 
       {/* Mobile view — car cards */}
