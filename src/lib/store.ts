@@ -168,3 +168,31 @@ export async function pushRemoveBlock(slug: string, from: string, to: string): P
     if (error) throw error;
   } catch (e) { console.error("[remove block]", e); }
 }
+
+// ── публичное чтение (без PII): только поля, нужные движку доступности ──
+export async function fetchSlotsPublic(): Promise<AdminBooking[]> {
+  try {
+    const { data, error } = await sb
+      .from("bookings")
+      .select("vehicle_slug,start_date,end_date,pickup_city,dropoff_city,status");
+    if (error) throw error;
+    // Возвращаем частичные объекты — движок читает только эти поля.
+    return (data || []).map((r: any) => ({
+      carSlug: r.vehicle_slug,
+      pickupDate: r.start_date,
+      returnDate: r.end_date,
+      pickupCity: r.pickup_city,
+      returnCity: r.dropoff_city,
+    })) as unknown as AdminBooking[];
+  } catch (e) { console.error("[public slots]", e); return []; }
+}
+
+export async function fetchBlocksPublic(): Promise<BlocksMap> {
+  try {
+    const { data, error } = await sb.from("blocks").select("vehicle_slug,date_from,date_to");
+    if (error) throw error;
+    const map: BlocksMap = {};
+    for (const r of (data || [])) (map[r.vehicle_slug] ||= []).push({ from: r.date_from, to: r.date_to });
+    return map;
+  } catch (e) { console.error("[public blocks]", e); return {}; }
+}

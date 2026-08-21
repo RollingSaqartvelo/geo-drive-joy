@@ -2,6 +2,7 @@
 import { Users, Calendar, MapPin } from "lucide-react";
 import { useState } from "react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { PublicCarFinder } from "@/components/PublicCarFinder";
 import { useI18n } from "@/lib/i18n";
 import mustang1 from "@/assets/mustang-1.jpg.asset.json";
 import mustang2 from "@/assets/mustang-2.jpg.asset.json";
@@ -472,6 +473,12 @@ function CarsPage() {
         </div>
 
       </div>
+
+      <section className="pt-12 sm:pt-16">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6">
+          <PublicCarFinder />
+        </div>
+      </section>
 
       <section className="py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
