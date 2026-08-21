@@ -92,28 +92,57 @@ export function AdminLayout() {
   // Менеджеру закрыты финансы и страница авто (там видна выручка)
   const blocked = isManager && (path.startsWith("/admin/finance") || path.startsWith("/admin/cars"));
 
-  const linkCls = "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:text-[var(--brand-blue)] hover:bg-blue-50 [&.active]:bg-[var(--brand-blue)] [&.active]:text-white transition-all";
+  const badgeCls = `text-[11px] font-bold px-2.5 py-0.5 rounded-full ${isManager ? "bg-blue-50 text-[var(--brand-blue)]" : "bg-amber-50 text-amber-600"}`;
+  const sideLinkCls = "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:text-[var(--brand-blue)] hover:bg-blue-50 [&.active]:bg-[var(--brand-blue)] [&.active]:text-white transition-all";
+  const topLinkCls = "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold whitespace-nowrap text-gray-500 bg-gray-100 [&.active]:bg-[var(--brand-blue)] [&.active]:text-white transition-all";
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Sidebar */}
-      <aside className="w-52 shrink-0 bg-white border-r border-gray-200 flex flex-col shadow-sm">
-        <div className="p-4 border-b border-gray-100 flex flex-col items-center gap-2">
-          <img src={logo.url} alt="GEOrent" className="h-14 w-auto" />
-          <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${isManager ? "bg-blue-50 text-[var(--brand-blue)]" : "bg-amber-50 text-amber-600"}`}>
-            {userName}
-          </span>
+    <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
+      {/* Mobile top bar */}
+      <header className="md:hidden sticky top-0 z-20 bg-white border-b border-gray-200 shadow-sm">
+        <div className="flex items-center justify-between gap-2 px-3 py-2">
+          <img src={logo.url} alt="GEOrent" className="h-9 w-auto" />
+          <div className="flex items-center gap-2">
+            <span className={badgeCls}>{userName}</span>
+            <button onClick={logout} aria-label="Выйти"
+              className="h-8 w-8 rounded-lg flex items-center justify-center text-gray-400 active:text-red-500 active:bg-red-50">
+              <LogOut className="h-4 w-4" />
+            </button>
+          </div>
         </div>
-        <nav className="flex-1 p-3 flex flex-col gap-1 mt-2">
-          <Link to="/admin/calendar" className={linkCls}>
+        <nav className="flex gap-1.5 px-3 pb-2 overflow-x-auto">
+          <Link to="/admin/calendar" className={topLinkCls}>
             <CalendarDays className="h-4 w-4 shrink-0" /> Календарь
           </Link>
           {!isManager && (
             <>
-              <Link to="/admin/cars" className={linkCls}>
+              <Link to="/admin/cars" className={topLinkCls}>
                 <Car className="h-4 w-4 shrink-0" /> Автомобили
               </Link>
-              <Link to="/admin/finance" className={linkCls}>
+              <Link to="/admin/finance" className={topLinkCls}>
+                <BarChart2 className="h-4 w-4 shrink-0" /> Финансы
+              </Link>
+            </>
+          )}
+        </nav>
+      </header>
+
+      {/* Desktop sidebar */}
+      <aside className="hidden md:flex w-52 shrink-0 bg-white border-r border-gray-200 flex-col shadow-sm">
+        <div className="p-4 border-b border-gray-100 flex flex-col items-center gap-2">
+          <img src={logo.url} alt="GEOrent" className="h-14 w-auto" />
+          <span className={badgeCls}>{userName}</span>
+        </div>
+        <nav className="flex-1 p-3 flex flex-col gap-1 mt-2">
+          <Link to="/admin/calendar" className={sideLinkCls}>
+            <CalendarDays className="h-4 w-4 shrink-0" /> Календарь
+          </Link>
+          {!isManager && (
+            <>
+              <Link to="/admin/cars" className={sideLinkCls}>
+                <Car className="h-4 w-4 shrink-0" /> Автомобили
+              </Link>
+              <Link to="/admin/finance" className={sideLinkCls}>
                 <BarChart2 className="h-4 w-4 shrink-0" /> Финансы
               </Link>
             </>
