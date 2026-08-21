@@ -341,6 +341,43 @@ function AdminCalendar() {
   // Filter cars by their current city (accounting for one-way rentals)
   const cars = CARS.filter(c => getCarCurrentCity(c.slug, c.city) === city);
 
+  const todayStr = format(today, "yyyy-MM-dd");
+  const fmtD = (s: string) => (s ? format(new Date(s + "T00:00:00"), "d MMM") : "—");
+
+  // Mobile "block dates" inline form state
+  const [blockCar, setBlockCar] = useState<string | null>(null);
+  const [blkFrom, setBlkFrom] = useState("");
+  const [blkTo, setBlkTo] = useState("");
+
+  const openNewBooking = (slug: string, presetDate = "") => {
+    const car = CARS.find(c => c.slug === slug);
+    const curCity = getCarCurrentCity(slug, car?.city || "batumi");
+    setModal({
+      isNew: true, carSlug: slug, carName: car?.name || "",
+      carBaseCity: car?.city || curCity, pickupCity: curCity, returnCity: curCity,
+      pickupDate: presetDate, returnDate: "", pickupTime: "11:00", returnTime: "11:00",
+      pickupType: "office", deliveryAddress: "", services: [],
+      clientName: "", clientPassport: "", clientLicense: "", clientPhone: "",
+      clientContact: "whatsapp", pricePerDay: car ? suggestPrice(car, 1) : 0,
+      totalPrice: 0, deposit: 150, days: 0, note: "",
+    });
+  };
+
+  const removeBlock = (slug: string, bl: Block) => {
+    const nb = { ...blocks };
+    nb[slug] = (nb[slug] || []).filter(x => !(x.from === bl.from && x.to === bl.to));
+    setBlocks(nb); saveBlocks(nb);
+  };
+
+  const confirmBlock = (slug: string) => {
+    if (!blkFrom || !blkTo) return;
+    const [from, to] = blkFrom <= blkTo ? [blkFrom, blkTo] : [blkTo, blkFrom];
+    const nb = { ...blocks };
+    nb[slug] = [...(nb[slug] || []), { from, to }];
+    setBlocks(nb); saveBlocks(nb);
+    setBlockCar(null); setBlkFrom(""); setBlkTo("");
+  };
+
   const isBlocked = (slug: string, d: string) =>
     (blocks[slug] || []).some(b => d >= b.from && d <= b.to);
 
@@ -383,34 +420,7 @@ function AdminCalendar() {
         setBlocks(nb);
         saveBlocks(nb);
       } else {
-        // New booking
-        const car = CARS.find(c => c.slug === slug);
-        const curCity = getCarCurrentCity(slug, car?.city || "batumi");
-        setModal({
-          isNew: true,
-          carSlug: slug,
-          carName: car?.name || "",
-          carBaseCity: car?.city || curCity,
-          pickupCity: curCity,
-          returnCity: curCity,
-          pickupDate: d,
-          returnDate: "",
-          pickupTime: "11:00",
-          returnTime: "11:00",
-          pickupType: "office",
-          deliveryAddress: "",
-          services: [],
-          clientName: "",
-          clientPassport: "",
-          clientLicense: "",
-          clientPhone: "",
-          clientContact: "whatsapp",
-          pricePerDay: car ? suggestPrice(car, 1) : 0,
-          totalPrice: 0,
-          deposit: 150,
-          days: 0,
-          note: "",
-        });
+        openNewBooking(slug, d);
       }
     } else {
       // Drag → block
@@ -444,14 +454,15 @@ function AdminCalendar() {
   const totalW = CAR_COL + DAY_W * DAYS;
 
   return (
-    <div className="p-6 select-none" onMouseUp={() => {
+    <div className="p-4 sm:p-6 select-none" onMouseUp={() => {
       if (dragStart.current) { dragStart.current = null; dragMoved.current = false; setHoverDate(null); }
     }}>
       {/* Header */}
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex items-center justify-between mb-5 gap-3">
         <div>
           <h1 className="text-2xl font-black text-gray-800">Календарь</h1>
-          <p className="text-gray-400 text-sm mt-0.5">Клик — новое бронирование · Тяните — блокировка дат</p>
+          <p className="text-gray-400 text-sm mt-0.5 hidden md:block">Клик — новое бронирование · Тяните — блокировка дат</p>
+          <p className="text-gray-400 text-sm mt-0.5 md:hidden">Выберите авто и добавьте бронь</p>
         </div>
         <div className="flex gap-2">
           {(["batumi", "tbilisi"] as City[]).map(c => (
@@ -463,8 +474,86 @@ function AdminCalendar() {
         </div>
       </div>
 
-      {/* Calendar */}
-      <div className="overflow-x-auto rounded-2xl border border-gray-200 shadow-sm bg-white">
+      {/* Mobile view — car cards */}
+      <div className="md:hidden space-y-3">
+        {cars.length === 0 && (
+          <p className="text-center text-gray-400 text-sm py-8">Нет автомобилей в этом городе</p>
+        )}
+        {cars.map(car => {
+          const carBookings = bookings
+            .filter(b => b.carSlug === car.slug && b.returnDate >= todayStr)
+            .sort((a, b) => a.pickupDate.localeCompare(b.pickupDate));
+          const carBlocks = (blocks[car.slug] || []).filter(b => b.to >= todayStr);
+          const carReqs = requests.filter(r => r.carSlug === car.slug && r.from && r.to && r.to >= todayStr);
+          return (
+            <div key={car.slug} className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <p className="font-bold text-gray-800 leading-tight">{car.name}</p>
+                <button onClick={() => openNewBooking(car.slug)}
+                  className="shrink-0 h-9 px-4 rounded-xl bg-[var(--brand-blue)] text-white text-sm font-bold active:opacity-80">
+                  + Бронь
+                </button>
+              </div>
+
+              {carBookings.length > 0 ? (
+                <div className="space-y-1.5">
+                  {carBookings.map(b => (
+                    <button key={b.id} onClick={() => setModal(b)}
+                      className="w-full flex items-center justify-between gap-2 text-left rounded-xl bg-blue-50 border border-blue-100 px-3 py-2 active:bg-blue-100">
+                      <span className="text-sm font-semibold text-blue-800 truncate">{b.clientName || "Бронирование"}</span>
+                      <span className="text-xs text-blue-600 shrink-0">{fmtD(b.pickupDate)} – {fmtD(b.returnDate)}</span>
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-xs text-gray-400">Нет активных броней</p>
+              )}
+
+              {carReqs.map((r, i) => (
+                <button key={"req" + i} onClick={() => openNewBooking(car.slug, r.from)}
+                  className="mt-1.5 w-full flex items-center justify-between gap-2 text-left rounded-xl bg-yellow-50 border border-yellow-200 px-3 py-2 active:bg-yellow-100">
+                  <span className="text-sm font-medium text-yellow-700">📩 Запрос с сайта</span>
+                  <span className="text-xs text-yellow-600 shrink-0">{fmtD(r.from)} – {fmtD(r.to)}</span>
+                </button>
+              ))}
+
+              {carBlocks.map((bl, i) => (
+                <button key={"blk" + i} onClick={() => removeBlock(car.slug, bl)}
+                  className="mt-1.5 w-full flex items-center justify-between gap-2 text-left rounded-xl bg-amber-50 border border-amber-200 px-3 py-2 active:bg-amber-100">
+                  <span className="text-sm font-medium text-amber-700">🔒 Заблокировано</span>
+                  <span className="text-xs text-amber-600 shrink-0">{fmtD(bl.from)} – {fmtD(bl.to)} · убрать ✕</span>
+                </button>
+              ))}
+
+              {blockCar === car.slug ? (
+                <div className="mt-3 rounded-xl bg-gray-50 border border-gray-200 p-3 space-y-2">
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-wide">Заблокировать даты</p>
+                  <div className="flex gap-2">
+                    <input type="date" value={blkFrom} onChange={e => setBlkFrom(e.target.value)}
+                      className="flex-1 border border-gray-200 rounded-lg px-2 py-2 text-sm outline-none focus:border-[var(--brand-blue)]" />
+                    <input type="date" value={blkTo} onChange={e => setBlkTo(e.target.value)}
+                      className="flex-1 border border-gray-200 rounded-lg px-2 py-2 text-sm outline-none focus:border-[var(--brand-blue)]" />
+                  </div>
+                  <div className="flex gap-2">
+                    <button onClick={() => { setBlockCar(null); setBlkFrom(""); setBlkTo(""); }}
+                      className="flex-1 h-9 rounded-lg border border-gray-200 text-gray-500 text-sm font-medium">Отмена</button>
+                    <button onClick={() => confirmBlock(car.slug)}
+                      className="flex-1 h-9 rounded-lg bg-amber-500 text-white text-sm font-bold">Заблокировать</button>
+                  </div>
+                </div>
+              ) : (
+                <button onClick={() => { setBlockCar(car.slug); setBlkFrom(""); setBlkTo(""); }}
+                  className="mt-3 text-xs font-semibold text-gray-400 active:text-[var(--brand-blue)]">
+                  🔒 Заблокировать даты
+                </button>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Calendar — desktop grid */}
+      <div className="hidden md:block overflow-x-auto rounded-2xl border border-gray-200 shadow-sm bg-white">
         <div style={{ minWidth: totalW }}>
           {/* Date header */}
           <div className="flex sticky top-0 z-10 bg-[var(--brand-blue)]">
@@ -542,7 +631,7 @@ function AdminCalendar() {
       </div>
 
       {/* Legend */}
-      <div className="flex flex-wrap gap-5 mt-4 text-xs text-gray-400">
+      <div className="hidden md:flex flex-wrap gap-5 mt-4 text-xs text-gray-400">
         {[
           { color: "bg-amber-100 border-amber-300", icon: "✕", text: "Заблокировано" },
           { color: "bg-blue-100 border-blue-300", icon: "●", text: "Бронирование" },
