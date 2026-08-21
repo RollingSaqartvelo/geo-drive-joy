@@ -10,9 +10,14 @@ export const Route = createFileRoute("/admin")({
 
 const ADMIN_PIN = "2025";
 
-// 7 паролей для разных менеджеров (доступ только к календарю/заявкам, без финансов)
-const MANAGERS: { name: string; pass: string }[] = [
-  { name: "Менеджер 1", pass: "MGR-4821" },
+// Машины, закреплённые за Кахой
+export const KAKHA_CARS = ["toyota-rav4-white", "toyota-rav4-hybrid", "subaru-crosstrek-limited", "subaru-crosstrek-black"];
+export const KAKHA = { name: "Менеджер Каха", pass: "1989", cars: KAKHA_CARS };
+
+// Менеджеры (доступ только к календарю/заявкам, без финансов).
+// cars — если задан, у менеджера появляется вид «Мои машины» с этими авто.
+const MANAGERS: { name: string; pass: string; cars?: string[] }[] = [
+  KAKHA,
   { name: "Менеджер 2", pass: "MGR-7350" },
   { name: "Менеджер 3", pass: "MGR-1964" },
   { name: "Менеджер 4", pass: "MGR-5207" },
@@ -47,6 +52,7 @@ export function AdminLayout() {
     if (val === ADMIN_PIN) {
       sessionStorage.setItem("georent_role", "admin");
       sessionStorage.setItem("georent_user", "Администратор");
+      sessionStorage.setItem("georent_mycars", JSON.stringify([]));
       setRole("admin");
       setUserName("Администратор");
       return;
@@ -55,6 +61,7 @@ export function AdminLayout() {
     if (mgr) {
       sessionStorage.setItem("georent_role", "manager");
       sessionStorage.setItem("georent_user", mgr.name);
+      sessionStorage.setItem("georent_mycars", JSON.stringify(mgr.cars || []));
       setRole("manager");
       setUserName(mgr.name);
       return;
@@ -66,6 +73,7 @@ export function AdminLayout() {
   const logout = () => {
     sessionStorage.removeItem("georent_role");
     sessionStorage.removeItem("georent_user");
+    sessionStorage.removeItem("georent_mycars");
     setRole(null);
     setUserName("");
   };

@@ -342,7 +342,16 @@ function AdminCalendar() {
   const requests = loadRequests();
 
   // Filter cars by their current city (accounting for one-way rentals)
-  const cars = CARS.filter(c => getCarCurrentCity(c.slug, c.city) === city);
+  // Машины, закреплённые за менеджером (если есть) → режим «Мои машины»
+  const myCars: string[] = (() => {
+    if (typeof sessionStorage === "undefined") return [];
+    try { return JSON.parse(sessionStorage.getItem("georent_mycars") || "[]"); } catch { return []; }
+  })();
+  const hasMyCars = myCars.length > 0;
+  const [scope, setScope] = useState<"mine" | "all">(hasMyCars ? "mine" : "all");
+  const inScope = (slug: string) => scope === "all" || !hasMyCars || myCars.includes(slug);
+
+  const cars = CARS.filter(c => getCarCurrentCity(c.slug, c.city) === city && inScope(c.slug));
 
   const todayStr = format(today, "yyyy-MM-dd");
   const fmtD = (s: string) => (s ? format(new Date(s + "T00:00:00"), "d MMM") : "—");
@@ -471,7 +480,7 @@ function AdminCalendar() {
 
   const totalW = CAR_COL + DAY_W * DAYS;
 
-  const availCars: AvailCar[] = CARS.map(c => ({
+  const availCars: AvailCar[] = CARS.filter(c => inScope(c.slug)).map(c => ({
     slug: c.slug, baseCity: c.city as Loc, name: c.name,
     priceFrom: c.tiers && c.tiers.length ? c.tiers[c.tiers.length - 1].price : c.price,
     image: c.images?.[0]?.url,
@@ -497,6 +506,18 @@ function AdminCalendar() {
           ))}
         </div>
       </div>
+
+      {/* Scope toggle — «Мои машины» / «Весь автопарк» (для менеджеров с закреплёнными авто) */}
+      {hasMyCars && (
+        <div className="flex gap-2 mb-4">
+          {([["mine", "🚗 Мои машины"], ["all", "🅿️ Весь автопарк"]] as const).map(([v, label]) => (
+            <button key={v} onClick={() => setScope(v)}
+              className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${scope === v ? "bg-[var(--brand-blue)] text-white shadow-md" : "bg-white text-gray-500 border border-gray-200 hover:border-[var(--brand-blue)]"}`}>
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Availability questionnaire — same engine used for public site */}
       <div className="mb-5">
