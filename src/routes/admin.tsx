@@ -1,36 +1,67 @@
-import { createFileRoute, Outlet, Link } from "@tanstack/react-router";
+import { createFileRoute, Outlet, Link, useLocation } from "@tanstack/react-router";
 import { useState } from "react";
-import { CalendarDays, Car, LogOut, BarChart2 } from "lucide-react";
+import { CalendarDays, Car, LogOut, BarChart2, Lock } from "lucide-react";
 import logo from "@/assets/logo.png.asset.json";
 
 export const Route = createFileRoute("/admin")({
   component: AdminLayout,
 });
 
-const PIN = "2025";
+const ADMIN_PIN = "2025";
+
+// 7 паролей для разных менеджеров (доступ только к календарю/заявкам, без финансов)
+const MANAGERS: { name: string; pass: string }[] = [
+  { name: "Менеджер 1", pass: "MGR-4821" },
+  { name: "Менеджер 2", pass: "MGR-7350" },
+  { name: "Менеджер 3", pass: "MGR-1964" },
+  { name: "Менеджер 4", pass: "MGR-5207" },
+  { name: "Менеджер 5", pass: "MGR-8613" },
+  { name: "Менеджер 6", pass: "MGR-3092" },
+  { name: "Менеджер 7", pass: "MGR-6748" },
+];
+
+type Role = "admin" | "manager";
 
 export function AdminLayout() {
-  const [authed, setAuthed] = useState(() => sessionStorage.getItem("georent_admin") === "ok");
+  const [role, setRole] = useState<Role | null>(() => {
+    const r = sessionStorage.getItem("georent_role");
+    return r === "admin" || r === "manager" ? (r as Role) : null;
+  });
+  const [userName, setUserName] = useState(() => sessionStorage.getItem("georent_user") || "");
   const [pin, setPin] = useState("");
   const [error, setError] = useState(false);
+  const location = useLocation();
 
   const login = (e: React.FormEvent) => {
     e.preventDefault();
-    if (pin === PIN) {
-      sessionStorage.setItem("georent_admin", "ok");
-      setAuthed(true);
-    } else {
-      setError(true);
-      setPin("");
+    const val = pin.trim();
+    if (val === ADMIN_PIN) {
+      sessionStorage.setItem("georent_role", "admin");
+      sessionStorage.setItem("georent_user", "Администратор");
+      setRole("admin");
+      setUserName("Администратор");
+      return;
     }
+    const mgr = MANAGERS.find(m => m.pass === val);
+    if (mgr) {
+      sessionStorage.setItem("georent_role", "manager");
+      sessionStorage.setItem("georent_user", mgr.name);
+      setRole("manager");
+      setUserName(mgr.name);
+      return;
+    }
+    setError(true);
+    setPin("");
   };
 
   const logout = () => {
-    sessionStorage.removeItem("georent_admin");
-    setAuthed(false);
+    sessionStorage.removeItem("georent_role");
+    sessionStorage.removeItem("georent_user");
+    setRole(null);
+    setUserName("");
   };
 
-  if (!authed) {
+  if (!role) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[var(--brand-blue)] to-[var(--brand-blue-dark,#0f1729)] flex items-center justify-center p-4">
         <form onSubmit={login} className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-sm flex flex-col gap-4">
@@ -42,12 +73,12 @@ export function AdminLayout() {
             type="password"
             value={pin}
             onChange={e => { setPin(e.target.value); setError(false); }}
-            placeholder="PIN-код"
-            className={`border-2 rounded-xl px-4 py-3 text-center text-2xl tracking-[0.8em] outline-none transition-colors ${error ? "border-red-400 bg-red-50" : "border-gray-200 focus:border-[var(--brand-blue)]"}`}
-            maxLength={6}
+            placeholder="PIN или пароль"
+            className={`border-2 rounded-xl px-4 py-3 text-center text-lg tracking-widest outline-none transition-colors ${error ? "border-red-400 bg-red-50" : "border-gray-200 focus:border-[var(--brand-blue)]"}`}
+            maxLength={20}
             autoFocus
           />
-          {error && <p className="text-red-500 text-sm text-center -mt-2">Неверный PIN</p>}
+          {error && <p className="text-red-500 text-sm text-center -mt-2">Неверный код</p>}
           <button type="submit" className="bg-[var(--brand-blue)] text-white font-bold rounded-xl py-3 hover:opacity-90 transition-opacity">
             Войти
           </button>
@@ -56,26 +87,37 @@ export function AdminLayout() {
     );
   }
 
+  const isManager = role === "manager";
+  const path = location.pathname;
+  // Менеджеру закрыты финансы и страница авто (там видна выручка)
+  const blocked = isManager && (path.startsWith("/admin/finance") || path.startsWith("/admin/cars"));
+
+  const linkCls = "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:text-[var(--brand-blue)] hover:bg-blue-50 [&.active]:bg-[var(--brand-blue)] [&.active]:text-white transition-all";
+
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
       <aside className="w-52 shrink-0 bg-white border-r border-gray-200 flex flex-col shadow-sm">
-        <div className="p-4 border-b border-gray-100 flex items-center justify-center">
+        <div className="p-4 border-b border-gray-100 flex flex-col items-center gap-2">
           <img src={logo.url} alt="GEOrent" className="h-14 w-auto" />
+          <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${isManager ? "bg-blue-50 text-[var(--brand-blue)]" : "bg-amber-50 text-amber-600"}`}>
+            {userName}
+          </span>
         </div>
         <nav className="flex-1 p-3 flex flex-col gap-1 mt-2">
-          <Link to="/admin/calendar"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:text-[var(--brand-blue)] hover:bg-blue-50 [&.active]:bg-[var(--brand-blue)] [&.active]:text-white transition-all">
+          <Link to="/admin/calendar" className={linkCls}>
             <CalendarDays className="h-4 w-4 shrink-0" /> Календарь
           </Link>
-          <Link to="/admin/cars"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:text-[var(--brand-blue)] hover:bg-blue-50 [&.active]:bg-[var(--brand-blue)] [&.active]:text-white transition-all">
-            <Car className="h-4 w-4 shrink-0" /> Автомобили
-          </Link>
-          <Link to="/admin/finance"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:text-[var(--brand-blue)] hover:bg-blue-50 [&.active]:bg-[var(--brand-blue)] [&.active]:text-white transition-all">
-            <BarChart2 className="h-4 w-4 shrink-0" /> Финансы
-          </Link>
+          {!isManager && (
+            <>
+              <Link to="/admin/cars" className={linkCls}>
+                <Car className="h-4 w-4 shrink-0" /> Автомобили
+              </Link>
+              <Link to="/admin/finance" className={linkCls}>
+                <BarChart2 className="h-4 w-4 shrink-0" /> Финансы
+              </Link>
+            </>
+          )}
         </nav>
         <div className="p-3 border-t border-gray-100">
           <button onClick={logout}
@@ -87,7 +129,22 @@ export function AdminLayout() {
 
       {/* Content */}
       <main className="flex-1 overflow-auto">
-        <Outlet />
+        {blocked ? (
+          <div className="h-full flex items-center justify-center p-8">
+            <div className="text-center max-w-xs">
+              <div className="mx-auto h-14 w-14 rounded-2xl bg-gray-100 text-gray-400 flex items-center justify-center mb-4">
+                <Lock className="h-7 w-7" />
+              </div>
+              <p className="font-bold text-gray-700">Нет доступа</p>
+              <p className="text-sm text-gray-400 mt-1">Этот раздел доступен только администратору.</p>
+              <Link to="/admin/calendar" className="inline-block mt-5 px-5 py-2.5 rounded-xl bg-[var(--brand-blue)] text-white text-sm font-bold">
+                Перейти к календарю
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <Outlet />
+        )}
       </main>
     </div>
   );
