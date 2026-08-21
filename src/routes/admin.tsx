@@ -1,7 +1,8 @@
 import { createFileRoute, Outlet, Link, useLocation } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CalendarDays, Car, LogOut, BarChart2, Lock } from "lucide-react";
 import logo from "@/assets/logo.png.asset.json";
+import { syncBookings, syncBlocks } from "@/lib/store";
 
 export const Route = createFileRoute("/admin")({
   component: AdminLayout,
@@ -31,6 +32,14 @@ export function AdminLayout() {
   const [pin, setPin] = useState("");
   const [error, setError] = useState(false);
   const location = useLocation();
+
+  // При входе в админку тянем свежие данные из Supabase в локальный кэш
+  // (чтобы Финансы и другие разделы видели актуальные брони со всех устройств).
+  useEffect(() => {
+    if (!role) return;
+    syncBookings().catch(() => {});
+    syncBlocks().catch(() => {});
+  }, [role]);
 
   const login = (e: React.FormEvent) => {
     e.preventDefault();

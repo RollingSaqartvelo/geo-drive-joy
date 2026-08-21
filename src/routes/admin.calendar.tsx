@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { CARS } from "./cars";
 import { addDays, format, startOfDay } from "date-fns";
 import { X, FileText, ArrowRight, Trash2 } from "lucide-react";
@@ -10,6 +10,7 @@ import {
 import { openContract } from "@/lib/contractGenerator";
 import { AvailabilitySearch, type AvailCar } from "@/components/AvailabilitySearch";
 import type { Loc } from "@/lib/availability";
+import { syncBookings, syncBlocks, pushBooking, pushDeleteBooking, pushAddBlock, pushRemoveBlock } from "@/lib/store";
 
 export const Route = createFileRoute("/admin/calendar")({
   component: AdminCalendar,
@@ -367,10 +368,17 @@ function AdminCalendar() {
     });
   };
 
+  // Синхронизация с Supabase при входе (мгновенно из кэша, затем обновление из базы)
+  useEffect(() => {
+    syncBookings().then(setBookings).catch(() => {});
+    syncBlocks().then(setBlocks).catch(() => {});
+  }, []);
+
   const removeBlock = (slug: string, bl: Block) => {
     const nb = { ...blocks };
     nb[slug] = (nb[slug] || []).filter(x => !(x.from === bl.from && x.to === bl.to));
     setBlocks(nb); saveBlocks(nb);
+    pushRemoveBlock(slug, bl.from, bl.to);
   };
 
   const confirmBlock = (slug: string) => {
@@ -379,6 +387,7 @@ function AdminCalendar() {
     const nb = { ...blocks };
     nb[slug] = [...(nb[slug] || []), { from, to }];
     setBlocks(nb); saveBlocks(nb);
+    pushAddBlock(slug, from, to);
     setBlockCar(null); setBlkFrom(""); setBlkTo("");
   };
 
@@ -419,10 +428,12 @@ function AdminCalendar() {
       if (booking) {
         setModal(booking);
       } else if (isBlocked(slug, d)) {
+        const removed = (blocks[slug] || []).filter(b => d >= b.from && d <= b.to);
         const nb = { ...blocks };
         nb[slug] = (nb[slug] || []).filter(b => !(d >= b.from && d <= b.to));
         setBlocks(nb);
         saveBlocks(nb);
+        removed.forEach(b => pushRemoveBlock(slug, b.from, b.to));
       } else {
         openNewBooking(slug, d);
       }
@@ -433,6 +444,7 @@ function AdminCalendar() {
       nb[ds.carSlug] = [...(nb[ds.carSlug] || []), { from, to }];
       setBlocks(nb);
       saveBlocks(nb);
+      pushAddBlock(ds.carSlug, from, to);
     }
 
     dragStart.current = null;
@@ -445,6 +457,7 @@ function AdminCalendar() {
     const updated = existing ? bookings.map(x => x.id === b.id ? b : x) : [...bookings, b];
     setBookings(updated);
     saveBookings(updated);
+    pushBooking(b);
     setModal(null);
   };
 
@@ -452,6 +465,7 @@ function AdminCalendar() {
     const updated = bookings.filter(b => b.id !== id);
     setBookings(updated);
     saveBookings(updated);
+    pushDeleteBooking(id);
     setModal(null);
   };
 
