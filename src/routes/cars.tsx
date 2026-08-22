@@ -167,7 +167,7 @@ export const CARS: Car[] = [
     tiers: [{ label: "1–3 days", price: 50 }, { label: "4–7 days", price: 47 }, { label: "7–15 days", price: 45 }, { label: "15–30 days", price: 40 }],
     description: "Ford Fusion Hybrid 2019 в серебристом цвете — экономичный и комфортный гибридный седан. Отличный выбор для городских поездок по Батуми с минимальными расходами на топливо.",
     specs: [{ label: "Engine", value: "2.0L Hybrid" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Sedan" }] },
-  { name: "Subaru Forester", slug: "subaru-forester", year: 2022, seats: 5, price: 80, city: "batumi",
+  { name: "Subaru Forester", slug: "subaru-forester", year: 2023, seats: 5, price: 80, city: "batumi",
     images: [{ url: "/subaru-forester-1.webp" }, { url: "/subaru-forester-2.webp" }, { url: "/subaru-forester-3.webp" }, { url: "/subaru-forester-4.avif" }],
     tiers: [{ label: "1–3 days", price: 80 }, { label: "4–7 days", price: 70 }, { label: "7–15 days", price: 65 }, { label: "15–30 days", price: 55 }],
     description: "Subaru Forester 2022 — надёжный полноприводный кроссовер с просторным салоном, идеально подходящий для поездок по Батуми и горным маршрутам Грузии.",
