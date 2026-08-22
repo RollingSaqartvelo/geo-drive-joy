@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FileText, X } from "lucide-react";
+import { FileText, X, ArrowLeft } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
 /**
@@ -42,11 +42,20 @@ export function RentalTermsButton() {
           </div>
         </div>
       ) : (
-        <button onClick={() => setOpen(true)}
-          className="flex items-center gap-2 bg-[var(--brand-blue)] hover:bg-[var(--brand-blue)]/90 text-white font-bold rounded-full shadow-2xl px-5 h-12 text-sm transition-all hover:scale-105 active:scale-95">
-          <FileText className="h-4 w-4" />
-          {t("terms_title")}
-        </button>
+        <div className="flex items-center gap-2">
+          <div className="relative">
+            {/* пульсирующее свечение */}
+            <span className="pointer-events-none absolute inset-0 rounded-full bg-[var(--brand-tomato)] opacity-60 animate-ping" />
+            <button onClick={() => setOpen(true)}
+              className="relative flex items-center gap-2 bg-[var(--brand-tomato)] text-[var(--brand-blue)] font-extrabold rounded-full shadow-2xl px-5 h-12 text-sm ring-2 ring-white/70 hover:scale-105 active:scale-95 transition-transform"
+              style={{ boxShadow: "0 0 22px 4px rgba(201,168,76,0.65)" }}>
+              <FileText className="h-4 w-4" />
+              {t("terms_title")}
+            </button>
+          </div>
+          {/* стрелка, указывающая на кнопку */}
+          <ArrowLeft className="h-8 w-8 text-[var(--brand-tomato)] animate-bounce drop-shadow" strokeWidth={3} />
+        </div>
       )}
     </div>
   );
