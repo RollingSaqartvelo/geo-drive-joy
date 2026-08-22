@@ -358,6 +358,10 @@ function AdminCalendar() {
 
   const cars = CARS.filter(c => effectiveCity(c.slug, c.city) === city && inScope(c.slug));
 
+  // Тултип с ценами (при наведении на название авто)
+  const priceTip = (car: typeof CARS[0]) =>
+    car.tiers && car.tiers.length ? car.tiers.map(t => `${t.label}: $${t.price}`).join("  ·  ") : `$${car.price}/day`;
+
   const todayStr = format(today, "yyyy-MM-dd");
   const fmtD = (s: string) => (s ? format(new Date(s + "T00:00:00"), "d MMM") : "—");
 
@@ -567,7 +571,10 @@ function AdminCalendar() {
             <div key={car.slug} className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
               <div className="flex items-center justify-between gap-2 mb-3">
                 <div className="min-w-0">
-                  <p className="font-bold text-gray-800 leading-tight truncate">{car.name}</p>
+                  <a href={`/car/${car.slug}`} target="_blank" rel="noopener noreferrer" title={priceTip(car)}
+                    className="block font-bold text-gray-800 leading-tight truncate hover:text-[var(--brand-blue)] hover:underline">
+                    {car.name}
+                  </a>
                   <button onClick={() => relocateCar(car.slug, car.city)}
                     className="mt-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 active:bg-[var(--brand-blue)] active:text-white">
                     📍 {effectiveCity(car.slug, car.city) === "batumi" ? "🌊 Батуми" : "🏙️ Тбилиси"} · перебросить →
@@ -663,7 +670,10 @@ function AdminCalendar() {
             <div key={car.slug} className={`flex ${idx % 2 === 0 ? "bg-white" : "bg-gray-50/80"}`}>
               <div style={{ width: CAR_COL, minWidth: CAR_COL }}
                 className="border-r border-b border-gray-100 px-3 py-0 flex items-center justify-between gap-1 shrink-0 h-11">
-                <p className="text-gray-700 text-xs font-semibold truncate">{car.name}</p>
+                <a href={`/car/${car.slug}`} target="_blank" rel="noopener noreferrer" title={priceTip(car)}
+                  className="text-gray-700 text-xs font-semibold truncate hover:text-[var(--brand-blue)] hover:underline cursor-pointer">
+                  {car.name}
+                </a>
                 <button onClick={() => relocateCar(car.slug, car.city)}
                   title="Перебросить в другой город"
                   className="shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded bg-gray-100 text-gray-500 hover:bg-[var(--brand-blue)] hover:text-white transition-colors">

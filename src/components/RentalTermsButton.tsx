@@ -19,7 +19,7 @@ export function RentalTermsButton() {
   ];
 
   return (
-    <div className="fixed bottom-6 left-6 z-50">
+    <div className="fixed left-6 top-1/2 -translate-y-1/2 z-50">
       {open ? (
         <div className="w-[320px] max-w-[calc(100vw-3rem)] rounded-2xl bg-[var(--brand-blue)] text-white shadow-2xl border border-white/10 overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-200">
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
