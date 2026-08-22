@@ -249,10 +249,10 @@ export const CARS: Car[] = [
     tiers: [{ label: "1–3 days", price: 185 }, { label: "4–7 days", price: 155 }, { label: "7–15 days", price: 145 }, { label: "15–30 days", price: 135 }],
     description: "Spacious 7-seat Range Rover — luxury for the whole group with superior off-road capability and first-class comfort.",
     specs: [{ label: "Engine", value: "3.0L V6" }, { label: "Power", value: "340 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "7" }, { label: "Class", value: "Luxury SUV" }], commissionFixed: 30 },
-  { name: "Chrysler Pacifica", slug: "chrysler-pacifica", year: 2015, seats: 8, price: 95, city: "batumi", images: [pac1, pac2, pac3, pac4],
+  { name: "Chrysler Pacifica", slug: "chrysler-pacifica", year: 2015, seats: 7, price: 95, city: "batumi", images: [pac1, pac2, pac3, pac4],
     tiers: [{ label: "1–3 days", price: 95 }, { label: "4–7 days", price: 85 }, { label: "7–15 days", price: 75 }],
-    description: "Comfortable 8-seat minivan — ideal for family trips and group tours across Georgia.",
-    specs: [{ label: "Engine", value: "3.6L V6" }, { label: "Power", value: "287 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "8" }, { label: "Class", value: "Minivan" }] },
+    description: "Comfortable 7-seat minivan — ideal for family trips and group tours across Georgia.",
+    specs: [{ label: "Engine", value: "3.6L V6" }, { label: "Power", value: "287 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "7" }, { label: "Class", value: "Minivan" }] },
   { name: "Discovery Land Rover", slug: "discovery-land-rover", year: 2023, price: 205, city: "tbilisi", images: [disc3, disc1, disc2],
     tiers: [{ label: "1–3 days", price: 205 }, { label: "4–7 days", price: 185 }, { label: "7–15 days", price: 165 }],
     description: "The latest Land Rover Discovery — premium adventure-ready luxury SUV built for Georgia's diverse terrain.",
@@ -506,7 +506,7 @@ function CarsPage() {
       {/* Filters */}
       <section className="pt-10 sm:pt-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 space-y-3">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap justify-center gap-2">
             {([
               ["all", "Все"], ["suv", "Кроссоверы"], ["sedan", "Седаны"], ["minivan", "Минивэны"], ["lux", "Lux"],
             ] as [CarCat, string][]).map(([v, label]) => (
@@ -516,7 +516,7 @@ function CarsPage() {
               </button>
             ))}
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap justify-center gap-2">
             {([
               ["all", "Любые места"], ["s5", "4–5 мест"], ["s7", "7 мест"], ["s8", "8+ мест"],
             ] as [SeatsCat, string][]).map(([v, label]) => (
