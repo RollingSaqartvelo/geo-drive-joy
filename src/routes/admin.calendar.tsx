@@ -405,6 +405,13 @@ function AdminCalendar() {
     setCarLocation(slug, next);
   };
 
+  // Переброс доступен только админу, Кахе и Lasha
+  const relRole = typeof sessionStorage !== "undefined" ? sessionStorage.getItem("georent_role") : null;
+  const relUser = typeof sessionStorage !== "undefined" ? (sessionStorage.getItem("georent_user") || "") : "";
+  const canRelocate = relRole === "admin" || relUser === "Менеджер Каха" || relUser === "Менеджер Lasha";
+  const [relocateOpen, setRelocateOpen] = useState(false);
+  const [relocateSel, setRelocateSel] = useState<string | null>(null);
+
   const removeBlock = (slug: string, bl: Block) => {
     const nb = { ...blocks };
     nb[slug] = (nb[slug] || []).filter(x => !(x.from === bl.from && x.to === bl.to));
@@ -533,6 +540,14 @@ function AdminCalendar() {
         </div>
       </div>
 
+      {/* Переброс автомобиля (только админ / Каха / Lasha) */}
+      {canRelocate && (
+        <button onClick={() => { setRelocateOpen(true); setRelocateSel(null); }}
+          className="mb-4 inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-red-500 text-white font-bold text-sm shadow-md hover:bg-red-600 active:opacity-80 transition-colors">
+          🔄 Переместить автомобиль
+        </button>
+      )}
+
       {/* Scope toggle — «Мои машины» / «Весь автопарк» (для менеджеров с закреплёнными авто) */}
       {hasMyCars && (
         <div className="flex gap-2 mb-4">
@@ -571,14 +586,11 @@ function AdminCalendar() {
             <div key={car.slug} className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
               <div className="flex items-center justify-between gap-2 mb-3">
                 <div className="min-w-0">
-                  <a href={`/car/${car.slug}`} target="_blank" rel="noopener noreferrer" title={priceTip(car)}
+                  <a href={`/car/${car.slug}`} target="_blank" rel="noopener noreferrer"
                     className="block font-bold text-gray-800 leading-tight truncate hover:text-[var(--brand-blue)] hover:underline">
                     {car.name}
                   </a>
-                  <button onClick={() => relocateCar(car.slug, car.city)}
-                    className="mt-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 active:bg-[var(--brand-blue)] active:text-white">
-                    📍 {effectiveCity(car.slug, car.city) === "batumi" ? "🌊 Батуми" : "🏙️ Тбилиси"} · перебросить →
-                  </button>
+                  <p className="mt-0.5 text-[11px] text-[var(--brand-olive)] font-semibold leading-tight">{priceTip(car)}</p>
                 </div>
                 <button onClick={() => openNewBooking(car.slug)}
                   className="shrink-0 h-9 px-4 rounded-xl bg-[var(--brand-blue)] text-white text-sm font-bold active:opacity-80">
@@ -669,16 +681,11 @@ function AdminCalendar() {
           {cars.map((car, idx) => (
             <div key={car.slug} className={`flex ${idx % 2 === 0 ? "bg-white" : "bg-gray-50/80"}`}>
               <div style={{ width: CAR_COL, minWidth: CAR_COL }}
-                className="border-r border-b border-gray-100 px-3 py-0 flex items-center justify-between gap-1 shrink-0 h-11">
+                className="border-r border-b border-gray-100 px-4 py-0 flex items-center shrink-0 h-11">
                 <a href={`/car/${car.slug}`} target="_blank" rel="noopener noreferrer" title={priceTip(car)}
                   className="text-gray-700 text-xs font-semibold truncate hover:text-[var(--brand-blue)] hover:underline cursor-pointer">
                   {car.name}
                 </a>
-                <button onClick={() => relocateCar(car.slug, car.city)}
-                  title="Перебросить в другой город"
-                  className="shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded bg-gray-100 text-gray-500 hover:bg-[var(--brand-blue)] hover:text-white transition-colors">
-                  → {effectiveCity(car.slug, car.city) === "batumi" ? "Тбс" : "Бту"}
-                </button>
               </div>
               {days.map(d => {
                 const ds = format(d, "yyyy-MM-dd");
@@ -787,6 +794,60 @@ function AdminCalendar() {
               className="w-full h-10 rounded-xl border border-gray-200 text-gray-500 text-sm font-medium">
               Отмена
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Переброс: выбор авто + моргающее подтверждение */}
+      {relocateOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+          onClick={() => setRelocateOpen(false)}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm max-h-[80vh] flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
+            <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+              <p className="font-bold text-gray-800">🔄 Переместить автомобиль</p>
+              <button onClick={() => setRelocateOpen(false)} className="h-7 w-7 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            {relocateSel ? (
+              (() => {
+                const c = CARS.find(x => x.slug === relocateSel);
+                const cur = effectiveCity(relocateSel, c?.city || "batumi");
+                const target = cur === "batumi" ? "🏙️ Тбилиси" : "🌊 Батуми";
+                return (
+                  <div className="p-6 space-y-4 text-center">
+                    <p className="font-bold text-gray-800 text-lg">{c?.name}</p>
+                    <p className="text-sm text-gray-500">
+                      {cur === "batumi" ? "🌊 Батуми" : "🏙️ Тбилиси"} <span className="mx-1">→</span> {target}
+                    </p>
+                    <p className="text-xl font-black text-red-600 animate-pulse">Точно перебросить?</p>
+                    <div className="flex gap-2 pt-1">
+                      <button onClick={() => setRelocateSel(null)}
+                        className="flex-1 h-11 rounded-xl border border-gray-200 text-gray-500 font-medium">Отмена</button>
+                      <button onClick={() => { relocateCar(relocateSel!, c?.city || "batumi"); setRelocateOpen(false); setRelocateSel(null); }}
+                        className="flex-1 h-11 rounded-xl bg-red-500 text-white font-bold animate-pulse hover:animate-none">
+                        Да, перебросить
+                      </button>
+                    </div>
+                  </div>
+                );
+              })()
+            ) : (
+              <div className="p-2 overflow-y-auto">
+                <p className="px-3 py-2 text-xs text-gray-400">Выберите автомобиль:</p>
+                {CARS.filter(c => inScope(c.slug)).map(c => {
+                  const cur = effectiveCity(c.slug, c.city);
+                  return (
+                    <button key={c.slug} onClick={() => setRelocateSel(c.slug)}
+                      className="w-full flex items-center justify-between gap-2 text-left rounded-xl px-3 py-2.5 hover:bg-gray-50 active:bg-gray-100">
+                      <span className="text-sm font-semibold text-gray-800 truncate">{c.name}</span>
+                      <span className="text-xs text-gray-400 shrink-0">{cur === "batumi" ? "🌊 Батуми" : "🏙️ Тбилиси"}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       )}
