@@ -111,11 +111,11 @@ export function ReadOnlyCalendar({ cars, title }: { cars: { slug: string; name: 
                   const isPickup = bk?.pickupDate === ds;
                   return (
                     <div key={ds} style={{ width: DAY_W, minWidth: DAY_W }}
-                      title={bk ? `${fmtD(bk.pickupDate)}–${fmtD(bk.returnDate)} · ${CITY(bk.pickupCity)}→${CITY(bk.returnCity)}` : tr ? "Перегон" : blk ? "Недоступно" : "Свободно"}
+                      title={bk ? `${fmtD(bk.pickupDate)}–${fmtD(bk.returnDate)} · ${CITY(bk.pickupCity)}→${CITY(bk.returnCity)}` : tr ? "Перегон" : blk ? "В ремонте" : "Свободно"}
                       className={`h-11 border-r border-b border-gray-100 shrink-0 relative overflow-hidden
-                        ${bk ? "bg-blue-100" : ""} ${blk ? "bg-amber-100" : ""} ${tr ? "bg-gray-200" : ""}`}>
+                        ${bk ? "bg-blue-600" : ""} ${blk ? "bg-red-500" : ""} ${tr ? "bg-gray-300" : ""}`}>
                       {isPickup && bk.pickupCity !== bk.returnCity && (
-                        <span className="absolute inset-0 flex items-center justify-center text-[9px] font-bold text-blue-700">→</span>
+                        <span className="absolute inset-0 flex items-center justify-center text-[9px] font-bold text-white">→</span>
                       )}
                       {tr && <span className="absolute inset-0 flex items-center justify-center text-[10px]">🚚</span>}
                     </div>
@@ -145,8 +145,8 @@ export function ReadOnlyCalendar({ cars, title }: { cars: { slug: string; name: 
                   </div>
                 ))}
                 {bls.map((b, i) => (
-                  <div key={"bl" + i} className="rounded-lg bg-amber-50 border border-amber-200 px-3 py-2 mb-1.5 text-sm font-medium text-amber-700">
-                    🔒 Недоступно: {fmtD(b.from)} – {fmtD(b.to)}
+                  <div key={"bl" + i} className="rounded-lg bg-red-50 border border-red-200 px-3 py-2 mb-1.5 text-sm font-medium text-red-700">
+                    🔧 В ремонте: {fmtD(b.from)} – {fmtD(b.to)}
                   </div>
                 ))}
               </div>
@@ -156,9 +156,9 @@ export function ReadOnlyCalendar({ cars, title }: { cars: { slug: string; name: 
 
         {/* Legend */}
         <div className="flex flex-wrap gap-4 mt-4 text-xs text-gray-400">
-          <span className="flex items-center gap-1.5"><span className="w-5 h-4 rounded bg-blue-100 border border-blue-300" /> Занято</span>
-          <span className="flex items-center gap-1.5"><span className="w-5 h-4 rounded bg-gray-200 border border-gray-300" /> 🚚 Перегон</span>
-          <span className="flex items-center gap-1.5"><span className="w-5 h-4 rounded bg-amber-100 border border-amber-300" /> Недоступно</span>
+          <span className="flex items-center gap-1.5"><span className="w-5 h-4 rounded bg-blue-600 border border-blue-700" /> Занято</span>
+          <span className="flex items-center gap-1.5"><span className="w-5 h-4 rounded bg-gray-300 border border-gray-400" /> 🚚 Перегон</span>
+          <span className="flex items-center gap-1.5"><span className="w-5 h-4 rounded bg-red-500 border border-red-600" /> В ремонте</span>
           <span className="flex items-center gap-1.5"><span className="w-5 h-4 rounded bg-white border border-gray-300" /> Свободно</span>
         </div>
       </div>

@@ -360,6 +360,10 @@ function AdminCalendar() {
   const [blockCar, setBlockCar] = useState<string | null>(null);
   const [blkFrom, setBlkFrom] = useState("");
   const [blkTo, setBlkTo] = useState("");
+  // Меню по клику на пустую ячейку: новая бронь / в ремонте
+  const [cellAction, setCellAction] = useState<{ slug: string; date: string } | null>(null);
+  const [repFrom, setRepFrom] = useState("");
+  const [repTo, setRepTo] = useState("");
 
   const openNewBooking = (slug: string, from = "", to = "", pCity?: string, rCity?: string) => {
     const car = CARS.find(c => c.slug === slug);
@@ -444,7 +448,9 @@ function AdminCalendar() {
         saveBlocks(nb);
         removed.forEach(b => pushRemoveBlock(slug, b.from, b.to));
       } else {
-        openNewBooking(slug, d);
+        setCellAction({ slug, date: d });
+        setRepFrom(d);
+        setRepTo(d);
       }
     } else {
       // Drag → block
@@ -575,9 +581,9 @@ function AdminCalendar() {
 
               {carBlocks.map((bl, i) => (
                 <button key={"blk" + i} onClick={() => removeBlock(car.slug, bl)}
-                  className="mt-1.5 w-full flex items-center justify-between gap-2 text-left rounded-xl bg-amber-50 border border-amber-200 px-3 py-2 active:bg-amber-100">
-                  <span className="text-sm font-medium text-amber-700">🔒 Заблокировано</span>
-                  <span className="text-xs text-amber-600 shrink-0">{fmtD(bl.from)} – {fmtD(bl.to)} · убрать ✕</span>
+                  className="mt-1.5 w-full flex items-center justify-between gap-2 text-left rounded-xl bg-red-50 border border-red-200 px-3 py-2 active:bg-red-100">
+                  <span className="text-sm font-medium text-red-700">🔧 В ремонте</span>
+                  <span className="text-xs text-red-600 shrink-0">{fmtD(bl.from)} – {fmtD(bl.to)} · убрать ✕</span>
                 </button>
               ))}
 
@@ -650,10 +656,10 @@ function AdminCalendar() {
                   <div key={ds} style={{ width: DAY_W, minWidth: DAY_W }}
                     className={`h-11 border-r border-b border-gray-100 shrink-0 cursor-pointer transition-all relative overflow-hidden
                       ${isToday ? "border-l-2 border-l-[var(--brand-blue)]" : ""}
-                      ${blocked ? "bg-amber-100" : ""}
-                      ${booking ? "bg-blue-100" : ""}
-                      ${req && !blocked && !booking ? "bg-yellow-50" : ""}
-                      ${inDrag ? "bg-blue-200" : ""}
+                      ${blocked ? "bg-red-500" : ""}
+                      ${booking ? "bg-blue-600" : ""}
+                      ${req && !blocked && !booking ? "bg-yellow-400" : ""}
+                      ${inDrag ? "bg-blue-300" : ""}
                       ${!blocked && !booking && !req && !inDrag ? "hover:bg-blue-50" : ""}`}
                     onMouseDown={() => handleMouseDown(car.slug, ds)}
                     onMouseEnter={() => handleMouseEnter(car.slug, ds)}
@@ -661,13 +667,13 @@ function AdminCalendar() {
                   >
                     {blocked && (
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-amber-500 text-xs font-bold">✕</span>
+                        <span className="text-white text-xs font-bold">🔧</span>
                       </div>
                     )}
                     {booking && (
                       <div className="absolute inset-0 flex items-center overflow-hidden px-1">
                         {isPickup && (
-                          <span className="text-[9px] font-bold text-blue-700 truncate leading-none">
+                          <span className="text-[9px] font-bold text-white truncate leading-none">
                             {booking.clientName ? booking.clientName.split(" ")[0] : "•"}
                           </span>
                         )}
@@ -675,7 +681,7 @@ function AdminCalendar() {
                     )}
                     {req && !blocked && !booking && (
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-yellow-500 text-xs">●</span>
+                        <span className="text-yellow-900 text-xs font-bold">●</span>
                       </div>
                     )}
                   </div>
@@ -689,10 +695,10 @@ function AdminCalendar() {
       {/* Legend */}
       <div className="hidden md:flex flex-wrap gap-5 mt-4 text-xs text-gray-400">
         {[
-          { color: "bg-amber-100 border-amber-300", icon: "✕", text: "Заблокировано" },
-          { color: "bg-blue-100 border-blue-300", icon: "●", text: "Бронирование" },
-          { color: "bg-yellow-50 border-yellow-300", icon: "●", text: "Запрос с сайта" },
-          { color: "bg-blue-200 border-blue-400", icon: "", text: "Выбор диапазона" },
+          { color: "bg-blue-600 border-blue-700", icon: "", text: "Бронирование" },
+          { color: "bg-yellow-400 border-yellow-500", icon: "", text: "Предв. бронь / запрос" },
+          { color: "bg-red-500 border-red-600", icon: "", text: "В ремонте" },
+          { color: "bg-blue-300 border-blue-400", icon: "", text: "Выбор диапазона" },
         ].map(({ color, icon, text }) => (
           <span key={text} className="flex items-center gap-1.5">
             <span className={`w-5 h-4 rounded border ${color} flex items-center justify-center text-[9px]`}>{icon}</span>
@@ -700,6 +706,53 @@ function AdminCalendar() {
           </span>
         ))}
       </div>
+
+      {/* Меню по клику на пустую ячейку */}
+      {cellAction && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4"
+          onClick={() => setCellAction(null)}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-5 space-y-4" onClick={e => e.stopPropagation()}>
+            <div>
+              <p className="font-bold text-gray-800">{CARS.find(c => c.slug === cellAction.slug)?.name || ""}</p>
+              <p className="text-xs text-gray-400">{fmtD(cellAction.date)}</p>
+            </div>
+
+            <button
+              onClick={() => { const a = cellAction; setCellAction(null); openNewBooking(a.slug, a.date); }}
+              className="w-full h-12 rounded-xl bg-[var(--brand-blue)] text-white font-bold text-sm flex items-center justify-center gap-2 active:opacity-80">
+              🚗 Новое бронирование
+            </button>
+
+            <div className="rounded-xl bg-red-50 border border-red-200 p-3 space-y-2">
+              <p className="text-sm font-bold text-red-700">🔧 Отметить в ремонте</p>
+              <div className="flex gap-2">
+                <input type="date" value={repFrom} onChange={e => setRepFrom(e.target.value)}
+                  className="flex-1 border border-red-200 rounded-lg px-2 py-2 text-sm outline-none focus:border-red-400" />
+                <input type="date" value={repTo} onChange={e => setRepTo(e.target.value)}
+                  className="flex-1 border border-red-200 rounded-lg px-2 py-2 text-sm outline-none focus:border-red-400" />
+              </div>
+              <button
+                onClick={() => {
+                  if (!repFrom || !repTo) return;
+                  const [from, to] = repFrom <= repTo ? [repFrom, repTo] : [repTo, repFrom];
+                  const nb = { ...blocks };
+                  nb[cellAction.slug] = [...(nb[cellAction.slug] || []), { from, to }];
+                  setBlocks(nb); saveBlocks(nb);
+                  pushAddBlock(cellAction.slug, from, to);
+                  setCellAction(null);
+                }}
+                className="w-full h-10 rounded-lg bg-red-500 text-white font-bold text-sm active:opacity-80">
+                Отметить в ремонте
+              </button>
+            </div>
+
+            <button onClick={() => setCellAction(null)}
+              className="w-full h-10 rounded-xl border border-gray-200 text-gray-500 text-sm font-medium">
+              Отмена
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Modal */}
       {modal && (
