@@ -11,7 +11,7 @@ export const Route = createFileRoute("/admin")({
 const ADMIN_PIN = "2025";
 
 // Машины, закреплённые за Кахой
-export const KAKHA_CARS = ["toyota-rav4-white", "toyota-rav4-hybrid", "subaru-crosstrek-limited", "subaru-crosstrek-black"];
+export const KAKHA_CARS = ["toyota-rav4-white", "toyota-rav4-hybrid", "subaru-crosstrek-limited", "subaru-crosstrek-black", "ford-fusion-plugin"];
 export const KAKHA = { name: "Менеджер Каха", pass: "1989", cars: KAKHA_CARS };
 
 // Менеджеры (доступ только к календарю/заявкам, без финансов).
