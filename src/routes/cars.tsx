@@ -42,8 +42,6 @@ import bmw740d from "@/assets/bmw740-4.jpg.asset.json";
 import bmw740e from "@/assets/bmw740-5.jpg.asset.json";
 import bmw740f from "@/assets/bmw740-6.jpg.asset.json";
 import bmw740g from "@/assets/bmw740-7.jpg.asset.json";
-import prius1 from "@/assets/prius-1.jpg.asset.json";
-import prius2 from "@/assets/prius-2.jpg.asset.json";
 import wr19a from "@/assets/wrangler2019-1.jpg.asset.json";
 import wr19b from "@/assets/wrangler2019-2.jpg.asset.json";
 import wr19c from "@/assets/wrangler2019-3.jpg.asset.json";
@@ -267,7 +265,7 @@ export const CARS: Car[] = [
     tiers: [{ label: "1–3 days", price: 130 }, { label: "4–7 days", price: 120 }, { label: "8–30 days", price: 115 }],
     description: "The BMW X5 Hybrid combines a powerful 3.0L inline-6 with electric drive for exceptional efficiency and premium performance.",
     specs: [{ label: "Engine", value: "3.0L I6 Hybrid" }, { label: "Power", value: "394 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury SUV" }] },
-  { name: "Toyota Prius", slug: "toyota-prius", year: 2017, price: 50, city: "batumi", images: [prius1, prius2],
+  { name: "Toyota Prius", slug: "toyota-prius", year: 2017, price: 50, city: "batumi", images: [{ url: "/prius-1.webp" }, { url: "/prius-2.webp" }, { url: "/prius-3.webp" }, { url: "/prius-4.webp" }, { url: "/prius-5.webp" }, { url: "/prius-6.webp" }],
     tiers: [{ label: "1–3 days", price: 50 }, { label: "4–7 days", price: 45 }, { label: "7–15 days", price: 40 }],
     description: "Fuel-efficient Toyota Prius hybrid — economical and eco-friendly transport for everyday city driving.",
     specs: [{ label: "Engine", value: "1.8L Hybrid" }, { label: "Power", value: "122 HP" }, { label: "Transmission", value: "CVT" }, { label: "Seats", value: "5" }, { label: "Class", value: "Hybrid" }] },
