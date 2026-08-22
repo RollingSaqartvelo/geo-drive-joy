@@ -169,6 +169,42 @@ export async function pushRemoveBlock(slug: string, from: string, to: string): P
   } catch (e) { console.error("[remove block]", e); }
 }
 
+// ── ручной город машины («переброс» между Батуми/Тбилиси, общий для всех) ──
+export type Loc = "batumi" | "tbilisi";
+export type CarLocations = Record<string, Loc>;
+const CAR_LOC_KEY = "georent_car_locations";
+
+function loadCarLocationsLocal(): CarLocations {
+  try { return JSON.parse(localStorage.getItem(CAR_LOC_KEY) || "{}"); } catch { return {}; }
+}
+function saveCarLocationsLocal(m: CarLocations) { localStorage.setItem(CAR_LOC_KEY, JSON.stringify(m)); }
+
+export async function syncCarLocations(): Promise<CarLocations> {
+  try {
+    const { data, error } = await sb.from("car_locations").select("vehicle_slug,city");
+    if (error) throw error;
+    const map: CarLocations = {};
+    for (const r of (data || [])) map[r.vehicle_slug] = r.city as Loc;
+    saveCarLocationsLocal(map);
+    return map;
+  } catch (e) {
+    console.error("[car locations] fallback to cache", e);
+    return loadCarLocationsLocal();
+  }
+}
+
+export async function setCarLocation(slug: string, city: Loc): Promise<void> {
+  const m = loadCarLocationsLocal();
+  m[slug] = city;
+  saveCarLocationsLocal(m);
+  try {
+    const { error } = await sb.from("car_locations").upsert({
+      vehicle_slug: slug, city, since: new Date().toISOString().slice(0, 10), updated_at: new Date().toISOString(),
+    });
+    if (error) throw error;
+  } catch (e) { console.error("[set car location]", e); }
+}
+
 // ── публичное чтение (без PII): только поля, нужные движку доступности ──
 export async function fetchSlotsPublic(): Promise<AdminBooking[]> {
   try {

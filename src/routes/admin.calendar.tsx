@@ -10,7 +10,7 @@ import {
 import { openContract } from "@/lib/contractGenerator";
 import { AvailabilitySearch, type AvailCar } from "@/components/AvailabilitySearch";
 import type { Loc } from "@/lib/availability";
-import { syncBookings, syncBlocks, pushBooking, pushDeleteBooking, pushAddBlock, pushRemoveBlock } from "@/lib/store";
+import { syncBookings, syncBlocks, pushBooking, pushDeleteBooking, pushAddBlock, pushRemoveBlock, syncCarLocations, setCarLocation, type CarLocations } from "@/lib/store";
 
 export const Route = createFileRoute("/admin/calendar")({
   component: AdminCalendar,
@@ -351,7 +351,12 @@ function AdminCalendar() {
   const [scope, setScope] = useState<"mine" | "all">(hasMyCars ? "mine" : "all");
   const inScope = (slug: string) => scope === "all" || !hasMyCars || myCars.includes(slug);
 
-  const cars = CARS.filter(c => getCarCurrentCity(c.slug, c.city) === city && inScope(c.slug));
+  // Ручной город («переброс») имеет приоритет над авторасчётом по one-way броням
+  const [carLocations, setCarLocations] = useState<CarLocations>({});
+  const effectiveCity = (slug: string, baseCity: string): City =>
+    (carLocations[slug] as City) || (getCarCurrentCity(slug, baseCity) as City);
+
+  const cars = CARS.filter(c => effectiveCity(c.slug, c.city) === city && inScope(c.slug));
 
   const todayStr = format(today, "yyyy-MM-dd");
   const fmtD = (s: string) => (s ? format(new Date(s + "T00:00:00"), "d MMM") : "—");
@@ -385,7 +390,16 @@ function AdminCalendar() {
   useEffect(() => {
     syncBookings().then(setBookings).catch(() => {});
     syncBlocks().then(setBlocks).catch(() => {});
+    syncCarLocations().then(setCarLocations).catch(() => {});
   }, []);
+
+  // Переброс машины в другой город (в один клик, общий для всех менеджеров)
+  const relocateCar = (slug: string, baseCity: string) => {
+    const cur = effectiveCity(slug, baseCity);
+    const next: City = cur === "batumi" ? "tbilisi" : "batumi";
+    setCarLocations(prev => ({ ...prev, [slug]: next }));
+    setCarLocation(slug, next);
+  };
 
   const removeBlock = (slug: string, bl: Block) => {
     const nb = { ...blocks };
@@ -488,6 +502,8 @@ function AdminCalendar() {
 
   const availCars: AvailCar[] = CARS.filter(c => inScope(c.slug)).map(c => ({
     slug: c.slug, baseCity: c.city as Loc, name: c.name,
+    manualCity: carLocations[c.slug] as Loc | undefined,
+    manualCitySince: carLocations[c.slug] ? format(today, "yyyy-MM-dd") : undefined,
     priceFrom: c.tiers && c.tiers.length ? c.tiers[c.tiers.length - 1].price : c.price,
     image: c.images?.[0]?.url,
   }));
@@ -550,7 +566,13 @@ function AdminCalendar() {
           return (
             <div key={car.slug} className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
               <div className="flex items-center justify-between gap-2 mb-3">
-                <p className="font-bold text-gray-800 leading-tight">{car.name}</p>
+                <div className="min-w-0">
+                  <p className="font-bold text-gray-800 leading-tight truncate">{car.name}</p>
+                  <button onClick={() => relocateCar(car.slug, car.city)}
+                    className="mt-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 active:bg-[var(--brand-blue)] active:text-white">
+                    📍 {effectiveCity(car.slug, car.city) === "batumi" ? "🌊 Батуми" : "🏙️ Тбилиси"} · перебросить →
+                  </button>
+                </div>
                 <button onClick={() => openNewBooking(car.slug)}
                   className="shrink-0 h-9 px-4 rounded-xl bg-[var(--brand-blue)] text-white text-sm font-bold active:opacity-80">
                   + Бронь
@@ -640,8 +662,13 @@ function AdminCalendar() {
           {cars.map((car, idx) => (
             <div key={car.slug} className={`flex ${idx % 2 === 0 ? "bg-white" : "bg-gray-50/80"}`}>
               <div style={{ width: CAR_COL, minWidth: CAR_COL }}
-                className="border-r border-b border-gray-100 px-4 py-0 flex items-center shrink-0 h-11">
-                <p className="text-gray-700 text-sm font-semibold truncate">{car.name}</p>
+                className="border-r border-b border-gray-100 px-3 py-0 flex items-center justify-between gap-1 shrink-0 h-11">
+                <p className="text-gray-700 text-xs font-semibold truncate">{car.name}</p>
+                <button onClick={() => relocateCar(car.slug, car.city)}
+                  title="Перебросить в другой город"
+                  className="shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded bg-gray-100 text-gray-500 hover:bg-[var(--brand-blue)] hover:text-white transition-colors">
+                  → {effectiveCity(car.slug, car.city) === "batumi" ? "Тбс" : "Бту"}
+                </button>
               </div>
               {days.map(d => {
                 const ds = format(d, "yyyy-MM-dd");
