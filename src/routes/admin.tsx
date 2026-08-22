@@ -11,7 +11,7 @@ export const Route = createFileRoute("/admin")({
 const ADMIN_PIN = "2025";
 
 // Машины, закреплённые за Кахой
-export const KAKHA_CARS = ["toyota-rav4-white", "toyota-rav4-hybrid", "subaru-crosstrek-limited", "subaru-crosstrek-black", "ford-fusion-plugin", "lexus-ct200h", "toyota-highlander", "toyota-sienna", "hyundai-h1", "subaru-forester", "toyota-prius", "bmw-x2", "jeep-cherokee"];
+export const KAKHA_CARS = ["toyota-rav4-white", "toyota-rav4-hybrid", "subaru-crosstrek-limited", "subaru-crosstrek-black", "ford-fusion-plugin", "lexus-ct200h", "toyota-highlander", "toyota-sienna", "hyundai-h1", "subaru-forester", "toyota-prius", "bmw-x2", "jeep-cherokee", "tesla-model-y"];
 export const KAKHA = { name: "Менеджер Каха", pass: "1989", cars: KAKHA_CARS };
 
 // Машины, закреплённые за Semen
