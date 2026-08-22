@@ -2,7 +2,6 @@
 import { Users, Calendar, MapPin } from "lucide-react";
 import { useState } from "react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { PublicCarFinder } from "@/components/PublicCarFinder";
 import { RentalTermsButton } from "@/components/RentalTermsButton";
 import { useI18n } from "@/lib/i18n";
 import mustang1 from "@/assets/mustang-1.jpg.asset.json";
@@ -422,9 +421,30 @@ function CarCard({ car }: { car: Car }) {
   );
 }
 
+type CarCat = "all" | "suv" | "sedan" | "minivan" | "lux";
+type SeatsCat = "all" | "s5" | "s7" | "s8";
+
+function carCategory(car: Car): Exclude<CarCat, "all"> {
+  const cls = (car.specs?.find(s => s.label === "Class")?.value || "").toLowerCase();
+  if (cls.includes("minivan")) return "minivan";
+  if (cls.includes("luxury") || cls.includes("convertible") || cls.includes("muscle") || cls.includes("sports") || cls.includes("coupe")) return "lux";
+  if (cls.includes("suv") || cls.includes("off-road") || cls.includes("crossover")) return "suv";
+  return "sedan"; // sedan / hybrid / hatchback / electric
+}
+
 function CarsPage() {
   const [city, setCity] = useState<City>("batumi");
-  const filtered = CARS.filter((c) => c.city === city);
+  const [cat, setCat] = useState<CarCat>("all");
+  const [seats, setSeats] = useState<SeatsCat>("all");
+
+  const filtered = CARS.filter((c) => {
+    if (c.city !== city) return false;
+    if (cat !== "all" && carCategory(c) !== cat) return false;
+    if (seats === "s5" && !((c.seats ?? 0) >= 4 && (c.seats ?? 0) <= 5)) return false;
+    if (seats === "s7" && c.seats !== 7) return false;
+    if (seats === "s8" && (c.seats ?? 0) < 8) return false;
+    return true;
+  });
   const { t } = useI18n();
 
   return (
@@ -483,15 +503,41 @@ function CarsPage() {
 
       </div>
 
-      <section className="pt-12 sm:pt-16">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6">
-          <PublicCarFinder />
+      {/* Filters */}
+      <section className="pt-10 sm:pt-14">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 space-y-3">
+          <div className="flex flex-wrap gap-2">
+            {([
+              ["all", "Все"], ["suv", "Кроссоверы"], ["sedan", "Седаны"], ["minivan", "Минивэны"], ["lux", "Lux"],
+            ] as [CarCat, string][]).map(([v, label]) => (
+              <button key={v} onClick={() => setCat(v)}
+                className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${cat === v ? "bg-[var(--brand-blue)] text-white shadow" : "bg-card border border-border text-muted-foreground hover:border-[var(--brand-blue)]"}`}>
+                {label}
+              </button>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {([
+              ["all", "Любые места"], ["s5", "4–5 мест"], ["s7", "7 мест"], ["s8", "8+ мест"],
+            ] as [SeatsCat, string][]).map(([v, label]) => (
+              <button key={v} onClick={() => setSeats(v)}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${seats === v ? "bg-[var(--brand-olive)] text-white shadow" : "bg-card border border-border text-muted-foreground hover:border-[var(--brand-olive)]"}`}>
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((c) => <CarCard key={c.name} car={c} />)}
+      <section className="py-10 sm:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          {filtered.length === 0 ? (
+            <p className="text-center text-muted-foreground py-10">Нет автомобилей по выбранным фильтрам</p>
+          ) : (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {filtered.map((c) => <CarCard key={c.name} car={c} />)}
+            </div>
+          )}
         </div>
       </section>
 
