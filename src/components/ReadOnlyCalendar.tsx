@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { addDays, format, startOfDay } from "date-fns";
 import { fetchSlotsPublic, fetchBlocksPublic, type BlocksMap } from "@/lib/store";
-import { transferWindows } from "@/lib/availability";
+import { transferWindows, type Loc } from "@/lib/availability";
+import { AvailabilitySearch, type AvailCar } from "@/components/AvailabilitySearch";
+import { CARS } from "@/routes/cars";
 import type { AdminBooking } from "@/lib/adminBookings";
 
 const DAY_W = 40;
@@ -43,6 +45,17 @@ export function ReadOnlyCalendar({ cars, title }: { cars: { slug: string; name: 
 
   const totalW = CAR_COL + DAY_W * DAYS;
 
+  const availCars: AvailCar[] = cars.map(c => {
+    const full = CARS.find(x => x.slug === c.slug);
+    return {
+      slug: c.slug,
+      baseCity: (full?.city || "batumi") as Loc,
+      name: c.name,
+      priceFrom: full?.tiers && full.tiers.length ? full.tiers[full.tiers.length - 1].price : (full?.price || 0),
+      image: full?.images?.[0]?.url,
+    };
+  });
+
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
       <div className="mx-auto max-w-7xl">
@@ -58,8 +71,13 @@ export function ReadOnlyCalendar({ cars, title }: { cars: { slug: string; name: 
           )}
         </div>
 
-        {/* Desktop grid */}
-        <div className="hidden md:block overflow-x-auto rounded-2xl border border-gray-200 shadow-sm bg-white">
+        {/* Подбор свободного авто (только просмотр) */}
+        <div className="mb-5">
+          <AvailabilitySearch cars={availCars} bookings={bookings} blocks={blocks} ctaLabel="доступна ✓" onPick={() => {}} />
+        </div>
+
+        {/* Календарь-сетка (прокручивается по горизонтали, в т.ч. на телефоне) */}
+        <div className="block overflow-x-auto rounded-2xl border border-gray-200 shadow-sm bg-white">
           <div style={{ minWidth: totalW }}>
             <div className="flex sticky top-0 z-10 bg-[var(--brand-blue)]">
               <div style={{ width: CAR_COL, minWidth: CAR_COL }}
