@@ -65,7 +65,7 @@ export function openContract(b: AdminBooking) {
 <h1>Договор аренды транспортного средства<br>без экипажа № ${b.contractNumber}</h1>
 <p class="center">${fmtDate(b.pickupDate)} &nbsp; ${cityStr}</p>
 
-<p class="intro"><span class="bold">ИП GEOrent</span>, именуемый в дальнейшем Арендодатель с одной стороны, и <span class="bold">${b.clientName || "_______________"}</span>, именуемый(-ая) в дальнейшем Арендатор, совместно именуемые «Стороны», а отдельно — «Сторона», составили настоящий договор о нижеследующем:</p>
+<p class="intro"><span class="bold">ИП GEOrent</span>, именуемый в дальнейшем Арендодатель с одной стороны, и <span class="bold">${b.clientName || "_______________"}</span>${b.clientPassport ? ` <span class="bold">PASSPORT NUMBER ${b.clientPassport}</span>` : ""}, именуемый(-ая) в дальнейшем Арендатор, совместно именуемые «Стороны», а отдельно — «Сторона», составили настоящий договор о нижеследующем:</p>
 
 <h3>1. Предмет договора и срок действия договора</h3>
 <p>1.1. В соответствии с условиями договора Арендодатель обязуется предоставить Арендатору за плату во временное владение и пользование (аренду) транспортное средство (далее — ТС) без оказания услуг по управлению им и технической эксплуатации. Транспортное средство предоставляется для некоммерческого использования Арендатором.</p>
@@ -88,11 +88,11 @@ export function openContract(b: AdminBooking) {
   </tr>
   <tr>
     <td style="background:#f0f0f0;font-weight:bold">Гос. номер / VIN</td>
-    <td>${carData?.plate ? `<b>${carData.plate}</b> / ${carData.vin || "—"}` : "—"}</td>
+    <td>${[carData?.plate ? `<b>${carData.plate}</b>` : "", carData?.vin || ""].filter(Boolean).join(" / ")}</td>
   </tr>
   <tr>
     <td style="background:#f0f0f0;font-weight:bold">Пробег при выдаче</td>
-    <td>${carData?.mileage ? `${carData.mileage.toLocaleString()} ${carData.mileageUnit ?? "mi"}` : "—"}</td>
+    <td>${carData?.mileage ? `${carData.mileage.toLocaleString()} ${carData.mileageUnit ?? "mi"}` : ""}</td>
   </tr>
   <tr>
     <td colspan="2" style="background:#f0f0f0;font-weight:bold">Дополнительные услуги</td>
