@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ReadOnlyCalendar } from "@/components/ReadOnlyCalendar";
 import { CARS } from "./cars";
-import { KAKHA_CARS, SEMEN_CARS } from "./admin";
+import { KAKHA_CARS, SEMEN_CARS, ARTHUR_CARS } from "./admin";
 
 export const Route = createFileRoute("/calendar/$scope")({
   component: PartnerCalendar,
@@ -21,6 +21,9 @@ function PartnerCalendar() {
   } else if (scope === "semen") {
     cars = CARS.filter(c => SEMEN_CARS.includes(c.slug)).map(c => ({ slug: c.slug, name: c.name }));
     title = "Календарь — Semen";
+  } else if (scope === "arthur") {
+    cars = CARS.filter(c => ARTHUR_CARS.includes(c.slug)).map(c => ({ slug: c.slug, name: c.name }));
+    title = "Календарь — Arthur";
   }
 
   return <ReadOnlyCalendar cars={cars} title={title} />;

@@ -18,11 +18,16 @@ export const KAKHA = { name: "Менеджер Каха", pass: "1989", cars: KA
 export const SEMEN_CARS = ["ford-mustang-cabrio", "ford-mustang-cabrio-red", "ford-mustang-cabrio-dark-black"];
 export const SEMEN = { name: "Менеджер Semen", pass: "1997", cars: SEMEN_CARS };
 
+// Машины, закреплённые за Arthur
+export const ARTHUR_CARS = ["ford-fusion-hybrid", "hyundai-palisade", "range-rover-velar", "tesla-model-3"];
+export const ARTHUR = { name: "Менеджер Arthur", pass: "4448", cars: ARTHUR_CARS };
+
 // Менеджеры (доступ только к календарю/заявкам, без финансов).
 // cars — если задан, у менеджера появляется вид «Мои машины» с этими авто.
 const MANAGERS: { name: string; pass: string; cars?: string[] }[] = [
   KAKHA,
   SEMEN,
+  ARTHUR,
   { name: "Менеджер 3", pass: "MGR-1964" },
   { name: "Менеджер 4", pass: "MGR-5207" },
   { name: "Менеджер 5", pass: "MGR-8613" },
