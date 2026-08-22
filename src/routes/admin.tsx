@@ -14,11 +14,15 @@ const ADMIN_PIN = "2025";
 export const KAKHA_CARS = ["toyota-rav4-white", "toyota-rav4-hybrid", "subaru-crosstrek-limited", "subaru-crosstrek-black", "ford-fusion-plugin"];
 export const KAKHA = { name: "Менеджер Каха", pass: "1989", cars: KAKHA_CARS };
 
+// Машины, закреплённые за Semen
+export const SEMEN_CARS = ["ford-mustang-cabrio", "ford-mustang-cabrio-red", "ford-mustang-cabrio-dark-black"];
+export const SEMEN = { name: "Менеджер Semen", pass: "1997", cars: SEMEN_CARS };
+
 // Менеджеры (доступ только к календарю/заявкам, без финансов).
 // cars — если задан, у менеджера появляется вид «Мои машины» с этими авто.
 const MANAGERS: { name: string; pass: string; cars?: string[] }[] = [
   KAKHA,
-  { name: "Менеджер 2", pass: "MGR-7350" },
+  SEMEN,
   { name: "Менеджер 3", pass: "MGR-1964" },
   { name: "Менеджер 4", pass: "MGR-5207" },
   { name: "Менеджер 5", pass: "MGR-8613" },
