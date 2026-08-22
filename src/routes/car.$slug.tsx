@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowLeft, MapPin, Calendar, Users, CalendarDays } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { RentalTermsButton } from "@/components/RentalTermsButton";
 import { CARS } from "./cars";
 import { useI18n } from "@/lib/i18n";
 import { trackLead } from "@/lib/analytics";
@@ -225,6 +226,7 @@ function CarDetailPage() {
         </div>
 
       </div>
+      <RentalTermsButton />
     </SiteLayout>
   );
 }

@@ -3,6 +3,7 @@ import { Users, Calendar, MapPin } from "lucide-react";
 import { useState } from "react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { PublicCarFinder } from "@/components/PublicCarFinder";
+import { RentalTermsButton } from "@/components/RentalTermsButton";
 import { useI18n } from "@/lib/i18n";
 import mustang1 from "@/assets/mustang-1.jpg.asset.json";
 import mustang2 from "@/assets/mustang-2.jpg.asset.json";
@@ -493,6 +494,8 @@ function CarsPage() {
           {filtered.map((c) => <CarCard key={c.name} car={c} />)}
         </div>
       </section>
+
+      <RentalTermsButton />
     </SiteLayout>
   );
 }
