@@ -122,6 +122,27 @@ export type Database = {
         }
         Relationships: []
       }
+      car_locations: {
+        Row: {
+          city: string
+          since: string | null
+          updated_at: string
+          vehicle_slug: string
+        }
+        Insert: {
+          city: string
+          since?: string | null
+          updated_at?: string
+          vehicle_slug: string
+        }
+        Update: {
+          city?: string
+          since?: string | null
+          updated_at?: string
+          vehicle_slug?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
