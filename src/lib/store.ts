@@ -205,6 +205,66 @@ export async function setCarLocation(slug: string, city: Loc): Promise<void> {
   } catch (e) { console.error("[set car location]", e); }
 }
 
+// ── карточки данных авто (документы, страховка, VIN и т.д.) ──
+const sbStorage = (supabase as any).storage;
+export type CarDoc = { url: string; name: string };
+export type CarDetail = {
+  slug: string; name?: string; vin?: string; owner?: string;
+  idCode?: string; seats?: number; insurance?: string; docs: CarDoc[];
+};
+const CAR_DETAILS_KEY = "georent_car_details";
+
+export async function fetchCarDetails(): Promise<Record<string, CarDetail>> {
+  try {
+    const { data, error } = await sb.from("car_details").select("*");
+    if (error) throw error;
+    const map: Record<string, CarDetail> = {};
+    for (const r of (data || [])) map[r.vehicle_slug] = {
+      slug: r.vehicle_slug, name: r.name || "", vin: r.vin || "", owner: r.owner || "",
+      idCode: r.id_code || "", seats: r.seats ?? undefined, insurance: r.insurance || "",
+      docs: r.doc_photos || [],
+    };
+    try { localStorage.setItem(CAR_DETAILS_KEY, JSON.stringify(map)); } catch {}
+    return map;
+  } catch (e) {
+    console.error("[car details] fallback to cache", e);
+    try { return JSON.parse(localStorage.getItem(CAR_DETAILS_KEY) || "{}"); } catch { return {}; }
+  }
+}
+
+export async function saveCarDetail(d: CarDetail): Promise<void> {
+  try {
+    const { error } = await sb.from("car_details").upsert({
+      vehicle_slug: d.slug, name: d.name || null, vin: d.vin || null, owner: d.owner || null,
+      id_code: d.idCode || null, seats: d.seats || null, insurance: d.insurance || null,
+      doc_photos: d.docs || [], updated_at: new Date().toISOString(),
+    });
+    if (error) throw error;
+  } catch (e) { console.error("[save car detail]", e); }
+}
+
+export async function uploadCarDoc(slug: string, file: File): Promise<CarDoc | null> {
+  try {
+    const safe = file.name.replace(/[^\w.\-]/g, "_");
+    const path = `${slug}/${Date.now()}-${safe}`;
+    const { error } = await sbStorage.from("car-docs").upload(path, file, { upsert: true });
+    if (error) throw error;
+    const { data } = sbStorage.from("car-docs").getPublicUrl(path);
+    return { url: data.publicUrl, name: file.name };
+  } catch (e) { console.error("[upload doc]", e); return null; }
+}
+
+export async function deleteCarDoc(url: string): Promise<void> {
+  try {
+    const marker = "/car-docs/";
+    const idx = url.indexOf(marker);
+    if (idx < 0) return;
+    const path = url.slice(idx + marker.length);
+    const { error } = await sbStorage.from("car-docs").remove([path]);
+    if (error) throw error;
+  } catch (e) { console.error("[delete doc]", e); }
+}
+
 // ── публичное чтение (без PII): только поля, нужные движку доступности ──
 export async function fetchSlotsPublic(): Promise<AdminBooking[]> {
   try {

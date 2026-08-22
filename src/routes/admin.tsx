@@ -123,8 +123,14 @@ export function AdminLayout() {
 
   const isManager = role === "manager";
   const path = location.pathname;
+  // Данные авто доступны админу, Кахе и Lasha
+  const canVehicles = role === "admin" || userName === KAKHA.name || userName === LASHA.name;
   // Менеджеру закрыты финансы и страница авто (там видна выручка)
-  const blocked = isManager && (path.startsWith("/admin/finance") || path.startsWith("/admin/cars"));
+  const blocked = isManager && (
+    path.startsWith("/admin/finance") ||
+    path.startsWith("/admin/cars") ||
+    (path.startsWith("/admin/vehicles") && !canVehicles)
+  );
 
   const badgeCls = `text-[11px] font-bold px-2.5 py-0.5 rounded-full ${isManager ? "bg-blue-50 text-[var(--brand-blue)]" : "bg-amber-50 text-amber-600"}`;
   const sideLinkCls = "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:text-[var(--brand-blue)] hover:bg-blue-50 [&.active]:bg-[var(--brand-blue)] [&.active]:text-white transition-all";
@@ -148,6 +154,11 @@ export function AdminLayout() {
           <Link to="/admin/calendar" className={topLinkCls}>
             <CalendarDays className="h-4 w-4 shrink-0" /> Календарь
           </Link>
+          {canVehicles && (
+            <Link to="/admin/vehicles" className={topLinkCls}>
+              <Car className="h-4 w-4 shrink-0" /> Данные авто
+            </Link>
+          )}
           {!isManager && (
             <>
               <Link to="/admin/cars" className={topLinkCls}>
@@ -171,6 +182,11 @@ export function AdminLayout() {
           <Link to="/admin/calendar" className={sideLinkCls}>
             <CalendarDays className="h-4 w-4 shrink-0" /> Календарь
           </Link>
+          {canVehicles && (
+            <Link to="/admin/vehicles" className={sideLinkCls}>
+              <Car className="h-4 w-4 shrink-0" /> Данные авто
+            </Link>
+          )}
           {!isManager && (
             <>
               <Link to="/admin/cars" className={sideLinkCls}>
