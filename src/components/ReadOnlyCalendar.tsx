@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { addDays, format, startOfDay } from "date-fns";
-import { fetchSlotsPublic, fetchBlocksPublic, type BlocksMap } from "@/lib/store";
+import { fetchSlotsPublic, fetchBlocksPublic, syncCarLocations, type BlocksMap, type CarLocations } from "@/lib/store";
 import { transferWindows, type Loc } from "@/lib/availability";
 import { AvailabilitySearch, type AvailCar } from "@/components/AvailabilitySearch";
 import { CARS } from "@/routes/cars";
@@ -18,19 +18,26 @@ const CITY = (c: string) => (c === "batumi" ? "Батуми" : c === "tbilisi" ?
 export function ReadOnlyCalendar({ cars, title }: { cars: { slug: string; name: string }[]; title: string }) {
   const [bookings, setBookings] = useState<AdminBooking[]>([]);
   const [blocks, setBlocks] = useState<BlocksMap>({});
+  const [carLocations, setCarLocations] = useState<CarLocations>({});
+  const [city, setCity] = useState<"batumi" | "tbilisi">("batumi");
   const [updated, setUpdated] = useState<Date | null>(null);
 
   useEffect(() => {
     let alive = true;
     const load = async () => {
-      const [b, bl] = await Promise.all([fetchSlotsPublic(), fetchBlocksPublic()]);
+      const [b, bl, loc] = await Promise.all([fetchSlotsPublic(), fetchBlocksPublic(), syncCarLocations()]);
       if (!alive) return;
-      setBookings(b); setBlocks(bl); setUpdated(new Date());
+      setBookings(b); setBlocks(bl); setCarLocations(loc); setUpdated(new Date());
     };
     load();
     const t = setInterval(load, 60_000); // авто-обновление раз в минуту
     return () => { alive = false; clearInterval(t); };
   }, []);
+
+  // Город авто с учётом общего переброса (car_locations)
+  const effCity = (slug: string): "batumi" | "tbilisi" =>
+    (carLocations[slug] as "batumi" | "tbilisi") || (CARS.find(c => c.slug === slug)?.city as "batumi" | "tbilisi") || "batumi";
+  const shownCars = cars.filter(c => effCity(c.slug) === city);
 
   const today = startOfDay(new Date());
   const days = Array.from({ length: DAYS }, (_, i) => addDays(today, i));
@@ -71,6 +78,16 @@ export function ReadOnlyCalendar({ cars, title }: { cars: { slug: string; name: 
           )}
         </div>
 
+        {/* Выбор города (общий, с учётом переброса) */}
+        <div className="flex gap-2 mb-4">
+          {(["batumi", "tbilisi"] as const).map(c => (
+            <button key={c} onClick={() => setCity(c)}
+              className={`px-5 py-2 rounded-xl text-sm font-bold transition-all ${city === c ? "bg-[var(--brand-blue)] text-white shadow-md" : "bg-white text-gray-500 border border-gray-200 hover:border-[var(--brand-blue)]"}`}>
+              {c === "batumi" ? "🌊 Батуми" : "🏙️ Тбилиси"} <span className="opacity-70">· {cars.filter(x => effCity(x.slug) === c).length}</span>
+            </button>
+          ))}
+        </div>
+
         {/* Подбор свободного авто (только просмотр) */}
         <div className="mb-5">
           <AvailabilitySearch cars={availCars} bookings={bookings} blocks={blocks} ctaLabel="доступна ✓" onPick={() => {}} />
@@ -97,7 +114,7 @@ export function ReadOnlyCalendar({ cars, title }: { cars: { slug: string; name: 
               })}
             </div>
 
-            {cars.map((car, idx) => (
+            {shownCars.map((car, idx) => (
               <div key={car.slug} className={`flex ${idx % 2 === 0 ? "bg-white" : "bg-gray-50/80"}`}>
                 <div style={{ width: CAR_COL, minWidth: CAR_COL }}
                   className="border-r border-b border-gray-100 px-4 flex items-center shrink-0 h-11">
@@ -128,7 +145,7 @@ export function ReadOnlyCalendar({ cars, title }: { cars: { slug: string; name: 
 
         {/* Mobile list */}
         <div className="md:hidden space-y-3">
-          {cars.map(car => {
+          {shownCars.map(car => {
             const bs = bookings.filter(b => b.carSlug === car.slug && b.returnDate >= todayStr)
               .sort((a, b) => a.pickupDate.localeCompare(b.pickupDate));
             const bls = (blocks[car.slug] || []).filter(b => b.to >= todayStr);
