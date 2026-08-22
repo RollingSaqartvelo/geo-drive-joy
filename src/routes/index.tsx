@@ -3,6 +3,7 @@ import { Car, Map, MapPin } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { RequestRentalModal } from "@/components/RequestRentalModal";
 import { VipTransfersSection } from "@/components/VipTransfersSection";
+import { PublicCarFinder } from "@/components/PublicCarFinder";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import hero from "@/assets/hero.jpg.asset.json";
@@ -45,6 +46,18 @@ function Index() {
               }
             />
           </div>
+        </div>
+      </section>
+
+      {/* Availability finder */}
+      <section className="py-14 sm:py-20 bg-background">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6">
+          <div className="text-center mb-6">
+            <p className="uppercase tracking-[0.25em] text-xs text-[var(--brand-olive)] mb-2">Онлайн-подбор</p>
+            <h2 className="text-3xl sm:text-4xl font-black text-[var(--brand-blue)]">Найдите свободный автомобиль</h2>
+            <p className="text-muted-foreground mt-2">Выберите города и даты — покажем только доступные машины</p>
+          </div>
+          <PublicCarFinder />
         </div>
       </section>
 
