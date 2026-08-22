@@ -140,7 +140,7 @@ export const CARS: Car[] = [
     description: "Lexus CT 200h 2016 — экономичный премиальный гибрид-хэтчбек. Тихий и плавный ход, стильный дизайн и минимальный расход топлива. Отличный выбор для города и поездок по Батуми.",
     specs: [{ label: "Engine", value: "1.8L Hybrid" }, { label: "Transmission", value: "CVT" }, { label: "Seats", value: "5" }, { label: "Class", value: "Hybrid" }] },
   { name: "Toyota Highlander 7 Seats", slug: "toyota-highlander", year: 2018, seats: 7, price: 95, city: "batumi",
-    images: [{ url: "/highlander-1.webp" }, { url: "/highlander-2.webp" }],
+    images: [{ url: "/highlander-1.webp" }, { url: "/highlander-2.webp" }, { url: "/highlander-3.webp" }, { url: "/highlander-4.webp" }, { url: "/highlander-5.webp" }, { url: "/highlander-6.webp" }, { url: "/highlander-7.webp" }],
     tiers: [{ label: "1–3 days", price: 95 }, { label: "4–7 days", price: 90 }, { label: "7–14 days", price: 85 }],
     description: "Toyota Highlander — просторный и надёжный 7-местный кроссовер с полным приводом и мощным V6. Идеален для больших семей и комфортных путешествий по Батуми и всей Грузии.",
     specs: [{ label: "Engine", value: "3.5L V6" }, { label: "Drive", value: "AWD" }, { label: "Seats", value: "7" }, { label: "Class", value: "SUV" }] },
