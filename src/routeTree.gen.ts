@@ -10,12 +10,16 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ToursRouteImport } from './routes/tours'
+import { Route as SemenRouteImport } from './routes/semen'
+import { Route as KakhaRouteImport } from './routes/kakha'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CarsRouteImport } from './routes/cars'
+import { Route as ArthurRouteImport } from './routes/arthur'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as CarSlugRouteImport } from './routes/car.$slug'
+import { Route as CalendarScopeRouteImport } from './routes/calendar.$scope'
 import { Route as AdminFinanceRouteImport } from './routes/admin.finance'
 import { Route as AdminCarsRouteImport } from './routes/admin.cars'
 import { Route as AdminCalendarRouteImport } from './routes/admin.calendar'
@@ -23,6 +27,16 @@ import { Route as AdminCalendarRouteImport } from './routes/admin.calendar'
 const ToursRoute = ToursRouteImport.update({
   id: '/tours',
   path: '/tours',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SemenRoute = SemenRouteImport.update({
+  id: '/semen',
+  path: '/semen',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KakhaRoute = KakhaRouteImport.update({
+  id: '/kakha',
+  path: '/kakha',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -33,6 +47,11 @@ const ContactRoute = ContactRouteImport.update({
 const CarsRoute = CarsRouteImport.update({
   id: '/cars',
   path: '/cars',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArthurRoute = ArthurRouteImport.update({
+  id: '/arthur',
+  path: '/arthur',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -55,6 +74,11 @@ const CarSlugRoute = CarSlugRouteImport.update({
   path: '/car/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CalendarScopeRoute = CalendarScopeRouteImport.update({
+  id: '/calendar/$scope',
+  path: '/calendar/$scope',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminFinanceRoute = AdminFinanceRouteImport.update({
   id: '/finance',
   path: '/finance',
@@ -74,23 +98,31 @@ const AdminCalendarRoute = AdminCalendarRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/arthur': typeof ArthurRoute
   '/cars': typeof CarsRoute
   '/contact': typeof ContactRoute
+  '/kakha': typeof KakhaRoute
+  '/semen': typeof SemenRoute
   '/tours': typeof ToursRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/cars': typeof AdminCarsRoute
   '/admin/finance': typeof AdminFinanceRoute
+  '/calendar/$scope': typeof CalendarScopeRoute
   '/car/$slug': typeof CarSlugRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/arthur': typeof ArthurRoute
   '/cars': typeof CarsRoute
   '/contact': typeof ContactRoute
+  '/kakha': typeof KakhaRoute
+  '/semen': typeof SemenRoute
   '/tours': typeof ToursRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/cars': typeof AdminCarsRoute
   '/admin/finance': typeof AdminFinanceRoute
+  '/calendar/$scope': typeof CalendarScopeRoute
   '/car/$slug': typeof CarSlugRoute
   '/admin': typeof AdminIndexRoute
 }
@@ -98,12 +130,16 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/arthur': typeof ArthurRoute
   '/cars': typeof CarsRoute
   '/contact': typeof ContactRoute
+  '/kakha': typeof KakhaRoute
+  '/semen': typeof SemenRoute
   '/tours': typeof ToursRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/cars': typeof AdminCarsRoute
   '/admin/finance': typeof AdminFinanceRoute
+  '/calendar/$scope': typeof CalendarScopeRoute
   '/car/$slug': typeof CarSlugRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -112,35 +148,47 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/arthur'
     | '/cars'
     | '/contact'
+    | '/kakha'
+    | '/semen'
     | '/tours'
     | '/admin/calendar'
     | '/admin/cars'
     | '/admin/finance'
+    | '/calendar/$scope'
     | '/car/$slug'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/arthur'
     | '/cars'
     | '/contact'
+    | '/kakha'
+    | '/semen'
     | '/tours'
     | '/admin/calendar'
     | '/admin/cars'
     | '/admin/finance'
+    | '/calendar/$scope'
     | '/car/$slug'
     | '/admin'
   id:
     | '__root__'
     | '/'
     | '/admin'
+    | '/arthur'
     | '/cars'
     | '/contact'
+    | '/kakha'
+    | '/semen'
     | '/tours'
     | '/admin/calendar'
     | '/admin/cars'
     | '/admin/finance'
+    | '/calendar/$scope'
     | '/car/$slug'
     | '/admin/'
   fileRoutesById: FileRoutesById
@@ -148,9 +196,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
+  ArthurRoute: typeof ArthurRoute
   CarsRoute: typeof CarsRoute
   ContactRoute: typeof ContactRoute
+  KakhaRoute: typeof KakhaRoute
+  SemenRoute: typeof SemenRoute
   ToursRoute: typeof ToursRoute
+  CalendarScopeRoute: typeof CalendarScopeRoute
   CarSlugRoute: typeof CarSlugRoute
 }
 
@@ -161,6 +213,20 @@ declare module '@tanstack/react-router' {
       path: '/tours'
       fullPath: '/tours'
       preLoaderRoute: typeof ToursRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/semen': {
+      id: '/semen'
+      path: '/semen'
+      fullPath: '/semen'
+      preLoaderRoute: typeof SemenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kakha': {
+      id: '/kakha'
+      path: '/kakha'
+      fullPath: '/kakha'
+      preLoaderRoute: typeof KakhaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -175,6 +241,13 @@ declare module '@tanstack/react-router' {
       path: '/cars'
       fullPath: '/cars'
       preLoaderRoute: typeof CarsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/arthur': {
+      id: '/arthur'
+      path: '/arthur'
+      fullPath: '/arthur'
+      preLoaderRoute: typeof ArthurRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -203,6 +276,13 @@ declare module '@tanstack/react-router' {
       path: '/car/$slug'
       fullPath: '/car/$slug'
       preLoaderRoute: typeof CarSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calendar/$scope': {
+      id: '/calendar/$scope'
+      path: '/calendar/$scope'
+      fullPath: '/calendar/$scope'
+      preLoaderRoute: typeof CalendarScopeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/finance': {
@@ -248,9 +328,13 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
+  ArthurRoute: ArthurRoute,
   CarsRoute: CarsRoute,
   ContactRoute: ContactRoute,
+  KakhaRoute: KakhaRoute,
+  SemenRoute: SemenRoute,
   ToursRoute: ToursRoute,
+  CalendarScopeRoute: CalendarScopeRoute,
   CarSlugRoute: CarSlugRoute,
 }
 export const routeTree = rootRouteImport

@@ -14,7 +14,135 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      blocks: {
+        Row: {
+          created_at: string
+          date_from: string
+          date_to: string
+          id: string
+          reason: string | null
+          vehicle_slug: string
+        }
+        Insert: {
+          created_at?: string
+          date_from: string
+          date_to: string
+          id?: string
+          reason?: string | null
+          vehicle_slug: string
+        }
+        Update: {
+          created_at?: string
+          date_from?: string
+          date_to?: string
+          id?: string
+          reason?: string | null
+          vehicle_slug?: string
+        }
+        Relationships: []
+      }
+      bookings: {
+        Row: {
+          client_contact: string | null
+          client_license: string | null
+          client_name: string | null
+          client_passport: string | null
+          client_phone: string | null
+          contract_number: string | null
+          created_at: string
+          delivery_address: string | null
+          deposit: number
+          dropoff_city: string
+          end_date: string
+          id: string
+          note: string | null
+          pickup_city: string
+          pickup_time: string | null
+          pickup_type: string | null
+          price_per_day: number
+          return_time: string | null
+          services: Json
+          start_date: string
+          status: string
+          total_price: number
+          vehicle_name: string | null
+          vehicle_slug: string
+        }
+        Insert: {
+          client_contact?: string | null
+          client_license?: string | null
+          client_name?: string | null
+          client_passport?: string | null
+          client_phone?: string | null
+          contract_number?: string | null
+          created_at?: string
+          delivery_address?: string | null
+          deposit?: number
+          dropoff_city: string
+          end_date: string
+          id?: string
+          note?: string | null
+          pickup_city: string
+          pickup_time?: string | null
+          pickup_type?: string | null
+          price_per_day?: number
+          return_time?: string | null
+          services?: Json
+          start_date: string
+          status?: string
+          total_price?: number
+          vehicle_name?: string | null
+          vehicle_slug: string
+        }
+        Update: {
+          client_contact?: string | null
+          client_license?: string | null
+          client_name?: string | null
+          client_passport?: string | null
+          client_phone?: string | null
+          contract_number?: string | null
+          created_at?: string
+          delivery_address?: string | null
+          deposit?: number
+          dropoff_city?: string
+          end_date?: string
+          id?: string
+          note?: string | null
+          pickup_city?: string
+          pickup_time?: string | null
+          pickup_type?: string | null
+          price_per_day?: number
+          return_time?: string | null
+          services?: Json
+          start_date?: string
+          status?: string
+          total_price?: number
+          vehicle_name?: string | null
+          vehicle_slug?: string
+        }
+        Relationships: []
+      }
+      car_locations: {
+        Row: {
+          city: string
+          since: string | null
+          updated_at: string
+          vehicle_slug: string
+        }
+        Insert: {
+          city: string
+          since?: string | null
+          updated_at?: string
+          vehicle_slug: string
+        }
+        Update: {
+          city?: string
+          since?: string | null
+          updated_at?: string
+          vehicle_slug?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
