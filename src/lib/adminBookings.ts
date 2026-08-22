@@ -46,9 +46,18 @@ export function nextContractNumber(): string {
   return String(max + 1).padStart(3, "0");
 }
 
-export function calcDays(from: string, to: string): number {
-  if (!from || !to) return 0;
-  return Math.max(0, Math.round((new Date(to).getTime() - new Date(from).getTime()) / 86400000));
+// Количество суток аренды. Если переданы времена — считаем по фактической
+// длительности: любой выход за N×24 часа (возврат позже времени получения) = +1 день.
+export function calcDays(fromDate: string, toDate: string, fromTime?: string, toTime?: string): number {
+  if (!fromDate || !toDate) return 0;
+  if (fromTime && toTime) {
+    const start = new Date(`${fromDate}T${fromTime}`).getTime();
+    const end = new Date(`${toDate}T${toTime}`).getTime();
+    const hours = (end - start) / 3600000;
+    if (hours <= 0) return 0;
+    return Math.max(1, Math.ceil(hours / 24));
+  }
+  return Math.max(0, Math.round((new Date(toDate).getTime() - new Date(fromDate).getTime()) / 86400000));
 }
 
 // Returns the city where this car currently is, accounting for one-way rentals

@@ -86,7 +86,7 @@ function bookingFromRow(r: any): AdminBooking {
     pricePerDay: r.price_per_day || 0,
     totalPrice: r.total_price || 0,
     deposit: r.deposit ?? 150,
-    days: calcDays(r.start_date, r.end_date),
+    days: calcDays(r.start_date, r.end_date, r.pickup_time || "11:00", r.return_time || "11:00"),
     contractNumber: r.contract_number || "",
     note: r.note || "",
     createdAt: r.created_at || "",

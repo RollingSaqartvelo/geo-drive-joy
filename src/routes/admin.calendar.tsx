@@ -72,8 +72,8 @@ function BookingModal({ initial, onSave, onDelete, onClose }: {
 
   const up = (k: keyof typeof EMPTY, v: unknown) => setF(prev => {
     const next = { ...prev, [k]: v };
-    // Recalc days and total
-    const days = calcDays(next.pickupDate, next.returnDate);
+    // Recalc days and total (учитываем время получения/возврата)
+    const days = calcDays(next.pickupDate, next.returnDate, next.pickupTime, next.returnTime);
     const ppd = next.pricePerDay || 0;
     return { ...next, days, totalPrice: days * ppd };
   });
@@ -83,7 +83,7 @@ function BookingModal({ initial, onSave, onDelete, onClose }: {
       const next = { ...prev, [k]: v };
       // suggest price from car tiers
       const car = CARS.find(c => c.slug === next.carSlug);
-      const days = calcDays(next.pickupDate, next.returnDate);
+      const days = calcDays(next.pickupDate, next.returnDate, next.pickupTime, next.returnTime);
       const ppd = car ? suggestPrice(car, days) : next.pricePerDay;
       return { ...next, days, pricePerDay: ppd, totalPrice: days * ppd };
     });
