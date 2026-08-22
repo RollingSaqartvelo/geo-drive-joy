@@ -29,9 +29,6 @@ import gx2 from "@/assets/lexus-gx470-2.jpg.asset.json";
 import gx3 from "@/assets/lexus-gx470-3.jpg.asset.json";
 import gx4 from "@/assets/lexus-gx470-4.jpg.asset.json";
 import gx5 from "@/assets/lexus-gx470-5.jpg.asset.json";
-import sedona1 from "@/assets/sedona-1.jpg.asset.json";
-import sedona2 from "@/assets/sedona-2.jpg.asset.json";
-import sedona3 from "@/assets/sedona-3.jpg.asset.json";
 import wrangler1 from "@/assets/wrangler-new-1.jpg.asset.json";
 import wrangler2 from "@/assets/wrangler-new-2.jpg.asset.json";
 import wrangler3 from "@/assets/wrangler-new-3.jpg.asset.json";
@@ -188,11 +185,6 @@ export const CARS: Car[] = [
     description: "Subaru Forester 2022 — надёжный полноприводный кроссовер с просторным салоном, идеально подходящий для поездок по Батуми и горным маршрутам Грузии.",
     specs: [{ label: "Engine", value: "2.5L" }, { label: "Drive", value: "AWD" }, { label: "Transmission", value: "CVT" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }],
     plate: "YW961YW", vin: "JF2SKACC9PH438138", receiptNo: "AJA8963518", vehicleOwner: "GOGITIDZE KHVICHA", ownerId: "61008007134", ownerAddress: "Keda, vil. Tsoniarisi, 1st str. N1, Georgia", regDate: "14/04/2026", mileage: 58239, mileageUnit: "km", commission: 30 },
-  { name: "Mercedes E350", slug: "mercedes-e350", year: 2015, seats: 5, price: 105, city: "batumi",
-    images: [{ url: "/mercedes-e350-1.webp" }, { url: "/mercedes-e350-2.webp" }, { url: "/mercedes-e350-3.webp" }, { url: "/mercedes-e350-4.webp" }],
-    tiers: [{ label: "1–3 days", price: 105 }, { label: "4–7 days", price: 95 }, { label: "7–15 days", price: 85 }],
-    description: "Elegant Mercedes-Benz E350 AMG Line — premium German sedan with refined comfort and powerful performance for Batumi's roads.",
-    specs: [{ label: "Engine", value: "3.5L V6" }, { label: "Power", value: "302 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury Sedan" }] },
   { name: "Mercedes E450 Coupe", slug: "mercedes-e450-coupe", year: 2020, seats: 4, price: 205, city: "batumi",
     images: [{ url: "/mercedes-e450-1.webp" }, { url: "/mercedes-e450-2.webp" }, { url: "/mercedes-e450-3.webp" }, { url: "/mercedes-e450-4.webp" }, { url: "/mercedes-e450-5.webp" }, { url: "/mercedes-e450-6.webp" }, { url: "/mercedes-e450-7.webp" }],
     tiers: [{ label: "1–3 days", price: 205 }, { label: "4–7 days", price: 185 }, { label: "7–15 days", price: 125 }],
@@ -275,10 +267,6 @@ export const CARS: Car[] = [
     tiers: [{ label: "1–3 days", price: 65 }, { label: "4–7 days", price: 60 }, { label: "7–15 days", price: 55 }, { label: "15+ days", price: 45 }],
     description: "Legendary Lexus GX 470 — a reliable V8 SUV perfect for mountain roads and off-road adventures in Georgia.",
     specs: [{ label: "Engine", value: "4.7L V8" }, { label: "Power", value: "235 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "SUV" }] },
-  { name: "KIA Sedona", slug: "kia-sedona", year: 2016, seats: 8, price: 95, city: "batumi", images: [sedona1, sedona2, sedona3],
-    tiers: [{ label: "1–3 days", price: 95 }, { label: "4–7 days", price: 85 }, { label: "8–15 days", price: 75 }],
-    description: "Spacious KIA Sedona minivan — comfortable transport for large groups and family vacations in Georgia.",
-    specs: [{ label: "Engine", value: "3.3L V6" }, { label: "Power", value: "276 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "8" }, { label: "Class", value: "Minivan" }] },
   { name: "Jeep Wrangler", slug: "jeep-wrangler", year: 2016, price: 135, city: "batumi", images: [wrangler1, wrangler2, wrangler3, wrangler4, wrangler5, wrangler6],
     tiers: [{ label: "1–3 days", price: 135 }, { label: "4–7 days", price: 125 }, { label: "7–15 days", price: 115 }],
     description: "Classic Jeep Wrangler — unstoppable off-road performance for Batumi's wildest adventures.",
