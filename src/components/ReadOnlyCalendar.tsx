@@ -37,7 +37,12 @@ export function ReadOnlyCalendar({ cars, title }: { cars: { slug: string; name: 
   // Город авто с учётом общего переброса (car_locations)
   const effCity = (slug: string): "batumi" | "tbilisi" =>
     (carLocations[slug] as "batumi" | "tbilisi") || (CARS.find(c => c.slug === slug)?.city as "batumi" | "tbilisi") || "batumi";
-  const shownCars = cars.filter(c => effCity(c.slug) === city);
+  // One-way брони показываем в обоих городах (для планирования перемещения)
+  const _todayStr = format(startOfDay(new Date()), "yyyy-MM-dd");
+  const oneWayInvolves = (slug: string, cityX: "batumi" | "tbilisi") =>
+    bookings.some(b => b.carSlug === slug && b.pickupCity !== b.returnCity && b.returnDate >= _todayStr
+      && (b.pickupCity === cityX || b.returnCity === cityX));
+  const shownCars = cars.filter(c => effCity(c.slug) === city || oneWayInvolves(c.slug, city));
 
   const today = startOfDay(new Date());
   const days = Array.from({ length: DAYS }, (_, i) => addDays(today, i));

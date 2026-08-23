@@ -356,7 +356,14 @@ function AdminCalendar() {
   const effectiveCity = (slug: string, baseCity: string): City =>
     (carLocations[slug] as City) || (getCarCurrentCity(slug, baseCity) as City);
 
-  const cars = CARS.filter(c => effectiveCity(c.slug, c.city) === city && inScope(c.slug));
+  // Авто с one-way бронью (Батуми↔Тбилиси) показываем сразу в ОБОИХ городах —
+  // чтобы заранее планировать перемещение.
+  const _todayStr = format(today, "yyyy-MM-dd");
+  const oneWayInvolves = (slug: string, cityX: City) =>
+    bookings.some(b => b.carSlug === slug && b.pickupCity !== b.returnCity && b.returnDate >= _todayStr
+      && (b.pickupCity === cityX || b.returnCity === cityX));
+
+  const cars = CARS.filter(c => inScope(c.slug) && (effectiveCity(c.slug, c.city) === city || oneWayInvolves(c.slug, city)));
 
   // Тултип с ценами (при наведении на название авто)
   const priceTip = (car: typeof CARS[0]) =>
