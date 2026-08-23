@@ -266,7 +266,7 @@ export const CARS: Car[] = [
     description: "The BMW X5 Hybrid combines a powerful 3.0L inline-6 with electric drive for exceptional efficiency and premium performance.",
     specs: [{ label: "Engine", value: "3.0L I6 Hybrid" }, { label: "Power", value: "394 HP" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Luxury SUV" }] },
   { name: "Tesla Model Y", slug: "tesla-model-y", year: 2022, seats: 5, price: 125, city: "batumi",
-    images: [{ url: "/tesla-y-1.webp" }, { url: "/tesla-y-2.webp" }, { url: "/tesla-y-3.webp" }, { url: "/tesla-y-4.webp" }, { url: "/tesla-y-5.webp" }, { url: "/tesla-y-6.webp" }, { url: "/tesla-y-7.webp" }, { url: "/tesla-y-8.webp" }],
+    images: [{ url: "/tesla-y-main.webp" }, { url: "/tesla-y-1.webp" }, { url: "/tesla-y-2.webp" }, { url: "/tesla-y-3.webp" }, { url: "/tesla-y-4.webp" }, { url: "/tesla-y-5.webp" }, { url: "/tesla-y-6.webp" }, { url: "/tesla-y-7.webp" }, { url: "/tesla-y-8.webp" }],
     tiers: [{ label: "1–3 days", price: 125 }, { label: "4–7 days", price: 115 }, { label: "7–15 days", price: 100 }],
     description: "Tesla Model Y — электрический кроссовер с мгновенным разгоном, автопилотом и просторным салоном. Тихо, современно и без расходов на топливо по дорогам Батуми и всей Грузии.",
     specs: [{ label: "Engine", value: "Electric" }, { label: "Drive", value: "AWD" }, { label: "Transmission", value: "Automatic" }, { label: "Seats", value: "5" }, { label: "Class", value: "Electric SUV" }] },
