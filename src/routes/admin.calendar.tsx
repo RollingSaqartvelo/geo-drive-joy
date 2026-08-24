@@ -336,6 +336,9 @@ function AdminCalendar() {
   const dragStart = useRef<{ carSlug: string; date: string } | null>(null);
   const dragMoved = useRef(false);
   const [hoverDate, setHoverDate] = useState<string | null>(null);
+  // Перенос брони на другую машину мышкой (только админ)
+  const moveRef = useRef<AdminBooking | null>(null);
+  const [moveOver, setMoveOver] = useState<string | null>(null);
 
   const today = startOfDay(new Date());
   const days = Array.from({ length: DAYS }, (_, i) => addDays(today, i));
@@ -456,11 +459,26 @@ function AdminCalendar() {
   };
 
   const handleMouseDown = useCallback((slug: string, d: string) => {
+    // Админ: зажатие на брони начинает её перенос на другую машину
+    const isAdmin = typeof sessionStorage !== "undefined" && sessionStorage.getItem("georent_role") === "admin";
+    const bk = getBooking(slug, d);
+    if (isAdmin && bk) {
+      moveRef.current = bk;
+      dragStart.current = { carSlug: slug, date: d };
+      dragMoved.current = false;
+      return;
+    }
     dragStart.current = { carSlug: slug, date: d };
     dragMoved.current = false;
-  }, []);
+  }, [bookings]);
 
   const handleMouseEnter = useCallback((slug: string, d: string) => {
+    // Перенос брони: подсвечиваем машину под курсором
+    if (moveRef.current) {
+      if (slug !== moveRef.current.carSlug || d !== dragStart.current?.date) dragMoved.current = true;
+      setMoveOver(slug);
+      return;
+    }
     if (dragStart.current && dragStart.current.carSlug === slug) {
       if (d !== dragStart.current.date) dragMoved.current = true;
       setHoverDate(d);
@@ -468,6 +486,26 @@ function AdminCalendar() {
   }, []);
 
   const handleMouseUp = useCallback((slug: string, d: string) => {
+    // Перенос брони на другую машину (админ)
+    if (moveRef.current) {
+      const bk = moveRef.current;
+      if (dragMoved.current && slug !== bk.carSlug) {
+        const targetCar = CARS.find(c => c.slug === slug);
+        const conflict = bookings.some(x => x.id !== bk.id && x.carSlug === slug
+          && !(bk.returnDate < x.pickupDate || bk.pickupDate > x.returnDate));
+        if (!conflict || window.confirm("На этой машине уже есть бронь на пересекающиеся даты. Всё равно перенести?")) {
+          const moved: AdminBooking = { ...bk, carSlug: slug, carName: targetCar?.name || bk.carName, carBaseCity: targetCar?.city || bk.carBaseCity };
+          const updated = bookings.map(x => x.id === bk.id ? moved : x);
+          setBookings(updated); saveBookings(updated); pushBooking(moved);
+        }
+      } else if (!dragMoved.current) {
+        setModal(bk); // просто клик по брони — открыть карточку
+      }
+      moveRef.current = null; dragMoved.current = false; dragStart.current = null;
+      setMoveOver(null); setHoverDate(null);
+      return;
+    }
+
     if (!dragStart.current) return;
     const ds = dragStart.current;
 
@@ -532,7 +570,7 @@ function AdminCalendar() {
 
   return (
     <div className="p-4 sm:p-6 select-none" onMouseUp={() => {
-      if (dragStart.current) { dragStart.current = null; dragMoved.current = false; setHoverDate(null); }
+      if (dragStart.current || moveRef.current) { dragStart.current = null; moveRef.current = null; dragMoved.current = false; setHoverDate(null); setMoveOver(null); }
     }}>
       {/* Header */}
       <div className="flex items-center justify-between mb-5 gap-3">
@@ -690,7 +728,7 @@ function AdminCalendar() {
 
           {/* Car rows */}
           {cars.map((car, idx) => (
-            <div key={car.slug} className={`flex ${idx % 2 === 0 ? "bg-white" : "bg-gray-50/80"}`}>
+            <div key={car.slug} className={`flex ${idx % 2 === 0 ? "bg-white" : "bg-gray-50/80"} ${moveOver === car.slug && moveRef.current && moveRef.current.carSlug !== car.slug ? "ring-2 ring-inset ring-green-500 bg-green-50" : ""}`}>
               <div style={{ width: CAR_COL, minWidth: CAR_COL }}
                 className="border-r border-b border-gray-100 px-4 py-0 flex items-center shrink-0 h-11">
                 <a href={`/car/${car.slug}`} target="_blank" rel="noopener noreferrer" title={priceTip(car)}
@@ -775,6 +813,11 @@ function AdminCalendar() {
             {text}
           </span>
         ))}
+        {relRole === "admin" && (
+          <span className="flex items-center gap-1.5 text-[var(--brand-blue)] font-medium">
+            🖱️ Бронь можно перетащить мышкой на другую машину
+          </span>
+        )}
       </div>
 
       {/* Меню по клику на пустую ячейку */}
