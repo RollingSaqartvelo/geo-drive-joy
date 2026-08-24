@@ -371,6 +371,18 @@ export const CARS: Car[] = [
     commission: 30 },
 ];
 
+// Доходность 20% (комиссия платформы от суммы аренды) на всех машинах Кахи.
+// Приоритетные поля (ownerTiers/commissionFixed) убираем, чтобы работал именно %.
+const KAKHA_20 = new Set([
+  "toyota-rav4-white", "toyota-rav4-hybrid", "subaru-crosstrek-limited", "subaru-crosstrek-black",
+  "ford-fusion-plugin", "lexus-ct200h", "toyota-highlander", "toyota-sienna", "hyundai-h1",
+  "subaru-forester", "toyota-prius", "bmw-x2", "jeep-cherokee", "tesla-model-y",
+  "ford-fusion-black", "jeep-cherokee-2020", "mercedes-cls-55", "subaru-forester-2016",
+]);
+for (const c of CARS) {
+  if (KAKHA_20.has(c.slug)) { c.commission = 20; c.commissionFixed = undefined; c.ownerTiers = undefined; }
+}
+
 export const Route = createFileRoute("/cars")({
   head: () => ({
     meta: [
