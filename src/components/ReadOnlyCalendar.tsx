@@ -135,9 +135,11 @@ export function ReadOnlyCalendar({ cars, title }: { cars: { slug: string; name: 
                   // Частичная заливка по времени: день выдачи — справа, день возврата — слева.
                   let barL = 0, barR = 0;
                   if (bk) {
+                    // Заливка считается от рабочего графика 09:00–22:00 (13 ч), не от суток.
                     const frac = (t?: string) => {
                       const [h, m] = (t || "11:00").split(":").map(Number);
-                      return Math.min(1, Math.max(0, ((h || 0) + (m || 0) / 60) / 24));
+                      const hh = (h || 0) + (m || 0) / 60;
+                      return Math.min(1, Math.max(0, (hh - 9) / (22 - 9)));
                     };
                     if (isPickup && isReturn) { barL = frac(bk.pickupTime) * 100; barR = (1 - frac(bk.returnTime)) * 100; }
                     else if (isPickup) { barL = frac(bk.pickupTime) * 100; }

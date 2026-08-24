@@ -707,9 +707,11 @@ function AdminCalendar() {
                 // день возврата — левая часть (до момента сдачи), середина брони — полностью.
                 let barL = 0, barR = 0;
                 if (booking) {
+                  // Заливка считается от рабочего графика 09:00–22:00 (13 ч), не от суток.
                   const frac = (t?: string) => {
                     const [h, m] = (t || "11:00").split(":").map(Number);
-                    return Math.min(1, Math.max(0, ((h || 0) + (m || 0) / 60) / 24));
+                    const hh = (h || 0) + (m || 0) / 60;
+                    return Math.min(1, Math.max(0, (hh - 9) / (22 - 9)));
                   };
                   if (isPickup && isReturn) { barL = frac(booking.pickupTime) * 100; barR = (1 - frac(booking.returnTime)) * 100; }
                   else if (isPickup) { barL = frac(booking.pickupTime) * 100; }
