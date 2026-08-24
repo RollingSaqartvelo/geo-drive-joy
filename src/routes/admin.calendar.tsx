@@ -384,6 +384,27 @@ function AdminCalendar() {
   const todayStr = format(today, "yyyy-MM-dd");
   const fmtD = (s: string) => (s ? format(new Date(s + "T00:00:00"), "d MMM") : "—");
 
+  // Место получения авто
+  const pickupPlace = (b: AdminBooking) =>
+    b.pickupType === "delivery" ? `Доставка: ${b.deliveryAddress || "адрес не указан"}`
+      : b.pickupType === "airport" ? "Аэропорт"
+        : `Офис · ${cityLabel(b.pickupCity)}`;
+
+  // Подсказка при наведении на бронь. Телефон клиента виден только админу
+  // и менеджеру, за которым закреплена эта машина.
+  const bookingTip = (b: AdminBooking, slug: string) => {
+    const role = typeof sessionStorage !== "undefined" ? sessionStorage.getItem("georent_role") : null;
+    const canSeePhone = role === "admin" || myCars.includes(slug);
+    const lines = [
+      b.clientName || "Клиент",
+      `📅 ${fmtD(b.pickupDate)} ${b.pickupTime || ""} → ${fmtD(b.returnDate)} ${b.returnTime || ""}`,
+      `📍 Получение: ${pickupPlace(b)}`,
+    ];
+    if (b.returnCity && b.returnCity !== b.pickupCity) lines.push(`🔁 Возврат: ${cityLabel(b.returnCity)}`);
+    lines.push(canSeePhone && b.clientPhone ? `📞 ${b.clientPhone}` : "📞 телефон скрыт");
+    return lines.join("\n");
+  };
+
   // Mobile "block dates" inline form state
   const [blockCar, setBlockCar] = useState<string | null>(null);
   const [blkFrom, setBlkFrom] = useState("");
@@ -790,6 +811,7 @@ function AdminCalendar() {
 
                 return (
                   <div key={ds} style={{ width: DAY_W, minWidth: DAY_W }}
+                    title={booking ? bookingTip(booking, car.slug) : undefined}
                     className={`h-11 border-r border-b border-gray-100 shrink-0 cursor-pointer transition-all relative overflow-hidden
                       ${isToday ? "border-l-2 border-l-[var(--brand-blue)]" : ""}
                       ${blocked ? "bg-red-500" : ""}
