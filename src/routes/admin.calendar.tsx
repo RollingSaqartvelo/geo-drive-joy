@@ -702,13 +702,25 @@ function AdminCalendar() {
                 const inDrag = isInDrag(car.slug, ds);
                 const isToday = ds === format(today, "yyyy-MM-dd");
                 const isPickup = booking?.pickupDate === ds;
+                const isReturn = booking?.returnDate === ds;
+                // Частичная заливка по времени: день выдачи — правая часть (с момента выдачи),
+                // день возврата — левая часть (до момента сдачи), середина брони — полностью.
+                let barL = 0, barR = 0;
+                if (booking) {
+                  const frac = (t?: string) => {
+                    const [h, m] = (t || "11:00").split(":").map(Number);
+                    return Math.min(1, Math.max(0, ((h || 0) + (m || 0) / 60) / 24));
+                  };
+                  if (isPickup && isReturn) { barL = frac(booking.pickupTime) * 100; barR = (1 - frac(booking.returnTime)) * 100; }
+                  else if (isPickup) { barL = frac(booking.pickupTime) * 100; }
+                  else if (isReturn) { barR = (1 - frac(booking.returnTime)) * 100; }
+                }
 
                 return (
                   <div key={ds} style={{ width: DAY_W, minWidth: DAY_W }}
                     className={`h-11 border-r border-b border-gray-100 shrink-0 cursor-pointer transition-all relative overflow-hidden
                       ${isToday ? "border-l-2 border-l-[var(--brand-blue)]" : ""}
                       ${blocked ? "bg-red-500" : ""}
-                      ${booking ? "bg-blue-600" : ""}
                       ${req && !blocked && !booking ? "bg-yellow-400" : ""}
                       ${inDrag ? "bg-blue-300" : ""}
                       ${!blocked && !booking && !req && !inDrag ? "hover:bg-blue-50" : ""}`}
@@ -722,7 +734,8 @@ function AdminCalendar() {
                       </div>
                     )}
                     {booking && (
-                      <div className="absolute inset-0 flex items-center overflow-hidden px-1">
+                      <div className="absolute inset-y-0 bg-blue-600 flex items-center overflow-hidden px-1"
+                        style={{ left: `${barL}%`, right: `${barR}%` }}>
                         {isPickup && (
                           <span className="text-[9px] font-bold text-white truncate leading-none">
                             {booking.clientName ? booking.clientName.split(" ")[0] : "•"}

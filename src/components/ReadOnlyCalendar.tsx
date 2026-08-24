@@ -131,11 +131,26 @@ export function ReadOnlyCalendar({ cars, title }: { cars: { slug: string; name: 
                   const blk = blockedAt(car.slug, ds);
                   const tr = transferAt(car.slug, ds);
                   const isPickup = bk?.pickupDate === ds;
+                  const isReturn = bk?.returnDate === ds;
+                  // Частичная заливка по времени: день выдачи — справа, день возврата — слева.
+                  let barL = 0, barR = 0;
+                  if (bk) {
+                    const frac = (t?: string) => {
+                      const [h, m] = (t || "11:00").split(":").map(Number);
+                      return Math.min(1, Math.max(0, ((h || 0) + (m || 0) / 60) / 24));
+                    };
+                    if (isPickup && isReturn) { barL = frac(bk.pickupTime) * 100; barR = (1 - frac(bk.returnTime)) * 100; }
+                    else if (isPickup) { barL = frac(bk.pickupTime) * 100; }
+                    else if (isReturn) { barR = (1 - frac(bk.returnTime)) * 100; }
+                  }
                   return (
                     <div key={ds} style={{ width: DAY_W, minWidth: DAY_W }}
                       title={bk ? `${fmtD(bk.pickupDate)}–${fmtD(bk.returnDate)} · ${CITY(bk.pickupCity)}→${CITY(bk.returnCity)}` : tr ? "Перегон" : blk ? "В ремонте" : "Свободно"}
                       className={`h-11 border-r border-b border-gray-100 shrink-0 relative overflow-hidden
-                        ${bk ? "bg-blue-600" : ""} ${blk ? "bg-red-500" : ""} ${tr ? "bg-gray-300" : ""}`}>
+                        ${blk ? "bg-red-500" : ""} ${tr ? "bg-gray-300" : ""}`}>
+                      {bk && (
+                        <div className="absolute inset-y-0 bg-blue-600" style={{ left: `${barL}%`, right: `${barR}%` }} />
+                      )}
                       {isPickup && bk.pickupCity !== bk.returnCity && (
                         <span className="absolute inset-0 flex items-center justify-center text-[9px] font-bold text-white">→</span>
                       )}
