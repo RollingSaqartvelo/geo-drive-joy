@@ -80,25 +80,18 @@ function AdminFinance() {
   const allBookings = loadBookings();
   const importedIds = new Set(entries.filter(e => e.bookingId).map(e => e.bookingId));
 
-  // Заявка «обработана» = наступили её дата и время начала аренды.
+  // Заявка «обработана» = наступили её дата и время начала аренды (для доходности Авито).
   const nowTs = Date.now();
   const isStarted = (b: { pickupDate: string; pickupTime?: string }) =>
     new Date(`${b.pickupDate}T${b.pickupTime || "11:00"}`).getTime() <= nowTs;
 
-  // В доход попадают только начавшиеся брони (будущие не считаются, пока не наступит дата).
+  // Общий доход админа — как было: все брони месяца с комиссией, ещё не добавленные.
   const pendingBookings = allBookings.filter(b => {
     const d = new Date(b.pickupDate);
     const inMonth = d.getMonth() === selectedMonth && d.getFullYear() === selectedYear;
     const car = CARS.find(c => c.slug === b.carSlug);
-    return inMonth && isStarted(b) && (car?.commission || car?.commissionFixed || car?.ownerTiers) && !importedIds.has(b.id);
+    return inMonth && (car?.commission || car?.commissionFixed || car?.ownerTiers) && !importedIds.has(b.id);
   });
-  // Будущие брони этого месяца (ещё не начались) — показываем отдельно, в доход не идут.
-  const upcomingBookings = allBookings.filter(b => {
-    const d = new Date(b.pickupDate);
-    const inMonth = d.getMonth() === selectedMonth && d.getFullYear() === selectedYear;
-    const car = CARS.find(c => c.slug === b.carSlug);
-    return inMonth && !isStarted(b) && (car?.commission || car?.commissionFixed || car?.ownerTiers) && !importedIds.has(b.id);
-  }).sort((a, b) => `${a.pickupDate}${a.pickupTime}`.localeCompare(`${b.pickupDate}${b.pickupTime}`));
 
   function calcMyIncome(b: { totalPrice: number; days: number; carSlug: string; pricePerDay: number }): number {
     const car = CARS.find(c => c.slug === b.carSlug);
@@ -297,26 +290,6 @@ function AdminFinance() {
                 </div>
               );
             })}
-          </div>
-        </div>
-      )}
-
-      {/* Upcoming bookings — не идут в доход, пока не начнётся аренда */}
-      {upcomingBookings.length > 0 && (
-        <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4 mb-5">
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">
-            Будущие брони — встанут в доход автоматически с началом аренды
-          </p>
-          <div className="flex flex-col gap-2">
-            {upcomingBookings.map(b => (
-              <div key={b.id} className="flex items-center justify-between bg-white rounded-xl px-4 py-3 border border-dashed border-gray-200">
-                <div>
-                  <p className="text-sm font-bold text-gray-600">{b.carName}</p>
-                  <p className="text-xs text-gray-400">старт {b.pickupDate} {b.pickupTime} · {b.days} дн. · ${b.totalPrice} общая</p>
-                </div>
-                <span className="text-gray-400 font-black text-lg">${fmt(calcMyIncome(b))}</span>
-              </div>
-            ))}
           </div>
         </div>
       )}
