@@ -128,15 +128,24 @@ function BookingModal({ initial, onSave, onDelete, onClose }: {
   const sourceRequired = modalRole === "admin";
   const sourceOk = !sourceRequired || !!(f.source && f.source.trim());
 
+  const buildBooking = (): AdminBooking => ({
+    ...f,
+    id: initial.id || crypto.randomUUID(),
+    contractNumber: initial.contractNumber || nextContractNumber(),
+    createdAt: initial.createdAt || new Date().toISOString(),
+  });
+
   const handleSave = () => {
     if (!sourceOk) return;
-    const booking: AdminBooking = {
-      ...f,
-      id: initial.id || crypto.randomUUID(),
-      contractNumber: initial.contractNumber || nextContractNumber(),
-      createdAt: initial.createdAt || new Date().toISOString(),
-    };
+    onSave(buildBooking());
+  };
+
+  // Начать аренду: сохранить бронь и сразу запустить печать договора
+  const startRental = () => {
+    if (!sourceOk) return;
+    const booking = buildBooking();
     onSave(booking);
+    openContract(booking);
   };
 
   const fieldCls = "w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--brand-blue)] bg-white";
@@ -358,7 +367,13 @@ function BookingModal({ initial, onSave, onDelete, onClose }: {
         {/* Footer */}
         <div className="sticky bottom-0 bg-white border-t border-gray-100 p-4 flex flex-col gap-2">
           {canContract && (
-            <button onClick={() => openContract({ ...f, id: initial.id || "", contractNumber: initial.contractNumber || nextContractNumber(), createdAt: initial.createdAt || "" })}
+            <button onClick={startRental} disabled={!sourceOk}
+              className="w-full h-11 flex items-center justify-center gap-2 rounded-xl bg-green-600 hover:bg-green-700 text-white font-bold text-sm transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+              ▶ Начать аренду (печать договора)
+            </button>
+          )}
+          {canContract && (
+            <button onClick={() => openContract(buildBooking())}
               className="w-full h-11 flex items-center justify-center gap-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm transition-colors">
               <FileText className="h-4 w-4" /> Договор PDF
             </button>
