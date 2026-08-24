@@ -442,11 +442,12 @@ function AdminCalendar() {
   const cars = CARS.filter(c => inScope(c.slug) && (effectiveCity(c.slug, c.city) === city || oneWayInvolves(c.slug, city)));
 
   const cityLabel = (c: string) => c === "batumi" ? "🌊 Батуми" : c === "tbilisi" ? "🏙️ Тбилиси" : c;
-  // Фактический город машины на конкретную дату (учёт one-way сдач)
+  // Фактический город машины на дату = город возврата ПОСЛЕДНЕЙ завершившейся брони
+  // (любой, не только one-way). Сдача в Батуми оставляет машину в Батуми.
   const cityOnDate = (slug: string, ds: string): City => {
-    const ow = bookings.filter(b => b.carSlug === slug && b.pickupCity !== b.returnCity && b.returnDate <= ds)
+    const past = bookings.filter(b => b.carSlug === slug && b.returnDate <= ds)
       .sort((a, b) => a.returnDate.localeCompare(b.returnDate));
-    if (ow.length) return ow[ow.length - 1].returnCity as City;
+    if (past.length) return past[past.length - 1].returnCity as City;
     return effectiveCity(slug, CARS.find(c => c.slug === slug)?.city || "batumi");
   };
 
