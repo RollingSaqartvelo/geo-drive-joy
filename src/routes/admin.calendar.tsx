@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { CARS } from "./cars";
 import { addDays, format, startOfDay } from "date-fns";
 import { X, FileText, ArrowRight, Trash2 } from "lucide-react";
@@ -69,6 +69,29 @@ function BookingModal({ initial, onSave, onDelete, onClose }: {
 }) {
   const [f, setF] = useState<typeof EMPTY>(() => ({ ...EMPTY, ...initial }));
   const isNew = !initial.id;
+
+  // База клиентов из прошлых броней (для автозаполнения по телефону)
+  const clients = useMemo(() => {
+    const map = new Map<string, { name: string; passport: string; license: string; phone: string; contact: ContactType }>();
+    for (const b of loadBookings()) {
+      const key = (b.clientPhone || b.clientPassport || "").trim().toLowerCase();
+      if (!key || !(b.clientName || "").trim()) continue;
+      map.set(key, {
+        name: b.clientName || "", passport: b.clientPassport || "", license: b.clientLicense || "",
+        phone: b.clientPhone || "", contact: (b.clientContact || "whatsapp") as ContactType,
+      });
+    }
+    return [...map.values()];
+  }, []);
+  const [phoneFocus, setPhoneFocus] = useState(false);
+  const phoneQuery = f.clientPhone.trim().toLowerCase();
+  const clientMatches = phoneQuery.length >= 2
+    ? clients.filter(c => c.phone && c.phone.toLowerCase().includes(phoneQuery) && c.phone.toLowerCase() !== phoneQuery).slice(0, 6)
+    : [];
+  const pickClient = (c: { name: string; passport: string; license: string; phone: string; contact: ContactType }) => {
+    setF(prev => ({ ...prev, clientName: c.name, clientPassport: c.passport, clientLicense: c.license, clientPhone: c.phone, clientContact: c.contact }));
+    setPhoneFocus(false);
+  };
 
   const up = (k: keyof typeof EMPTY, v: unknown) => setF(prev => {
     const next = { ...prev, [k]: v };
@@ -246,10 +269,26 @@ function BookingModal({ initial, onSave, onDelete, onClose }: {
                   className={fieldCls} placeholder="Номер ВУ" />
               </div>
             </div>
-            <div>
+            <div className="relative">
               <label className={labelCls}>Телефон / контакт</label>
-              <input value={f.clientPhone} onChange={e => up("clientPhone", e.target.value)}
+              <input value={f.clientPhone}
+                onChange={e => { up("clientPhone", e.target.value); setPhoneFocus(true); }}
+                onFocus={() => setPhoneFocus(true)}
+                onBlur={() => setTimeout(() => setPhoneFocus(false), 150)}
+                autoComplete="off"
                 className={fieldCls} placeholder="+7 / +972 / @telegram" />
+              {phoneFocus && clientMatches.length > 0 && (
+                <div className="absolute z-20 left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+                  <p className="px-3 py-1.5 text-[10px] uppercase tracking-wider text-gray-400 bg-gray-50">Найденные клиенты</p>
+                  {clientMatches.map((c, i) => (
+                    <button key={i} type="button" onMouseDown={e => { e.preventDefault(); pickClient(c); }}
+                      className="w-full text-left px-3 py-2 hover:bg-blue-50 flex flex-col gap-0.5 border-t border-gray-50">
+                      <span className="text-sm font-semibold text-gray-800">{c.name}</span>
+                      <span className="text-xs text-gray-500">{c.phone}{c.passport ? ` · ${c.passport}` : ""}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             <div>
               <label className={labelCls}>Тип связи</label>

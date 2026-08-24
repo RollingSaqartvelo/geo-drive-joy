@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet, Link, useLocation } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { CalendarDays, Car, LogOut, BarChart2, Lock } from "lucide-react";
+import { CalendarDays, Car, LogOut, BarChart2, Lock, Users } from "lucide-react";
 import logo from "@/assets/logo.png.asset.json";
 import { syncBookings, syncBlocks } from "@/lib/store";
 
@@ -129,6 +129,7 @@ export function AdminLayout() {
   const blocked = isManager && (
     path.startsWith("/admin/finance") ||
     path.startsWith("/admin/cars") ||
+    path.startsWith("/admin/clients") ||
     (path.startsWith("/admin/vehicles") && !canVehicles)
   );
 
@@ -164,6 +165,9 @@ export function AdminLayout() {
               <Link to="/admin/cars" className={topLinkCls}>
                 <Car className="h-4 w-4 shrink-0" /> Автомобили
               </Link>
+              <Link to="/admin/clients" className={topLinkCls}>
+                <Users className="h-4 w-4 shrink-0" /> Клиенты
+              </Link>
               <Link to="/admin/finance" className={topLinkCls}>
                 <BarChart2 className="h-4 w-4 shrink-0" /> Финансы
               </Link>
@@ -191,6 +195,9 @@ export function AdminLayout() {
             <>
               <Link to="/admin/cars" className={sideLinkCls}>
                 <Car className="h-4 w-4 shrink-0" /> Автомобили
+              </Link>
+              <Link to="/admin/clients" className={sideLinkCls}>
+                <Users className="h-4 w-4 shrink-0" /> Клиенты
               </Link>
               <Link to="/admin/finance" className={sideLinkCls}>
                 <BarChart2 className="h-4 w-4 shrink-0" /> Финансы
