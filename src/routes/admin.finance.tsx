@@ -32,6 +32,7 @@ const EXPENSE_CATEGORIES = [
 ];
 
 const PAYOUT_CATEGORY = "Выплата Паше";
+const AVITO_AD_CATEGORY = "Реклама Авито";
 
 const INCOME_CATEGORIES = [
   "Аренда авто (комиссия)",
@@ -79,12 +80,25 @@ function AdminFinance() {
   const allBookings = loadBookings();
   const importedIds = new Set(entries.filter(e => e.bookingId).map(e => e.bookingId));
 
+  // Заявка «обработана» = наступили её дата и время начала аренды.
+  const nowTs = Date.now();
+  const isStarted = (b: { pickupDate: string; pickupTime?: string }) =>
+    new Date(`${b.pickupDate}T${b.pickupTime || "11:00"}`).getTime() <= nowTs;
+
+  // В доход попадают только начавшиеся брони (будущие не считаются, пока не наступит дата).
   const pendingBookings = allBookings.filter(b => {
     const d = new Date(b.pickupDate);
     const inMonth = d.getMonth() === selectedMonth && d.getFullYear() === selectedYear;
     const car = CARS.find(c => c.slug === b.carSlug);
-    return inMonth && (car?.commission || car?.commissionFixed || car?.ownerTiers) && !importedIds.has(b.id);
+    return inMonth && isStarted(b) && (car?.commission || car?.commissionFixed || car?.ownerTiers) && !importedIds.has(b.id);
   });
+  // Будущие брони этого месяца (ещё не начались) — показываем отдельно, в доход не идут.
+  const upcomingBookings = allBookings.filter(b => {
+    const d = new Date(b.pickupDate);
+    const inMonth = d.getMonth() === selectedMonth && d.getFullYear() === selectedYear;
+    const car = CARS.find(c => c.slug === b.carSlug);
+    return inMonth && !isStarted(b) && (car?.commission || car?.commissionFixed || car?.ownerTiers) && !importedIds.has(b.id);
+  }).sort((a, b) => `${a.pickupDate}${a.pickupTime}`.localeCompare(`${b.pickupDate}${b.pickupTime}`));
 
   function calcMyIncome(b: { totalPrice: number; days: number; carSlug: string; pricePerDay: number }): number {
     const car = CARS.find(c => c.slug === b.carSlug);
@@ -126,15 +140,22 @@ function AdminFinance() {
   const totalExpense = filtered.filter(e => e.type === "expense").reduce((s, e) => s + e.amount, 0);
   const netProfit = totalIncome - totalExpense;
 
-  // Личная доходность (клиенты Авито) — для менеджера Pasha
-  const avitoEntries = filtered.filter(e => e.type === "income" && e.category === AVITO_CATEGORY);
-  const avitoIncome = avitoEntries.reduce((s, e) => s + e.amount, 0);
+  // ── Доходность Авито (менеджер Pasha) ──
   const userName = typeof sessionStorage !== "undefined" ? (sessionStorage.getItem("georent_user") || "") : "";
   const isPasha = userName === "Менеджер Pasha";
-  // К выплате — накопительно за всё время (весь заработок по Авито минус уже выплаченное)
-  const avitoIncomeAll = entries.filter(e => e.type === "income" && e.category === AVITO_CATEGORY).reduce((s, e) => s + e.amount, 0);
+  // Все Авито-заявки (по источнику брони)
+  const avitoBookings = allBookings.filter(b => (b.source || "") === "Авито");
+  const avitoAmount = (b: { totalPrice: number; days: number; carSlug: string; pricePerDay: number }) => calcMyIncome(b);
+  // Заявка «обработана» автоматически, когда наступила её дата и время начала аренды (isStarted выше)
+  const processedAvito = avitoBookings.filter(isStarted);
+  const pendingAvito = avitoBookings.filter(b => !isStarted(b))
+    .sort((a, b) => `${a.pickupDate}${a.pickupTime}`.localeCompare(`${b.pickupDate}${b.pickupTime}`));
+  const processedTotal = processedAvito.reduce((s, b) => s + avitoAmount(b), 0);
   const payoutsAll = entries.filter(e => e.type === "expense" && e.category === PAYOUT_CATEGORY).reduce((s, e) => s + e.amount, 0);
-  const payable = avitoIncomeAll - payoutsAll;
+  // Реклама Авито делится 50/50 — половину покрывает Паша (вычитается из «к выплате»)
+  const avitoAdAll = entries.filter(e => e.type === "expense" && e.category === AVITO_AD_CATEGORY).reduce((s, e) => s + e.amount, 0);
+  const pashaAdShare = avitoAdAll * 0.5;
+  const payable = processedTotal - payoutsAll - pashaAdShare;
   const addPayout = () => {
     setShowForm("expense");
     setForm(f => ({ ...f, type: "expense", category: PAYOUT_CATEGORY, description: "Выплата Паше (Авито)", amount: payable > 0 ? String(fmt(payable)) : "" }));
@@ -280,6 +301,26 @@ function AdminFinance() {
         </div>
       )}
 
+      {/* Upcoming bookings — не идут в доход, пока не начнётся аренда */}
+      {upcomingBookings.length > 0 && (
+        <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4 mb-5">
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">
+            Будущие брони — встанут в доход автоматически с началом аренды
+          </p>
+          <div className="flex flex-col gap-2">
+            {upcomingBookings.map(b => (
+              <div key={b.id} className="flex items-center justify-between bg-white rounded-xl px-4 py-3 border border-dashed border-gray-200">
+                <div>
+                  <p className="text-sm font-bold text-gray-600">{b.carName}</p>
+                  <p className="text-xs text-gray-400">старт {b.pickupDate} {b.pickupTime} · {b.days} дн. · ${b.totalPrice} общая</p>
+                </div>
+                <span className="text-gray-400 font-black text-lg">${fmt(calcMyIncome(b))}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Summary cards */}
       <div className="grid grid-cols-3 gap-4 mb-6">
         <div className="bg-green-50 border border-green-100 rounded-2xl px-5 py-4">
@@ -313,24 +354,24 @@ function AdminFinance() {
         </div>
       </div>
 
-      {/* Личная доходность Авито (Pasha) */}
+      {/* Доходность Авито (Pasha) */}
       <div className={`rounded-2xl px-5 py-4 mb-6 border ${isPasha ? "bg-purple-50 border-purple-200" : "bg-white border-gray-200"}`}>
-        <div className="flex items-center justify-between gap-3 flex-wrap">
-          <div className="flex items-center gap-2">
-            <TrendingUp className="h-4 w-4 text-purple-600" />
-            <p className="text-xs font-semibold text-purple-600 uppercase tracking-wide">
-              {isPasha ? "Моя доходность (Авито)" : "Доходность по клиентам Авито"}
-            </p>
-          </div>
-          <p className="text-2xl font-black text-purple-700">${fmt(avitoIncome)}</p>
+        <div className="flex items-center gap-2 mb-3">
+          <TrendingUp className="h-4 w-4 text-purple-600" />
+          <p className="text-xs font-semibold text-purple-600 uppercase tracking-wide">
+            {isPasha ? "Моя доходность (Авито)" : "Доходность по клиентам Авито"}
+          </p>
         </div>
 
-        {/* К выплате (накопительно) */}
-        <div className="mt-3 flex items-center justify-between gap-3 flex-wrap bg-white rounded-xl border border-purple-100 px-4 py-3">
+        {/* К выплате — только по обработанным заявкам */}
+        <div className="flex items-center justify-between gap-3 flex-wrap bg-white rounded-xl border border-purple-100 px-4 py-3">
           <div>
-            <p className="text-xs text-gray-400 uppercase tracking-wide">К выплате Паше (всего)</p>
-            <p className={`text-2xl font-black ${payable > 0 ? "text-purple-700" : "text-gray-400"}`}>${fmt(payable)}</p>
-            <p className="text-[11px] text-gray-400 mt-0.5">заработано ${fmt(avitoIncomeAll)} − выплачено ${fmt(payoutsAll)}</p>
+            <p className="text-xs text-gray-400 uppercase tracking-wide">К выплате (обработанные)</p>
+            <p className={`text-3xl font-black ${payable > 0 ? "text-purple-700" : "text-gray-400"}`}>${fmt(payable)}</p>
+            <p className="text-[11px] text-gray-400 mt-0.5">
+              обработано ${fmt(processedTotal)} − выплачено ${fmt(payoutsAll)}
+              {pashaAdShare > 0 && <> − 50% рекламы ${fmt(pashaAdShare)}</>}
+            </p>
           </div>
           <button onClick={addPayout}
             className="flex items-center gap-2 bg-purple-600 text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:opacity-90 transition-opacity">
@@ -338,17 +379,22 @@ function AdminFinance() {
           </button>
         </div>
 
-        {avitoEntries.length > 0 ? (
-          <div className="mt-3 flex flex-col gap-1">
-            {avitoEntries.map(e => (
-              <div key={e.id} className="flex items-center justify-between text-sm">
-                <span className="text-gray-600 truncate">{e.description || "—"}<span className="text-gray-400 text-xs"> · {e.date.slice(5).replace("-", ".")}</span></span>
-                <span className="text-purple-700 font-bold shrink-0 ml-2">+${fmt(e.amount)}</span>
-              </div>
-            ))}
+        {/* Необработанные заявки — «висят» ниже, встанут в сумму автоматически с началом аренды */}
+        {pendingAvito.length > 0 && (
+          <div className="mt-4">
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-2">Заявки в ожидании (встанут к выплате с началом аренды)</p>
+            <div className="flex flex-col gap-2">
+              {pendingAvito.map(b => (
+                <div key={b.id} className="flex items-center justify-between gap-2 bg-white rounded-xl border border-dashed border-gray-200 px-3 py-2">
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-gray-700 truncate">{b.carName}{b.clientName ? ` — ${b.clientName}` : ""}</p>
+                    <p className="text-xs text-gray-400">старт {b.pickupDate} {b.pickupTime} · {b.days} дн.</p>
+                  </div>
+                  <span className="text-gray-400 font-bold shrink-0">${fmt(avitoAmount(b))}</span>
+                </div>
+              ))}
+            </div>
           </div>
-        ) : (
-          <p className="text-xs text-gray-400 mt-2">Нет клиентов Авито за этот месяц. Добавляйте доход с категорией «{AVITO_CATEGORY}».</p>
         )}
       </div>
 
