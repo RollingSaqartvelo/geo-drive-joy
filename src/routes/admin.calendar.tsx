@@ -52,12 +52,15 @@ function suggestPrice(car: typeof CARS[0], days: number): number {
   return tiers[tiers.length - 1]?.price ?? car.price;
 }
 
+// Источники клиента (откуда пришёл) — для аналитики
+export const CLIENT_SOURCES = ["Сарафанное", "Google Maps", "Гугл реклама", "Инстаграм", "Тредс", "Авито", "Партнёрский"];
+
 const EMPTY: Omit<AdminBooking, "id" | "contractNumber" | "createdAt"> = {
   carSlug: "", carName: "", carBaseCity: "", pickupCity: "", returnCity: "",
   pickupDate: "", returnDate: "", pickupTime: "11:00", returnTime: "11:00",
   pickupType: "office", deliveryAddress: "", services: [],
   clientName: "", clientPassport: "", clientLicense: "", clientPhone: "",
-  clientContact: "whatsapp", pricePerDay: 0, totalPrice: 0, deposit: 150, days: 0, note: "",
+  clientContact: "whatsapp", source: "", pricePerDay: 0, totalPrice: 0, deposit: 150, days: 0, note: "",
 };
 
 // Booking Modal Component
@@ -120,8 +123,13 @@ function BookingModal({ initial, onSave, onDelete, onClose }: {
   };
 
   const canContract = f.clientName.trim().length > 1 && f.clientPassport.trim().length > 2;
+  // Источник обязателен для администратора
+  const modalRole = typeof sessionStorage !== "undefined" ? sessionStorage.getItem("georent_role") : null;
+  const sourceRequired = modalRole === "admin";
+  const sourceOk = !sourceRequired || !!(f.source && f.source.trim());
 
   const handleSave = () => {
+    if (!sourceOk) return;
     const booking: AdminBooking = {
       ...f,
       id: initial.id || crypto.randomUUID(),
@@ -301,6 +309,17 @@ function BookingModal({ initial, onSave, onDelete, onClose }: {
                 ))}
               </div>
             </div>
+            <div>
+              <label className={labelCls}>Источник клиента (откуда пришёл) {sourceRequired && <span className="text-red-500">*</span>}</label>
+              <select value={f.source || ""} onChange={e => up("source", e.target.value)}
+                className={`${fieldCls} ${sourceRequired && !f.source ? "border-red-300 bg-red-50" : ""}`}>
+                <option value="">— выберите —</option>
+                {CLIENT_SOURCES.map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
+              {sourceRequired && !f.source && (
+                <p className="text-[11px] text-red-500 mt-1">Обязательно укажите источник клиента</p>
+              )}
+            </div>
           </div>
 
           {/* Price */}
@@ -355,8 +374,8 @@ function BookingModal({ initial, onSave, onDelete, onClose }: {
               className="flex-1 h-11 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors">
               Отмена
             </button>
-            <button onClick={handleSave}
-              className="flex-1 h-11 rounded-xl bg-[var(--brand-blue)] text-white font-bold text-sm hover:opacity-90 transition-opacity">
+            <button onClick={handleSave} disabled={!sourceOk}
+              className="flex-1 h-11 rounded-xl bg-[var(--brand-blue)] text-white font-bold text-sm hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed">
               Сохранить
             </button>
           </div>
@@ -433,7 +452,8 @@ function AdminCalendar() {
   // и менеджеру, за которым закреплена эта машина.
   const bookingTip = (b: AdminBooking, slug: string) => {
     const role = typeof sessionStorage !== "undefined" ? sessionStorage.getItem("georent_role") : null;
-    const canSeePhone = role === "admin" || myCars.includes(slug);
+    const user = typeof sessionStorage !== "undefined" ? (sessionStorage.getItem("georent_user") || "") : "";
+    const canSeePhone = role === "admin" || user === "Менеджер Pasha" || myCars.includes(slug);
     const lines = [
       b.clientName || "Клиент",
       `📅 ${fmtD(b.pickupDate)} ${b.pickupTime || ""} → ${fmtD(b.returnDate)} ${b.returnTime || ""}`,
@@ -491,7 +511,7 @@ function AdminCalendar() {
   // Полный доступ к перебросу (любая машина): админ, Каха, Lasha
   const relRole = typeof sessionStorage !== "undefined" ? sessionStorage.getItem("georent_role") : null;
   const relUser = typeof sessionStorage !== "undefined" ? (sessionStorage.getItem("georent_user") || "") : "";
-  const relFullAccess = relRole === "admin" || relUser === "Менеджер Каха" || relUser === "Менеджер Lasha";
+  const relFullAccess = relRole === "admin" || relUser === "Менеджер Каха" || relUser === "Менеджер Lasha" || relUser === "Менеджер Pasha";
   // Артур тоже может перебрасывать — но только свои машины
   const canRelocate = relFullAccess || relUser === "Менеджер Arthur";
   const [relocateOpen, setRelocateOpen] = useState(false);

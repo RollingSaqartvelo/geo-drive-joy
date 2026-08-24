@@ -22,19 +22,26 @@ type Entry = {
 
 const EXPENSE_CATEGORIES = [
   "Google Ads",
+  "Реклама Авито",
   "Meta Ads (Instagram/Facebook)",
   "Аренда офиса",
   "Топливо",
   "Мойка/Обслуживание",
+  "Выплата Паше",
   "Прочее",
 ];
 
+const PAYOUT_CATEGORY = "Выплата Паше";
+
 const INCOME_CATEGORIES = [
   "Аренда авто (комиссия)",
+  "Клиент Авито",
   "Доставка",
   "Доп. услуги",
   "Прочее",
 ];
+
+const AVITO_CATEGORY = "Клиент Авито";
 
 const fmt = (n: number) => String(parseFloat(n.toFixed(2)));
 
@@ -118,6 +125,20 @@ function AdminFinance() {
   const totalIncome = filtered.filter(e => e.type === "income").reduce((s, e) => s + e.amount, 0);
   const totalExpense = filtered.filter(e => e.type === "expense").reduce((s, e) => s + e.amount, 0);
   const netProfit = totalIncome - totalExpense;
+
+  // Личная доходность (клиенты Авито) — для менеджера Pasha
+  const avitoEntries = filtered.filter(e => e.type === "income" && e.category === AVITO_CATEGORY);
+  const avitoIncome = avitoEntries.reduce((s, e) => s + e.amount, 0);
+  const userName = typeof sessionStorage !== "undefined" ? (sessionStorage.getItem("georent_user") || "") : "";
+  const isPasha = userName === "Менеджер Pasha";
+  // К выплате — накопительно за всё время (весь заработок по Авито минус уже выплаченное)
+  const avitoIncomeAll = entries.filter(e => e.type === "income" && e.category === AVITO_CATEGORY).reduce((s, e) => s + e.amount, 0);
+  const payoutsAll = entries.filter(e => e.type === "expense" && e.category === PAYOUT_CATEGORY).reduce((s, e) => s + e.amount, 0);
+  const payable = avitoIncomeAll - payoutsAll;
+  const addPayout = () => {
+    setShowForm("expense");
+    setForm(f => ({ ...f, type: "expense", category: PAYOUT_CATEGORY, description: "Выплата Паше (Авито)", amount: payable > 0 ? String(fmt(payable)) : "" }));
+  };
 
   const addEntry = () => {
     if (!form.amount || !form.date) return;
@@ -290,6 +311,45 @@ function AdminFinance() {
           <p className={`text-3xl font-black ${netProfit >= 0 ? "text-[var(--brand-blue)]" : "text-orange-600"}`}>${fmt(netProfit)}</p>
           <p className="text-xs text-gray-400 mt-1">доходы − расходы</p>
         </div>
+      </div>
+
+      {/* Личная доходность Авито (Pasha) */}
+      <div className={`rounded-2xl px-5 py-4 mb-6 border ${isPasha ? "bg-purple-50 border-purple-200" : "bg-white border-gray-200"}`}>
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-2">
+            <TrendingUp className="h-4 w-4 text-purple-600" />
+            <p className="text-xs font-semibold text-purple-600 uppercase tracking-wide">
+              {isPasha ? "Моя доходность (Авито)" : "Доходность по клиентам Авито"}
+            </p>
+          </div>
+          <p className="text-2xl font-black text-purple-700">${fmt(avitoIncome)}</p>
+        </div>
+
+        {/* К выплате (накопительно) */}
+        <div className="mt-3 flex items-center justify-between gap-3 flex-wrap bg-white rounded-xl border border-purple-100 px-4 py-3">
+          <div>
+            <p className="text-xs text-gray-400 uppercase tracking-wide">К выплате Паше (всего)</p>
+            <p className={`text-2xl font-black ${payable > 0 ? "text-purple-700" : "text-gray-400"}`}>${fmt(payable)}</p>
+            <p className="text-[11px] text-gray-400 mt-0.5">заработано ${fmt(avitoIncomeAll)} − выплачено ${fmt(payoutsAll)}</p>
+          </div>
+          <button onClick={addPayout}
+            className="flex items-center gap-2 bg-purple-600 text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:opacity-90 transition-opacity">
+            <Plus className="h-4 w-4" /> Отметить выплату
+          </button>
+        </div>
+
+        {avitoEntries.length > 0 ? (
+          <div className="mt-3 flex flex-col gap-1">
+            {avitoEntries.map(e => (
+              <div key={e.id} className="flex items-center justify-between text-sm">
+                <span className="text-gray-600 truncate">{e.description || "—"}<span className="text-gray-400 text-xs"> · {e.date.slice(5).replace("-", ".")}</span></span>
+                <span className="text-purple-700 font-bold shrink-0 ml-2">+${fmt(e.amount)}</span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-xs text-gray-400 mt-2">Нет клиентов Авито за этот месяц. Добавляйте доход с категорией «{AVITO_CATEGORY}».</p>
+        )}
       </div>
 
       {/* Entries table */}

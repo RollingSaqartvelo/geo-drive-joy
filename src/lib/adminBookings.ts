@@ -20,6 +20,7 @@ export type AdminBooking = {
   clientLicense: string;
   clientPhone: string;
   clientContact: ContactType;
+  source?: string;        // Откуда пришёл клиент (для аналитики)
   pricePerDay: number;
   totalPrice: number;
   deposit: number;

@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet, Link, useLocation } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { CalendarDays, Car, LogOut, BarChart2, Lock, Users } from "lucide-react";
+import { CalendarDays, Car, LogOut, BarChart2, Lock, Users, Activity } from "lucide-react";
 import logo from "@/assets/logo.png.asset.json";
 import { syncBookings, syncBlocks } from "@/lib/store";
 
@@ -25,8 +25,8 @@ export const ARTHUR = { name: "Менеджер Arthur", pass: "4448", cars: ART
 // Lasha — видит весь автопарк (без закреплённых машин)
 export const LASHA = { name: "Менеджер Lasha", pass: "2141", cars: [] as string[] };
 
-// Pasha — видит весь автопарк
-export const PASHA = { name: "Менеджер Pasha", pass: "9557", cars: [] as string[] };
+// Pasha — доступ уровня администратора (весь автопарк, финансы, клиенты, аналитика)
+export const PASHA = { name: "Менеджер Pasha", pass: "2302", cars: [] as string[] };
 
 // Менеджеры (доступ только к календарю/заявкам, без финансов).
 // cars — если задан, у менеджера появляется вид «Мои машины» с этими авто.
@@ -123,13 +123,17 @@ export function AdminLayout() {
 
   const isManager = role === "manager";
   const path = location.pathname;
-  // Данные авто доступны админу, Кахе и Lasha
-  const canVehicles = role === "admin" || userName === KAKHA.name || userName === LASHA.name;
-  // Менеджеру закрыты финансы и страница авто (там видна выручка)
-  const blocked = isManager && (
+  // Pasha имеет доступ уровня администратора
+  const isPasha = userName === PASHA.name;
+  const fullAccess = role === "admin" || isPasha;
+  // Данные авто доступны админу, Кахе, Lasha и Pasha
+  const canVehicles = fullAccess || userName === KAKHA.name || userName === LASHA.name;
+  // Менеджеру закрыты финансы/авто/клиенты/аналитика (там видна выручка). Pasha — не закрыты.
+  const blocked = isManager && !isPasha && (
     path.startsWith("/admin/finance") ||
     path.startsWith("/admin/cars") ||
     path.startsWith("/admin/clients") ||
+    path.startsWith("/admin/analytics") ||
     (path.startsWith("/admin/vehicles") && !canVehicles)
   );
 
@@ -160,13 +164,16 @@ export function AdminLayout() {
               <Car className="h-4 w-4 shrink-0" /> Данные авто
             </Link>
           )}
-          {!isManager && (
+          {(!isManager || isPasha) && (
             <>
               <Link to="/admin/cars" className={topLinkCls}>
                 <Car className="h-4 w-4 shrink-0" /> Автомобили
               </Link>
               <Link to="/admin/clients" className={topLinkCls}>
                 <Users className="h-4 w-4 shrink-0" /> Клиенты
+              </Link>
+              <Link to="/admin/analytics" className={topLinkCls}>
+                <Activity className="h-4 w-4 shrink-0" /> Аналитика
               </Link>
               <Link to="/admin/finance" className={topLinkCls}>
                 <BarChart2 className="h-4 w-4 shrink-0" /> Финансы
@@ -191,13 +198,16 @@ export function AdminLayout() {
               <Car className="h-4 w-4 shrink-0" /> Данные авто
             </Link>
           )}
-          {!isManager && (
+          {(!isManager || isPasha) && (
             <>
               <Link to="/admin/cars" className={sideLinkCls}>
                 <Car className="h-4 w-4 shrink-0" /> Автомобили
               </Link>
               <Link to="/admin/clients" className={sideLinkCls}>
                 <Users className="h-4 w-4 shrink-0" /> Клиенты
+              </Link>
+              <Link to="/admin/analytics" className={sideLinkCls}>
+                <Activity className="h-4 w-4 shrink-0" /> Аналитика
               </Link>
               <Link to="/admin/finance" className={sideLinkCls}>
                 <BarChart2 className="h-4 w-4 shrink-0" /> Финансы
