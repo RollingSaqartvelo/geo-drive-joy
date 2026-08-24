@@ -404,18 +404,22 @@ function AdminCalendar() {
     syncCarLocations().then(setCarLocations).catch(() => {});
   }, []);
 
-  // Переброс машины в другой город (в один клик, общий для всех менеджеров)
+  // Переброс машины в другой город (в один клик)
   const relocateCar = (slug: string, baseCity: string) => {
+    // Менеджер с закреплёнными машинами перебрасывает только свои
+    if (!relFullAccess && !myCars.includes(slug)) return;
     const cur = effectiveCity(slug, baseCity);
     const next: City = cur === "batumi" ? "tbilisi" : "batumi";
     setCarLocations(prev => ({ ...prev, [slug]: next }));
     setCarLocation(slug, next);
   };
 
-  // Переброс доступен только админу, Кахе и Lasha
+  // Полный доступ к перебросу (любая машина): админ, Каха, Lasha
   const relRole = typeof sessionStorage !== "undefined" ? sessionStorage.getItem("georent_role") : null;
   const relUser = typeof sessionStorage !== "undefined" ? (sessionStorage.getItem("georent_user") || "") : "";
-  const canRelocate = relRole === "admin" || relUser === "Менеджер Каха" || relUser === "Менеджер Lasha";
+  const relFullAccess = relRole === "admin" || relUser === "Менеджер Каха" || relUser === "Менеджер Lasha";
+  // Артур тоже может перебрасывать — но только свои машины
+  const canRelocate = relFullAccess || relUser === "Менеджер Arthur";
   const [relocateOpen, setRelocateOpen] = useState(false);
   const [relocateSel, setRelocateSel] = useState<string | null>(null);
 
@@ -858,7 +862,7 @@ function AdminCalendar() {
             ) : (
               <div className="p-2 overflow-y-auto">
                 <p className="px-3 py-2 text-xs text-gray-400">Выберите автомобиль:</p>
-                {CARS.filter(c => inScope(c.slug)).map(c => {
+                {CARS.filter(c => relFullAccess ? inScope(c.slug) : myCars.includes(c.slug)).map(c => {
                   const cur = effectiveCity(c.slug, c.city);
                   return (
                     <button key={c.slug} onClick={() => setRelocateSel(c.slug)}
