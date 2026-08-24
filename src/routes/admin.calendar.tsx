@@ -368,6 +368,15 @@ function AdminCalendar() {
 
   const cars = CARS.filter(c => inScope(c.slug) && (effectiveCity(c.slug, c.city) === city || oneWayInvolves(c.slug, city)));
 
+  const cityLabel = (c: string) => c === "batumi" ? "🌊 Батуми" : c === "tbilisi" ? "🏙️ Тбилиси" : c;
+  // Фактический город машины на конкретную дату (учёт one-way сдач)
+  const cityOnDate = (slug: string, ds: string): City => {
+    const ow = bookings.filter(b => b.carSlug === slug && b.pickupCity !== b.returnCity && b.returnDate <= ds)
+      .sort((a, b) => a.returnDate.localeCompare(b.returnDate));
+    if (ow.length) return ow[ow.length - 1].returnCity as City;
+    return effectiveCity(slug, CARS.find(c => c.slug === slug)?.city || "batumi");
+  };
+
   // Тултип с ценами (при наведении на название авто)
   const priceTip = (car: typeof CARS[0]) =>
     car.tiers && car.tiers.length ? car.tiers.map(t => `${t.label}: $${t.price}`).join("  ·  ") : `$${car.price}/day`;
@@ -383,6 +392,8 @@ function AdminCalendar() {
   const [cellAction, setCellAction] = useState<{ slug: string; date: string } | null>(null);
   const [repFrom, setRepFrom] = useState("");
   const [repTo, setRepTo] = useState("");
+  // Предупреждение: машина в этот день фактически в другом городе
+  const [cityWarn, setCityWarn] = useState<{ slug: string; date: string; actualCity: City } | null>(null);
 
   const openNewBooking = (slug: string, from = "", to = "", pCity?: string, rCity?: string) => {
     const car = CARS.find(c => c.slug === slug);
@@ -760,6 +771,23 @@ function AdminCalendar() {
                   else if (isReturn) { barR = (1 - frac(booking.returnTime)) * 100; }
                 }
 
+                // Машина в этот день фактически в другом городе → не даём ставить бронь здесь
+                const actualCity = cityOnDate(car.slug, ds);
+                const wrongCity = !booking && !blocked && !req && actualCity !== city;
+                if (wrongCity) {
+                  return (
+                    <div key={ds} style={{ width: DAY_W, minWidth: DAY_W }}
+                      title={`Машина будет в ${cityLabel(actualCity)} — бронь оформляйте из вкладки «${cityLabel(actualCity)}»`}
+                      onClick={() => setCityWarn({ slug: car.slug, date: ds, actualCity })}
+                      className={`h-11 border-r border-b border-gray-100 shrink-0 relative cursor-help
+                        ${isToday ? "border-l-2 border-l-[var(--brand-blue)]" : ""}`}>
+                      <div className="absolute inset-[3px] rounded-[4px] border-2 border-dashed border-gray-300 bg-gray-50/70 flex items-center justify-center">
+                        <span className="text-[10px] opacity-40 leading-none">{actualCity === "batumi" ? "🌊" : "🏙️"}</span>
+                      </div>
+                    </div>
+                  );
+                }
+
                 return (
                   <div key={ds} style={{ width: DAY_W, minWidth: DAY_W }}
                     className={`h-11 border-r border-b border-gray-100 shrink-0 cursor-pointer transition-all relative overflow-hidden
@@ -866,6 +894,44 @@ function AdminCalendar() {
           </div>
         </div>
       )}
+
+      {/* Предупреждение: машина в этот день в другом городе */}
+      {cityWarn && (() => {
+        const car = CARS.find(c => c.slug === cityWarn.slug);
+        // Сдача, которая пригнала машину в фактический город (для текста «сдаётся в … в HH:MM»)
+        const handover = bookings
+          .filter(b => b.carSlug === cityWarn.slug && b.returnCity === cityWarn.actualCity && b.pickupCity !== b.returnCity && b.returnDate <= cityWarn.date)
+          .sort((a, b) => a.returnDate.localeCompare(b.returnDate)).pop();
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4"
+            onClick={() => setCityWarn(null)}>
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-5 space-y-4" onClick={e => e.stopPropagation()}>
+              <div>
+                <p className="font-bold text-gray-800">🚗 Машина в другом городе</p>
+                <p className="text-sm text-gray-500 mt-0.5">{car?.name} · {fmtD(cityWarn.date)}</p>
+              </div>
+              <div className="rounded-xl bg-amber-50 border border-amber-200 p-3">
+                <p className="text-sm text-amber-800 font-medium">
+                  {handover
+                    ? `⚠️ Машина сдаётся в ${cityLabel(cityWarn.actualCity)} ${fmtD(handover.returnDate)} в ${handover.returnTime}. На эту дату она уже в ${cityLabel(cityWarn.actualCity)}.`
+                    : `⚠️ На эту дату машина находится в ${cityLabel(cityWarn.actualCity)}.`}
+                </p>
+                <p className="text-xs text-amber-700 mt-1.5">
+                  Бронь из «{cityLabel(city)}» на этот день недоступна — оформляйте из вкладки «{cityLabel(cityWarn.actualCity)}».
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <button onClick={() => setCityWarn(null)}
+                  className="flex-1 h-11 rounded-xl border border-gray-200 text-gray-500 font-medium text-sm">Закрыть</button>
+                <button onClick={() => { setCity(cityWarn.actualCity); setCityWarn(null); }}
+                  className="flex-1 h-11 rounded-xl bg-[var(--brand-blue)] text-white font-bold text-sm">
+                  Перейти в {cityLabel(cityWarn.actualCity)}
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Переброс: выбор авто + моргающее подтверждение */}
       {relocateOpen && (
