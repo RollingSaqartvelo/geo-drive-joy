@@ -3,6 +3,7 @@ import { Car, Map, MapPin } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { RequestRentalModal } from "@/components/RequestRentalModal";
 import { VipTransfersSection } from "@/components/VipTransfersSection";
+import { GoogleReviews } from "@/components/GoogleReviews";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import hero from "@/assets/hero.jpg.asset.json";
@@ -118,36 +119,18 @@ function Index() {
             <h2 className="text-3xl sm:text-4xl font-black text-[var(--brand-blue)]">{t("reviews_title")}</h2>
             <p className="text-muted-foreground mt-2">{t("reviews_sub")}</p>
           </div>
-          <div className="grid gap-6 md:grid-cols-2 items-stretch">
-            {/* Map */}
-            <div className="rounded-2xl overflow-hidden border shadow-sm min-h-[320px]">
-              <iframe
-                title="GEOrent on Google Maps"
-                src="https://maps.google.com/maps?q=Lermontov%20Street%20101%2C%20Batumi%2C%20Georgia&z=15&output=embed"
-                width="100%" height="100%" style={{ border: 0, minHeight: 320 }}
-                loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen
-              />
-            </div>
-            {/* Reviews CTA */}
-            <div className="rounded-2xl border shadow-sm bg-card p-8 flex flex-col justify-center items-start">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-3xl font-black text-[var(--brand-blue)]">5.0</span>
-                <span className="text-2xl text-amber-400">★★★★★</span>
-              </div>
-              <p className="text-muted-foreground mb-6">{t("reviews_body")}</p>
-              <div className="flex flex-wrap gap-3">
-                <a href="https://maps.app.goo.gl/bAU4wYApNtH1naF58" target="_blank" rel="noopener noreferrer">
-                  <Button className="h-12 px-6 bg-[var(--brand-blue)] hover:bg-[var(--brand-blue)]/90 text-white font-semibold rounded-full">
-                    {t("reviews_read")}
-                  </Button>
-                </a>
-                <a href="https://maps.app.goo.gl/bAU4wYApNtH1naF58" target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline" className="h-12 px-6 rounded-full font-semibold">
-                    {t("reviews_write")}
-                  </Button>
-                </a>
-              </div>
-            </div>
+          {/* Live Google reviews (fallback to CTA if no API key) */}
+          <div className="mb-8">
+            <GoogleReviews />
+          </div>
+          {/* Map */}
+          <div className="rounded-2xl overflow-hidden border shadow-sm">
+            <iframe
+              title="GEOrent on Google Maps"
+              src="https://maps.google.com/maps?q=Lermontov%20Street%20101%2C%20Batumi%2C%20Georgia&z=15&output=embed"
+              width="100%" height="360" style={{ border: 0 }}
+              loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen
+            />
           </div>
         </div>
       </section>

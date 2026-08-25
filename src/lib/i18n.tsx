@@ -79,6 +79,8 @@ const T: Record<Lang, Dict> = {
     reviews_body: "Our guests rate GEOrent 5.0 on Google. Read every review in its original language on our Google profile.",
     reviews_read: "Read reviews on Google",
     reviews_write: "Leave a review",
+    reviews_show_original: "Show original",
+    reviews_show_translated: "Show translation",
     // Footer
     footer_tagline: "Premium car rental & tours across Georgia.",
     footer_contact: "Contact",
@@ -242,6 +244,8 @@ const T: Record<Lang, Dict> = {
     reviews_body: "Гости оценивают GEOrent на 5.0 в Google. Читайте все отзывы в оригинале на нашем профиле Google.",
     reviews_read: "Читать отзывы на Google",
     reviews_write: "Оставить отзыв",
+    reviews_show_original: "Показать оригинал",
+    reviews_show_translated: "Показать перевод",
     footer_tagline: "Прокат премиальных авто и туры по Грузии.",
     footer_contact: "Контакты",
     footer_navigate: "Навигация",
