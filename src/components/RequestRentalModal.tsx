@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
@@ -25,9 +24,6 @@ export function RequestRentalModal({ trigger, car }: Props) {
   const [pickup, setPickup] = useState<Date>();
   const [ret, setRet] = useState<Date>();
   const [city, setCity] = useState("");
-  const [destination, setDestination] = useState("");
-  const [carType, setCarType] = useState("");
-  const [comments, setComments] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [methods, setMethods] = useState<Method[]>(["WhatsApp"]);
@@ -71,10 +67,7 @@ export function RequestRentalModal({ trigger, car }: Props) {
             `📅 Дата получения: ${format(pickup, "dd.MM.yyyy")}`,
             `📅 Дата возврата: ${format(ret, "dd.MM.yyyy")}`,
             `🏙️ Город: ${city}`,
-            `🗺️ Куда едет: ${destination}`,
-            `🚙 Тип авто: ${carType}`,
             `💬 Связь: ${methods.join(", ")}`,
-            comments ? `📝 Комментарий: ${comments}` : "",
           ].filter(Boolean);
 
       const text = lines.join("\n");
@@ -105,9 +98,6 @@ export function RequestRentalModal({ trigger, car }: Props) {
     setName("");
     setPhone("");
     setCity("");
-    setDestination("");
-    setCarType("");
-    setComments("");
     setPickup(undefined);
     setRet(undefined);
     setMethods(["WhatsApp"]);
@@ -173,14 +163,6 @@ export function RequestRentalModal({ trigger, car }: Props) {
                   <Label htmlFor="city">{t("q_city")}</Label>
                   <Input id="city" value={city} onChange={(e) => setCity(e.target.value)} maxLength={100} />
                 </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="destination">{t("q_destination")}</Label>
-                  <Input id="destination" value={destination} onChange={(e) => setDestination(e.target.value)} maxLength={200} />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="cartype">{t("q_car_type")}</Label>
-                  <Input id="cartype" value={carType} onChange={(e) => setCarType(e.target.value)} placeholder={t("q_car_type_ph")} maxLength={100} />
-                </div>
               </>
             )}
 
@@ -192,13 +174,6 @@ export function RequestRentalModal({ trigger, car }: Props) {
               <Label htmlFor="phone">{t("q_phone")}</Label>
               <Input id="phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} maxLength={30} required />
             </div>
-
-            {!car && (
-              <div className="space-y-1.5">
-                <Label htmlFor="comments">{t("q_comments")}</Label>
-                <Textarea id="comments" value={comments} onChange={(e) => setComments(e.target.value)} maxLength={1000} rows={3} />
-              </div>
-            )}
 
             <div className="space-y-2">
               <Label>{t("q_contact")}</Label>
