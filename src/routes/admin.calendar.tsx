@@ -402,6 +402,7 @@ function BookingModal({ initial, onSave, onDelete, onClose }: {
 
 function AdminCalendar() {
   const [city, setCity] = useState<City>("batumi");
+  const [carSearch, setCarSearch] = useState("");
   const [blocks, setBlocks] = useState<BlocksMap>(loadBlocks);
   const [bookings, setBookings] = useState<AdminBooking[]>(loadBookings);
   const [modal, setModal] = useState<Partial<AdminBooking> & { isNew?: boolean } | null>(null);
@@ -439,7 +440,9 @@ function AdminCalendar() {
     bookings.some(b => b.carSlug === slug && b.pickupCity !== b.returnCity && b.returnDate >= _todayStr
       && (b.pickupCity === cityX || b.returnCity === cityX));
 
-  const cars = CARS.filter(c => inScope(c.slug) && (effectiveCity(c.slug, c.city) === city || oneWayInvolves(c.slug, city)));
+  const _carQ = carSearch.trim().toLowerCase();
+  const cars = CARS.filter(c => inScope(c.slug) && (effectiveCity(c.slug, c.city) === city || oneWayInvolves(c.slug, city))
+    && (!_carQ || c.name.toLowerCase().includes(_carQ)));
 
   const cityLabel = (c: string) => c === "batumi" ? "🌊 Батуми" : c === "tbilisi" ? "🏙️ Тбилиси" : c;
   // Фактический город машины на дату = город возврата ПОСЛЕДНЕЙ завершившейся брони
@@ -716,6 +719,13 @@ function AdminCalendar() {
           ))}
         </div>
       )}
+
+      {/* Поиск по названию машины */}
+      <div className="mb-4">
+        <input value={carSearch} onChange={e => setCarSearch(e.target.value)}
+          placeholder="🔍 Поиск по названию машины…"
+          className="w-full sm:max-w-sm border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[var(--brand-blue)]" />
+      </div>
 
       {/* Availability questionnaire — same engine used for public site */}
       <div className="mb-5">
