@@ -8,6 +8,20 @@ import { useI18n } from "@/lib/i18n";
 import { trackLead } from "@/lib/analytics";
 
 export const Route = createFileRoute("/car/$slug")({
+  head: ({ params }) => {
+    const car = CARS.find((c) => c.slug === params.slug);
+    if (!car) return { meta: [{ title: "Car Rental | GEOrent" }] };
+    const price = car.tiers?.length ? Math.min(...car.tiers.map((t) => t.price)) : car.price;
+    const city = car.city === "batumi" ? "Batumi" : "Tbilisi";
+    return {
+      meta: [
+        { title: `${car.name} Rental in ${city} — from $${price}/day | GEOrent` },
+        { name: "description", content: `Rent ${car.name} (${car.year}) in ${city}, Georgia from $${price}/day. ${car.seats} seats. Full insurance, airport delivery, WhatsApp booking.` },
+        { property: "og:title", content: `${car.name} Rental in ${city} | GEOrent` },
+        { property: "og:image", content: car.images?.[0]?.url || "" },
+      ],
+    };
+  },
   component: CarDetailPage,
 });
 
@@ -46,6 +60,26 @@ function CarDetailPage() {
   const mainImage = images[mainIdx];
   const priceTiers = car.tiers ?? [{ label: "Per day", price: car.price }];
 
+  const lowPrice = Math.min(...priceTiers.map((t) => t.price));
+  const cityName = car.city === "batumi" ? "Batumi" : "Tbilisi";
+  const carImg = images[0]?.url ? (images[0].url.startsWith("http") ? images[0].url : `https://geo-rent.com${images[0].url}`) : undefined;
+  const carSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: `${car.name} — Car Rental in ${cityName}`,
+    ...(carImg ? { image: carImg } : {}),
+    description: car.description || `Rent ${car.name} ${car.year} in ${cityName}, Georgia.`,
+    brand: { "@type": "Brand", name: car.name.split(" ")[0] },
+    category: "Car rental",
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "USD",
+      price: lowPrice,
+      availability: "https://schema.org/InStock",
+      url: `https://geo-rent.com/car/${car.slug}`,
+    },
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("sending");
@@ -74,6 +108,7 @@ function CarDetailPage() {
 
   return (
     <SiteLayout>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(carSchema) }} />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
         <Link to="/cars" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
           <ArrowLeft className="h-4 w-4" /> {t("back_to_cars")}
