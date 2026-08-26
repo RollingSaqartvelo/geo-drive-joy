@@ -18,6 +18,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
               <Link to="/" activeOptions={{ exact: true }} className="px-3 py-2 rounded-md hover:bg-white/10 [&.active]:bg-white/15">{t("nav_home")}</Link>
               <Link to="/cars" className="px-3 py-2 rounded-md hover:bg-white/10 [&.active]:bg-white/15">{t("nav_cars")}</Link>
               <Link to="/tours" className="px-3 py-2 rounded-md hover:bg-white/10 [&.active]:bg-white/15">{t("nav_tours")}</Link>
+              <Link to="/vip-transfers" className="px-3 py-2 rounded-md hover:bg-white/10 [&.active]:bg-white/15">{t("nav_vip")}</Link>
               <Link to="/contact" className="px-3 py-2 rounded-md hover:bg-white/10 [&.active]:bg-white/15">{t("nav_contact")}</Link>
             </nav>
             <LanguageSwitcher />
@@ -63,6 +64,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
             <Link to="/" className="block hover:text-white">{t("nav_home")}</Link>
             <Link to="/cars" className="block hover:text-white">{t("nav_cars")}</Link>
             <Link to="/tours" className="block hover:text-white">{t("nav_tours")}</Link>
+            <Link to="/vip-transfers" className="block hover:text-white">{t("nav_vip")}</Link>
             <Link to="/contact" className="block hover:text-white">{t("nav_contact")}</Link>
           </div>
         </div>

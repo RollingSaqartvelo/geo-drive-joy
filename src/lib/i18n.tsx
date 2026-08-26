@@ -81,6 +81,7 @@ const T: Record<Lang, Dict> = {
     reviews_write: "Leave a review",
     reviews_show_original: "Show original",
     reviews_show_translated: "Show translation",
+    nav_vip: "VIP Transfers",
     // Footer
     footer_tagline: "Premium car rental & tours across Georgia.",
     footer_contact: "Contact",
@@ -246,6 +247,7 @@ const T: Record<Lang, Dict> = {
     reviews_write: "Оставить отзыв",
     reviews_show_original: "Показать оригинал",
     reviews_show_translated: "Показать перевод",
+    nav_vip: "VIP Трансферы",
     footer_tagline: "Прокат премиальных авто и туры по Грузии.",
     footer_contact: "Контакты",
     footer_navigate: "Навигация",
