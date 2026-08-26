@@ -886,10 +886,10 @@ function AdminCalendar() {
                     <div key={ds} style={{ width: DAY_W, minWidth: DAY_W }}
                       title={`Машина будет в ${cityLabel(actualCity)} — бронь оформляйте из вкладки «${cityLabel(actualCity)}»`}
                       onClick={() => setCityWarn({ slug: car.slug, date: ds, actualCity })}
-                      className={`h-11 border-r border-b border-gray-100 shrink-0 relative cursor-help bg-amber-50 hover:bg-amber-100 transition-colors
+                      className={`h-11 border-r border-b border-gray-100 shrink-0 relative cursor-help bg-red-50 hover:bg-red-100 transition-colors
                         ${isToday ? "border-l-2 border-l-[var(--brand-blue)]" : ""}`}>
-                      <div className="absolute inset-[2px] rounded-[4px] border-2 border-dashed border-amber-400 flex items-center justify-center">
-                        <span className="text-[12px] leading-none">{actualCity === "batumi" ? "🌊" : "🏙️"}</span>
+                      <div className="absolute inset-[2px] rounded-[4px] border-2 border-dashed border-red-400 flex items-center justify-center">
+                        <span className="text-[12px] leading-none">⚠️</span>
                       </div>
                     </div>
                   );
@@ -950,7 +950,7 @@ function AdminCalendar() {
           </span>
         ))}
         <span className="flex items-center gap-1.5">
-          <span className="w-5 h-4 rounded bg-amber-50 border-2 border-dashed border-amber-400" />
+          <span className="w-5 h-4 rounded bg-red-50 border-2 border-dashed border-red-400 flex items-center justify-center text-[8px]">⚠️</span>
           В другом городе (бронь оттуда)
         </span>
         {relRole === "admin" && (
