@@ -32,6 +32,23 @@ export type AdminBooking = {
 
 export const BOOKINGS_KEY = "georent_admin_bookings";
 
+// Партнёрские брони (Тбилиси–Тбилиси, без клиента) — только для отображения
+// реальной занятости у партнёра. Даты сняты с партнёрского таймлайна (август 2026),
+// при необходимости правятся здесь. Не пишутся в Supabase, не редактируются в UI.
+export const PARTNER_BOOKINGS: { carSlug: string; from: string; to: string }[] = [
+  // Porsche Macan (партнёрские единицы AM953UN + PT953AH)
+  { carSlug: "porsche-macan", from: "2026-08-08", to: "2026-08-13" },
+  { carSlug: "porsche-macan", from: "2026-08-18", to: "2026-08-31" },
+  // Porsche Boxster (партнёрские единицы UR987AN + AK987ER)
+  { carSlug: "porsche-boxster", from: "2026-08-03", to: "2026-08-05" },
+  { carSlug: "porsche-boxster", from: "2026-08-09", to: "2026-08-12" },
+  { carSlug: "porsche-boxster", from: "2026-08-13", to: "2026-08-16" },
+  { carSlug: "porsche-boxster", from: "2026-08-21", to: "2026-08-26" },
+];
+
+export const isPartnerBooked = (slug: string, d: string): boolean =>
+  PARTNER_BOOKINGS.some(p => p.carSlug === slug && d >= p.from && d <= p.to);
+
 export function loadBookings(): AdminBooking[] {
   try { return JSON.parse(localStorage.getItem(BOOKINGS_KEY) || "[]"); } catch { return []; }
 }

@@ -5,7 +5,7 @@ import { addDays, format, startOfDay } from "date-fns";
 import { X, FileText, ArrowRight, Trash2 } from "lucide-react";
 import {
   type AdminBooking, type ContactType, type PickupType,
-  loadBookings, saveBookings, nextContractNumber, calcDays, getCarCurrentCity
+  loadBookings, saveBookings, nextContractNumber, calcDays, getCarCurrentCity, isPartnerBooked
 } from "@/lib/adminBookings";
 import { openContract } from "@/lib/contractGenerator";
 import { AvailabilitySearch, type AvailCar } from "@/components/AvailabilitySearch";
@@ -895,6 +895,18 @@ function AdminCalendar() {
                   );
                 }
 
+                // Партнёрская бронь (Тбилиси–Тбилиси, без клиента) — только показ занятости
+                if (!booking && !blocked && !req && !inDrag && isPartnerBooked(car.slug, ds)) {
+                  return (
+                    <div key={ds} style={{ width: DAY_W, minWidth: DAY_W }}
+                      title="Партнёрская бронь — занято у партнёра"
+                      className={`h-11 border-r border-b border-gray-100 shrink-0 relative bg-gray-400
+                        ${isToday ? "border-l-2 border-l-[var(--brand-blue)]" : ""}`}>
+                      <span className="absolute inset-0 flex items-center justify-center text-[9px] font-bold text-white/90">П</span>
+                    </div>
+                  );
+                }
+
                 return (
                   <div key={ds} style={{ width: DAY_W, minWidth: DAY_W }}
                     title={booking ? bookingTip(booking, car.slug) : undefined}
@@ -952,6 +964,10 @@ function AdminCalendar() {
         <span className="flex items-center gap-1.5">
           <span className="w-5 h-4 rounded bg-red-50 border-2 border-dashed border-red-400 flex items-center justify-center text-[8px]">⚠️</span>
           В другом городе (бронь оттуда)
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="w-5 h-4 rounded bg-gray-400 flex items-center justify-center text-[8px] font-bold text-white">П</span>
+          Партнёрская бронь (занято)
         </span>
         {relRole === "admin" && (
           <span className="flex items-center gap-1.5 text-[var(--brand-blue)] font-medium">
