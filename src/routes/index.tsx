@@ -11,20 +11,46 @@ import hero from "@/assets/hero.jpg.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "GEOrent — Premium Car Rental in Batumi, Georgia" },
-      { name: "description", content: "Premium car rental in Batumi & across Georgia. Mustang, Range Rover, Discovery. Tours & transfers." },
-      { property: "og:title", content: "GEOrent — Premium Car Rental in Georgia" },
-      { property: "og:description", content: "Rent premium cars in Batumi & Tbilisi." },
+      { title: "GEOrent — Car Rental in Batumi, Georgia" },
+      { name: "description", content: "GEOrent — car rental in Batumi, Georgia. Rent reliable cars from $45/day: SUVs, sedans, minivans, convertibles. Airport delivery, full insurance, WhatsApp booking." },
+      { property: "og:title", content: "GEOrent — Car Rental in Batumi, Georgia" },
+      { property: "og:description", content: "Rent a car in Batumi & across Georgia from $45/day. Airport delivery, full insurance." },
       { property: "og:image", content: hero.url },
     ],
   }),
   component: Index,
 });
 
+const BUSINESS_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "AutoRental",
+  name: "GEOrent — Car Rental in Batumi, Georgia",
+  url: "https://geo-rent.com",
+  telephone: "+995500194533",
+  email: "rolling_saqartvelo@outlook.com",
+  priceRange: "$$",
+  currenciesAccepted: "USD, GEL",
+  paymentAccepted: "Cash",
+  openingHours: "Mo-Su 09:00-22:00",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Lermontov Street 101",
+    addressLocality: "Batumi",
+    addressCountry: "GE",
+  },
+  geo: { "@type": "GeoCoordinates", latitude: 41.6416, longitude: 41.6367 },
+  areaServed: [
+    { "@type": "City", name: "Batumi" },
+    { "@type": "City", name: "Tbilisi" },
+    { "@type": "Country", name: "Georgia" },
+  ],
+};
+
 function Index() {
   const { t } = useI18n();
   return (
     <SiteLayout>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(BUSINESS_SCHEMA) }} />
       {/* Hero */}
       <section className="relative h-[calc(100vh-4rem)] min-h-[560px] w-full overflow-hidden">
         <img src={hero.url} alt="Premium car on a Georgian mountain road" className="absolute inset-0 h-full w-full object-cover" fetchPriority="high" decoding="async" />
