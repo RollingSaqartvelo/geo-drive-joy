@@ -95,12 +95,30 @@ function bookingFromRow(r: any): AdminBooking {
   };
 }
 
+// Надёжный upsert брони: если в таблице нет колонки (например, ещё не добавлен
+// `source`), Supabase отклоняет всю запись — тогда повторяем без этой колонки,
+// чтобы бронь всё равно сохранилась и синхронизировалась.
+async function upsertBookingRow(b: AdminBooking): Promise<void> {
+  const row: Record<string, unknown> = bookingToRow(b);
+  const { error } = await sb.from("bookings").upsert(row);
+  if (!error) return;
+  const msg = `${error.code || ""} ${error.message || ""}`.toLowerCase();
+  if (msg.includes("source") || (error.code === "PGRST204")) {
+    const { source, ...noSource } = row;
+    void source;
+    const retry = await sb.from("bookings").upsert(noSource);
+    if (retry.error) throw retry.error;
+    return;
+  }
+  throw error;
+}
+
 // ── one-time migration: залить локальные данные в базу при первом запуске ──
 async function migrateOnce(): Promise<void> {
   if (localStorage.getItem(MIGRATED_KEY) === "1") return;
   const localB = loadBookings();
   for (const b of localB) {
-    try { await sb.from("bookings").upsert(bookingToRow(b)); } catch (e) { console.error("[migrate booking]", e); }
+    try { await upsertBookingRow(b); } catch (e) { console.error("[migrate booking]", e); }
   }
   const localBlocks = loadBlocksLocal();
   for (const slug of Object.keys(localBlocks)) {
@@ -119,6 +137,13 @@ export async function syncBookings(): Promise<AdminBooking[]> {
     const { data, error } = await sb.from("bookings").select("*").order("start_date", { ascending: true });
     if (error) throw error;
     const remote = (data || []).map(bookingFromRow);
+    // Восстановление: локальные брони, которых нет в базе (сорвавшиеся push'и),
+    // до-заливаем в базу и включаем в результат — чтобы они не пропали.
+    const remoteIds = new Set(remote.map(r => r.id));
+    const localOnly = loadBookings().filter(b => b.id && !remoteIds.has(b.id));
+    for (const b of localOnly) {
+      try { await upsertBookingRow(b); remote.push(b); } catch (e) { console.error("[recover booking]", e); }
+    }
     saveBookings(remote); // обновляем кэш (его читают finance и др.)
     return remote;
   } catch (e) {
@@ -129,8 +154,7 @@ export async function syncBookings(): Promise<AdminBooking[]> {
 
 export async function pushBooking(b: AdminBooking): Promise<void> {
   try {
-    const { error } = await sb.from("bookings").upsert(bookingToRow(b));
-    if (error) throw error;
+    await upsertBookingRow(b);
   } catch (e) { console.error("[push booking]", e); }
 }
 
