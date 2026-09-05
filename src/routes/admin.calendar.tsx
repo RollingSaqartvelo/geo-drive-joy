@@ -703,7 +703,7 @@ function AdminCalendar() {
       {/* Переброс автомобиля (только админ / Каха / Lasha) */}
       {canRelocate && (
         <button onClick={() => { setRelocateOpen(true); setRelocateSel(null); setRelocateSearch(""); }}
-          className="mb-4 inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-red-500 text-white font-bold text-sm shadow-md hover:bg-red-600 active:opacity-80 transition-colors">
+          className="mb-4 w-full sm:w-auto inline-flex items-center justify-center gap-2 h-12 px-5 rounded-xl bg-red-500 text-white font-bold text-base sm:text-sm shadow-md hover:bg-red-600 active:opacity-80 transition-colors">
           🔄 Переместить автомобиль
         </button>
       )}
@@ -1065,7 +1065,7 @@ function AdminCalendar() {
       {relocateOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
           onClick={() => setRelocateOpen(false)}>
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm max-h-[80vh] flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
             <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
               <p className="font-bold text-gray-800">🔄 Переместить автомобиль</p>
               <button onClick={() => setRelocateOpen(false)} className="h-7 w-7 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
@@ -1087,9 +1087,9 @@ function AdminCalendar() {
                     <p className="text-xl font-black text-red-600 animate-pulse">Точно перебросить?</p>
                     <div className="flex gap-2 pt-1">
                       <button onClick={() => setRelocateSel(null)}
-                        className="flex-1 h-11 rounded-xl border border-gray-200 text-gray-500 font-medium">Отмена</button>
+                        className="flex-1 h-12 rounded-xl border border-gray-200 text-gray-500 font-medium">Отмена</button>
                       <button onClick={() => { relocateCar(relocateSel!, c?.city || "batumi"); setRelocateOpen(false); setRelocateSel(null); }}
-                        className="flex-1 h-11 rounded-xl bg-red-500 text-white font-bold animate-pulse hover:animate-none">
+                        className="flex-1 h-12 rounded-xl bg-red-500 text-white font-bold animate-pulse hover:animate-none">
                         Да, перебросить
                       </button>
                     </div>
@@ -1097,27 +1097,38 @@ function AdminCalendar() {
                 );
               })()
             ) : (
-              <div className="p-2 overflow-y-auto">
-                <div className="px-2 pt-1 pb-2">
-                  <input value={relocateSearch} onChange={e => setRelocateSearch(e.target.value)}
-                    autoFocus placeholder="🔍 Поиск автомобиля…"
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-[var(--brand-blue)]" />
-                </div>
+              <div className="p-3 overflow-y-auto">
                 {(() => {
+                  const base = CARS.filter(c => relFullAccess ? inScope(c.slug) : myCars.includes(c.slug));
+                  const showSearch = base.length > 6;
                   const q = relocateSearch.trim().toLowerCase();
-                  const list = CARS.filter(c => (relFullAccess ? inScope(c.slug) : myCars.includes(c.slug))
-                    && (!q || c.name.toLowerCase().includes(q)));
-                  if (list.length === 0) return <p className="px-3 py-4 text-sm text-gray-400 text-center">Ничего не найдено</p>;
-                  return list.map(c => {
-                    const cur = effectiveCity(c.slug, c.city);
-                    return (
-                      <button key={c.slug} onClick={() => setRelocateSel(c.slug)}
-                        className="w-full flex items-center justify-between gap-2 text-left rounded-xl px-3 py-2.5 hover:bg-gray-50 active:bg-gray-100">
-                        <span className="text-sm font-semibold text-gray-800 truncate">{c.name}</span>
-                        <span className="text-xs text-gray-400 shrink-0">{cur === "batumi" ? "🌊 Батуми" : "🏙️ Тбилиси"}</span>
-                      </button>
-                    );
-                  });
+                  const list = base.filter(c => !q || c.name.toLowerCase().includes(q));
+                  return (
+                    <>
+                      {showSearch && (
+                        <input value={relocateSearch} onChange={e => setRelocateSearch(e.target.value)}
+                          placeholder="🔍 Поиск автомобиля…"
+                          className="w-full mb-2 border border-gray-200 rounded-xl px-3 py-3 text-base outline-none focus:border-[var(--brand-blue)]" />
+                      )}
+                      <p className="px-1 pb-2 text-xs text-gray-400">Нажмите на авто, чтобы переместить в другой город</p>
+                      {list.length === 0 ? (
+                        <p className="px-3 py-4 text-sm text-gray-400 text-center">Ничего не найдено</p>
+                      ) : list.map(c => {
+                        const cur = effectiveCity(c.slug, c.city);
+                        const target = cur === "batumi" ? "🏙️ Тбилиси" : "🌊 Батуми";
+                        return (
+                          <button key={c.slug} onClick={() => setRelocateSel(c.slug)}
+                            className="w-full flex items-center justify-between gap-3 text-left rounded-xl px-4 py-3.5 mb-2 border border-gray-100 hover:bg-gray-50 active:bg-gray-100">
+                            <div className="min-w-0">
+                              <p className="text-base font-semibold text-gray-800 truncate">{c.name}</p>
+                              <p className="text-xs text-gray-400 mt-0.5">Сейчас: {cur === "batumi" ? "🌊 Батуми" : "🏙️ Тбилиси"}</p>
+                            </div>
+                            <span className="shrink-0 text-xs font-bold text-[var(--brand-blue)] whitespace-nowrap">→ {target}</span>
+                          </button>
+                        );
+                      })}
+                    </>
+                  );
                 })()}
               </div>
             )}
