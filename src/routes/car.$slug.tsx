@@ -79,6 +79,15 @@ function CarDetailPage() {
       url: `https://geo-rent.com/car/${car.slug}`,
     },
   };
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://geo-rent.com" },
+      { "@type": "ListItem", position: 2, name: "Cars", item: "https://geo-rent.com/cars" },
+      { "@type": "ListItem", position: 3, name: `${car.name} — ${cityName}`, item: `https://geo-rent.com/car/${car.slug}` },
+    ],
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -109,6 +118,7 @@ function CarDetailPage() {
   return (
     <SiteLayout>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(carSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
         <Link to="/cars" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
           <ArrowLeft className="h-4 w-4" /> {t("back_to_cars")}

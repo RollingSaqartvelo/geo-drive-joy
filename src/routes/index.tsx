@@ -45,11 +45,28 @@ const BUSINESS_SCHEMA = {
   ],
 };
 
+const ORG_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "GEOrent",
+  alternateName: "GEOrent Car Rental",
+  url: "https://geo-rent.com",
+  sameAs: ["https://maps.app.goo.gl/bAU4wYApNtH1naF58"],
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: "+995500194533",
+    contactType: "customer service",
+    areaServed: "GE",
+    availableLanguage: ["English", "Russian", "Georgian", "Hebrew", "Turkish"],
+  },
+};
+
 function Index() {
   const { t } = useI18n();
   return (
     <SiteLayout>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(BUSINESS_SCHEMA) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_SCHEMA) }} />
       {/* Hero */}
       <section className="relative h-[calc(100vh-4rem)] min-h-[560px] w-full overflow-hidden">
         <img src={hero.url} alt="Premium car on a Georgian mountain road" className="absolute inset-0 h-full w-full object-cover" fetchPriority="high" decoding="async" />
