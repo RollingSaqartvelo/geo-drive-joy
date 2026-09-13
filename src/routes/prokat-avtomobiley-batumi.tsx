@@ -9,6 +9,12 @@ export const Route = createFileRoute("/prokat-avtomobiley-batumi")({
       { property: "og:title", content: "Прокат автомобилей в Батуми, Грузия | GEOrent" },
       { property: "og:description", content: "Аренда авто в Батуми от $45/день. Доставка в аэропорт, полная страховка, бронь в WhatsApp." },
     ],
+    links: [
+      { rel: "canonical", href: "https://geo-rent.com/prokat-avtomobiley-batumi" },
+      { rel: "alternate", hrefLang: "ru", href: "https://geo-rent.com/prokat-avtomobiley-batumi" },
+      { rel: "alternate", hrefLang: "en", href: "https://geo-rent.com/car-rental-batumi" },
+      { rel: "alternate", hrefLang: "x-default", href: "https://geo-rent.com/car-rental-batumi" },
+    ],
   }),
   component: () => <BatumiLanding lang="ru" />,
 });

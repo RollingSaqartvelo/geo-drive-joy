@@ -68,6 +68,9 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
             <Link to="/contact" className="block hover:text-white">{t("nav_contact")}</Link>
             <Link to="/car-rental-batumi" className="block hover:text-white">Car Rental in Batumi</Link>
             <Link to="/prokat-avtomobiley-batumi" className="block hover:text-white">Прокат авто в Батуми</Link>
+            <Link to="/batumi-airport-car-rental" className="block hover:text-white">Batumi Airport Car Rental</Link>
+            <Link to="/rental-conditions" className="block hover:text-white">Rental Conditions</Link>
+            <Link to="/faq" className="block hover:text-white">FAQ</Link>
           </div>
         </div>
         <div className="border-t border-white/10 py-4 text-center text-xs text-white/50">
